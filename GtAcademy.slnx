@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="GtAcademy.Application/GtAcademy.Application.csproj" />
+    <Project Path="GtAcademy.Domain/GtAcademy.Domain.csproj" />
+    <Project Path="GtAcademy.Infrastructure/GtAcademy.Infrastructure.csproj" />
+    <Project Path="GtAcademy.Web/GtAcademy.Web.csproj" />
+  </Folder>
+</Solution>
