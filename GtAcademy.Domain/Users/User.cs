@@ -25,12 +25,8 @@ namespace GtAcademy.Domain.Users
 
         public DateTime RegisterDate { get; set; }
 
-        public Guid WalletId { get; set; }
-
         public Wallet Wallet { get; set; }
 
         public List<Order>? Orders { get; set; }
-
-        public List<Course>? Courses { get; set; }
     }
 }

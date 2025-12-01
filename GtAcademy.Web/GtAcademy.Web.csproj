@@ -7,7 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GtAcademy.Application\GtAcademy.Application.csproj" />
+    <ProjectReference Include="..\GtAcademy.Infrastructure\GtAcademy.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

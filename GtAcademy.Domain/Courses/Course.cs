@@ -1,4 +1,5 @@
-﻿using GtAcademy.Domain.Users;
+﻿using GtAcademy.Domain.Orders;
+using GtAcademy.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,8 +18,8 @@ namespace GtAcademy.Domain.Courses
 
         public int Price { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid CreatorId { get; set; }
 
-        public User User { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }
