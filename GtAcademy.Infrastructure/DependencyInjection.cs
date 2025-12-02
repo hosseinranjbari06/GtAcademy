@@ -19,6 +19,7 @@ namespace GtAcademy.Infrastructure
             });
 
             services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<GtAcademyDbContext>());
+            services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
 
             return services;
         }

@@ -1,4 +1,5 @@
-﻿using GtAcademy.Domain.Orders;
+﻿using GtAcademy.Domain.Common;
+using GtAcademy.Domain.Orders;
 using GtAcademy.Domain.Users;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace GtAcademy.Domain.Courses
 {
-    public class Course
+    public class Course : BaseDomain
     {
         public Guid CourseId { get; set; }
 

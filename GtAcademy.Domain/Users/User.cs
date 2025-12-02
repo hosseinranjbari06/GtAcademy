@@ -1,4 +1,5 @@
-﻿using GtAcademy.Domain.Courses;
+﻿using GtAcademy.Domain.Common;
+using GtAcademy.Domain.Courses;
 using GtAcademy.Domain.Orders;
 using GtAcademy.Domain.Wallets;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace GtAcademy.Domain.Users
 {
-    public class User
+    public class User : BaseDomain
     {
         public Guid UserId { get; set; }
 
@@ -16,6 +17,10 @@ namespace GtAcademy.Domain.Users
         public string? EmailAddress { get; set; }
 
         public string? PhoneNumber { get; set; }
+
+        public string? VerifyToken { get; set; }
+
+        public bool IsActive { get; set; }
 
         public string? HomeAddress { get; set; }
 

@@ -1,11 +1,12 @@
-﻿using GtAcademy.Domain.Users;
+﻿using GtAcademy.Domain.Common;
+using GtAcademy.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GtAcademy.Domain.Wallets
 {
-    public class Wallet
+    public class Wallet : BaseDomain
     {
         public Guid WalletId { get; set; }
 
