@@ -26,11 +26,11 @@ namespace GtAcademy.Application.Authentication.Queries.LoginWithPhone
 
         public async Task<ErrorOr<string>> Handle(LoginWithPhoneQuery request, CancellationToken cancellationToken)
         {
-            if (!_userService.ExistByPhoneNumber(request.PhoneNumber))
+            if (!await _userService.ExistByPhoneNumber(request.PhoneNumber))
                 return Error.NotFound(code: "PhoneNumber", description: "کاربری با شماره موبایل وارد شده یافت نشد");
 
             var user = await _userService.GetUserByPhoneNumber(request.PhoneNumber);
-            user.VerifyToken = _codeGenerator.GenerateFiveDigitCode();
+            user!.VerifyToken = _codeGenerator.GenerateFiveDigitCode();
 
             return user.UserName;
         }

@@ -38,7 +38,7 @@ namespace GtAcademy.Web.Controllers
                 return View(userName, phoneNumber);
             }
 
-            return RedirectToAction("VerifyPhoneNumber", phoneNumber);
+            return RedirectToAction("VerifyPhoneNumber", new {phoneNumber});
         }
 
         public IActionResult VerifyPhoneNumber(string phoneNumber)
@@ -72,7 +72,7 @@ namespace GtAcademy.Web.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(string phoneNumber, string code)
+        public async Task<IActionResult> Login(string phoneNumber)
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
@@ -82,10 +82,10 @@ namespace GtAcademy.Web.Controllers
             if (result.IsError)
             {
                 ModelState.AddModelError(result.FirstError.Code, result.FirstError.Description);
-                return View(phoneNumber, code);
+                return View(phoneNumber);
             }
 
-            return RedirectToAction("VerifyPhoneNumber", phoneNumber);
+            return RedirectToAction("VerifyPhoneNumber", new { phoneNumber });
         }
 
         [Authorize]

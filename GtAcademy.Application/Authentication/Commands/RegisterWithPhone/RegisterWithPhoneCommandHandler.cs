@@ -43,14 +43,14 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
                     .ToList();
             }
 
-            if (_userService.ExistByUserName(request.UserName))
+            if (await _userService.ExistByUserName(request.UserName))
             {
                 return Error.Validation(code: "UserName", description: "نام کاربری وارد شده قبلا استفاده شده است");
             }
 
-            if (_userService.ExistByPhoneNumber(request.PhoneNumber))
+            if (await _userService.ExistByPhoneNumber(request.PhoneNumber))
             {
-                return Error.Validation(code: "PhoneNumber", description: "با شماره موبایل وارد شده قبلا در سایت ثبت نام شده است");
+                return Error.Validation(code: "PhoneNumber", description: "با شماره موبایل وارد شده قبلا در سایت ثبت شده است");
             }
 
             User user = new User()

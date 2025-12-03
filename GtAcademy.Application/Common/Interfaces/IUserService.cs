@@ -7,10 +7,10 @@ namespace GtAcademy.Application.Common.Interfaces
 {
     public interface IUserService
     {
-        bool ExistByUserName(string userName);
+        Task<bool> ExistByUserName(string userName);
 
-        bool ExistByPhoneNumber(string phoneNumber);
+        Task<bool> ExistByPhoneNumber(string phoneNumber);
 
-        Task<User> GetUserByPhoneNumber(string phoneNumber);
+        Task<User?> GetUserByPhoneNumber(string phoneNumber);
     }
 }
