@@ -19,17 +19,20 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
 
         private readonly IGenericService<User> _userGenericService;
 
+        private readonly IGenericService<Wallet> _walletGenericService;
+
         private readonly IUserService _userService;
 
         private readonly ICodeGenerator _codeGenerator;
 
-        public RegisterWithPhoneCommandHandler(IValidator<RegisterWithPhoneCommand> validator, IUnitOfWork unitOfWork, IGenericService<User> userGenericService, ICodeGenerator codeGenerator, IUserService userService)
+        public RegisterWithPhoneCommandHandler(IValidator<RegisterWithPhoneCommand> validator, IUnitOfWork unitOfWork, IGenericService<User> userGenericService, ICodeGenerator codeGenerator, IUserService userService, IGenericService<Wallet> walletGenericService)
         {
             _validator = validator;
             _unitOfWork = unitOfWork;
             _userGenericService = userGenericService;
             _codeGenerator = codeGenerator;
             _userService = userService;
+            _walletGenericService = walletGenericService;
         }
 
         public async Task<ErrorOr<string>> Handle(RegisterWithPhoneCommand request, CancellationToken cancellationToken)
@@ -63,9 +66,17 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
                 VerifyToken = _codeGenerator.GenerateFiveDigitCode()
             };
 
+            Wallet wallet = new Wallet()
+            {
+                WalletId = Guid.NewGuid(),
+                WalletBalance = 0,
+                UserId = user.UserId
+            };
+
             //Send SMS
 
             await _userGenericService.AddAsync(user);
+            await _walletGenericService.AddAsync(wallet);
             await _unitOfWork.CommitAsync();
 
             return user.PhoneNumber;

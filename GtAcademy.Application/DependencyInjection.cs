@@ -16,6 +16,8 @@ namespace GtAcademy.Application
                 options.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
             });
 
+            services.AddAutoMapper(cfg => { }, typeof(DependencyInjection).Assembly);
+
             services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
             return services;

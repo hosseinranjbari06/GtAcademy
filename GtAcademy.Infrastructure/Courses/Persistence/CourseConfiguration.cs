@@ -1,9 +1,6 @@
 ﻿using GtAcademy.Domain.Courses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GtAcademy.Infrastructure.Courses.Persistence
 {
@@ -26,6 +23,10 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
 
             builder.Property(c => c.Description)
               .HasMaxLength(5000)
+              .IsRequired();
+
+            builder.Property(c => c.Tags)
+              .HasMaxLength(100)
               .IsRequired();
 
             builder.Property(c => c.CreatorId)

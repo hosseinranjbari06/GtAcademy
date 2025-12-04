@@ -14,7 +14,7 @@ namespace GtAcademy.Domain.Wallets
 
         public int WalletBalance { get; set; }
 
-        public DateTime LastChargeDate { get; set; }
+        public DateTime? LastChargeDate { get; set; }
 
         public User User { get; set; }
     }

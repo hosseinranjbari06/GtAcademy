@@ -1,12 +1,11 @@
-﻿using GtAcademy.Domain.Common;
-using GtAcademy.Domain.Orders;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace GtAcademy.Domain.Courses
+namespace GtAcademy.Application.Courses.Common
 {
-    public class Course : BaseDomain
+    public class CreateCourseDto
     {
-        public Guid CourseId { get; set; }
-
         public string Title { get; set; } = string.Empty;
 
         public string BannerName { get; set; } = string.Empty;
@@ -18,11 +17,5 @@ namespace GtAcademy.Domain.Courses
         public int Price { get; set; }
 
         public Guid CreatorId { get; set; }
-
-        public DateTime CreateDate { get; set; }
-
-        public DateTime LastUpdateDate { get; set; }
-
-        public List<Order> Orders { get; set; } = [];
     }
 }

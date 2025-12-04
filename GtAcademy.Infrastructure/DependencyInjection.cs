@@ -1,5 +1,6 @@
 ﻿using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Infrastructure.Common.Persistence;
+using GtAcademy.Infrastructure.Courses.Persistence;
 using GtAcademy.Infrastructure.Users.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +23,7 @@ namespace GtAcademy.Infrastructure
             services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<GtAcademyDbContext>());
             services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICourseService, CourseService>();
 
             return services;
         }
