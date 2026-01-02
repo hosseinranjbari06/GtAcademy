@@ -13,7 +13,7 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
 {
     public class RegisterWithPhoneCommandHandler : IRequestHandler<RegisterWithPhoneCommand, ErrorOr<string>>
     {
-        private readonly IValidator<RegisterWithPhoneCommand> _validator;
+        private readonly IValidator<RegisterWithPhoneDto> _validator;
 
         private readonly IUnitOfWork _unitOfWork;
 
@@ -25,7 +25,7 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
 
         private readonly ICodeGenerator _codeGenerator;
 
-        public RegisterWithPhoneCommandHandler(IValidator<RegisterWithPhoneCommand> validator, IUnitOfWork unitOfWork, IGenericService<User> userGenericService, ICodeGenerator codeGenerator, IUserService userService, IGenericService<Wallet> walletGenericService)
+        public RegisterWithPhoneCommandHandler(IValidator<RegisterWithPhoneDto> validator, IUnitOfWork unitOfWork, IGenericService<User> userGenericService, ICodeGenerator codeGenerator, IUserService userService, IGenericService<Wallet> walletGenericService)
         {
             _validator = validator;
             _unitOfWork = unitOfWork;
@@ -37,7 +37,7 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
 
         public async Task<ErrorOr<string>> Handle(RegisterWithPhoneCommand request, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(request);
+            var validationResult = await _validator.ValidateAsync(request.RegisterDto);
 
             if (!validationResult.IsValid)
             {
@@ -46,12 +46,12 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
                     .ToList();
             }
 
-            if (await _userService.ExistByUserName(request.UserName))
+            if (await _userService.ExistByUserName(request.RegisterDto.UserName))
             {
                 return Error.Validation(code: "UserName", description: "نام کاربری وارد شده قبلا استفاده شده است");
             }
 
-            if (await _userService.ExistByPhoneNumber(request.PhoneNumber))
+            if (await _userService.ExistByPhoneNumber(request.RegisterDto.PhoneNumber))
             {
                 return Error.Validation(code: "PhoneNumber", description: "با شماره موبایل وارد شده قبلا در سایت ثبت شده است");
             }
@@ -59,8 +59,8 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
             User user = new User()
             {
                 UserId = Guid.NewGuid(),
-                UserName = request.UserName,
-                PhoneNumber = request.PhoneNumber,
+                UserName = request.RegisterDto.UserName,
+                PhoneNumber = request.RegisterDto.PhoneNumber,
                 RegisterDate = DateTime.Now,
                 IsActive = false,
                 VerifyToken = _codeGenerator.GenerateFiveDigitCode()

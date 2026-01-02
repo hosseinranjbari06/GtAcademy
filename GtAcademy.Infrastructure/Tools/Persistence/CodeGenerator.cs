@@ -9,7 +9,12 @@ namespace GtAcademy.Infrastructure.Tools.Persistence
     {
         public string GenerateFiveDigitCode()
         {
-            throw new NotImplementedException();
+            var rnd = new Random();
+            return rnd.Next(10).ToString() +
+                   rnd.Next(10).ToString() +
+                   rnd.Next(10).ToString() +
+                   rnd.Next(10).ToString() +
+                   rnd.Next(10).ToString();
         }
     }
 }

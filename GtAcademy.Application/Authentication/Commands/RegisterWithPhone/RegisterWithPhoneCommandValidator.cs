@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
 {
-    public class RegisterWithPhoneCommandValidator : AbstractValidator<RegisterWithPhoneCommand>
+    public class RegisterWithPhoneCommandValidator : AbstractValidator<RegisterWithPhoneDto>
     {
         public RegisterWithPhoneCommandValidator()
         {

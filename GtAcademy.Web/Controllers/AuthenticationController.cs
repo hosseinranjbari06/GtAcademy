@@ -28,17 +28,17 @@ namespace GtAcademy.Web.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register(string userName, string phoneNumber)
+        public async Task<IActionResult> Register(RegisterWithPhoneDto registerDto)
         {
-            var result = await _mediator.Send(new RegisterWithPhoneCommand(userName, phoneNumber));
+            var result = await _mediator.Send(new RegisterWithPhoneCommand(registerDto));
 
             if (result.IsError)
             {
                 ModelState.AddModelError(result.FirstError.Code, result.FirstError.Description);
-                return View(userName, phoneNumber);
+                return View(registerDto);
             }
 
-            return RedirectToAction("VerifyPhoneNumber", new {phoneNumber});
+            return RedirectToAction("VerifyPhoneNumber", new { registerDto.PhoneNumber });
         }
 
         public IActionResult VerifyPhoneNumber(string phoneNumber)
@@ -65,7 +65,7 @@ namespace GtAcademy.Web.Controllers
         [Route("Login")]
         public IActionResult Login()
         {
-            if(User.Identity != null && User.Identity.IsAuthenticated)
+            if (User.Identity != null && User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
             return View();

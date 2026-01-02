@@ -6,5 +6,5 @@ using System.Text;
 
 namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
 {
-    public record RegisterWithPhoneCommand(string UserName, string PhoneNumber) : IRequest<ErrorOr<string>>;
+    public record RegisterWithPhoneCommand(RegisterWithPhoneDto RegisterDto) : IRequest<ErrorOr<string>>;
 }

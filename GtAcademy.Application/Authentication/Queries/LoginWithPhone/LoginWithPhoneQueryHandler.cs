@@ -14,11 +14,11 @@ namespace GtAcademy.Application.Authentication.Queries.LoginWithPhone
     {
         private readonly IUserService _userService;
 
-        private readonly LoginWithPhoneQueryValidation _validator;
+        private readonly IValidator<LoginWithPhoneDto> _validator;
 
         private readonly ICodeGenerator _codeGenerator;
 
-        public LoginWithPhoneQueryHandler(LoginWithPhoneQueryValidation validator, IUserService userService, ICodeGenerator codeGenerator)
+        public LoginWithPhoneQueryHandler(IValidator<LoginWithPhoneDto> validator, IUserService userService, ICodeGenerator codeGenerator)
         {
             _validator = validator;
             _userService = userService;
