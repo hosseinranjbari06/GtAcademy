@@ -6,7 +6,7 @@ namespace GtAcademy.Web.Controllers
     {
         public IActionResult Index()
         {
-            return Content("Hi");
+            return View();
         }
     }
 }
