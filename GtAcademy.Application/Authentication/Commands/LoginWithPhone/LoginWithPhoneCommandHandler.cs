@@ -3,29 +3,36 @@ using FluentValidation;
 using GtAcademy.Application.Authentication.Common;
 using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Application.Tools.RandomCodeGenerator;
+using GtAcademy.Domain.Users;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GtAcademy.Application.Authentication.Queries.LoginWithPhone
+namespace GtAcademy.Application.Authentication.Commands.LoginWithPhone
 {
-    public class LoginWithPhoneQueryHandler : IRequestHandler<LoginWithPhoneQuery, ErrorOr<string>>
+    public class LoginWithPhoneCommandHandler : IRequestHandler<LoginWithPhoneCommand, ErrorOr<string>>
     {
         private readonly IUserService _userService;
+
+        private readonly IGenericService<User> _genericUserService;
 
         private readonly IValidator<LoginWithPhoneDto> _validator;
 
         private readonly ICodeGenerator _codeGenerator;
 
-        public LoginWithPhoneQueryHandler(IValidator<LoginWithPhoneDto> validator, IUserService userService, ICodeGenerator codeGenerator)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public LoginWithPhoneCommandHandler(IValidator<LoginWithPhoneDto> validator, IUserService userService, ICodeGenerator codeGenerator, IGenericService<User> genericUserService, IUnitOfWork unitOfWork)
         {
             _validator = validator;
             _userService = userService;
             _codeGenerator = codeGenerator;
+            _genericUserService = genericUserService;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task<ErrorOr<string>> Handle(LoginWithPhoneQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<string>> Handle(LoginWithPhoneCommand request, CancellationToken cancellationToken)
         {
             var validationResult = await _validator.ValidateAsync(request.LoginDto);
 
@@ -41,6 +48,9 @@ namespace GtAcademy.Application.Authentication.Queries.LoginWithPhone
 
             var user = await _userService.GetUserByPhoneNumber(request.LoginDto.PhoneNumber);
             user!.VerifyToken = _codeGenerator.GenerateFiveDigitCode();
+
+            _genericUserService.Update(user);
+            await _unitOfWork.CommitAsync();
 
             return user.UserName;
         }

@@ -1,8 +1,8 @@
-﻿@using GtAcademy.Application.Authentication.Commands.LoginWithPhone
-@model LoginWithPhoneDto
+﻿@using GtAcademy.Application.Authentication.Commands.VerifyPhoneNumber
+@model VerifyPhoneNumberDto
 
 @{
-	ViewData["Title"] = "ورود به سایت";
+    ViewData["Title"] = "فعالسازی حساب";
 }
 
 <section class="contact-section pt-120 pb-120">
@@ -11,34 +11,33 @@
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <div class="blog-contact-form contact-form">
-                    <h2 class="title mb-0">ورود به سایت</h2>
+                    <h2 class="title mb-0">فعالسازی حساب</h2>
                     <p class="mb-30 mt-10">
-                        لطفا شماره موبایل خود را جهت ارسال کد تایید وارد کنید
+                        لطفا کد پنج رقمی ارسال شده به شماره موبایل @Model.PhoneNumber را وارد کنید
                     </p>
                     <div class="request-form">
-                        <form asp-action="Login" class="form-horizontal" id="ajax_contact" method="post">
+                        <form asp-action="VerifyPhoneNumber" class="form-horizontal" id="ajax_contact" method="post">
+                            <input asp-for="@Model.PhoneNumber" type="hidden"/>
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <div class="form-item">
-                                        <input asp-for="@Model.PhoneNumber" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="شماره موبایل" type="text">
+                                        <input asp-for="@Model.Code" class="form-control" id="Code" name="Code" placeholder="کد تایید" type="text" maxlength="5">
                                         <div class="icon">
-                                            <i class="fa-regular fa-mobile-phone"></i>
-                                        </div>                                      
+                                            <i class="fa-regular fa-lock"></i>
+                                        </div>
                                     </div>
                                     <div class="alert mt-20">
-                                        <span asp-validation-for="@Model.PhoneNumber"></span>
+                                        <span asp-validation-for="@Model.Code"></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="submit-btn">
                                 <button class="ed-primary-btn" id="submit" type="submit">
-                                    ادامه
+                                    تایید
                                 </button>
                             </div>
                         </form>
                     </div>
-                    <br/>
-                    <a href="/Register">حساب کاربری ندارید ؟ ثبت نام</a>
                 </div>
             </div>
         </div>

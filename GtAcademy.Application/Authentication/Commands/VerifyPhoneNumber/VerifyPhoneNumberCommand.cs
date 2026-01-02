@@ -7,5 +7,5 @@ using System.Text;
 
 namespace GtAcademy.Application.Authentication.Commands.VerifyPhoneNumber
 {
-    public record VerifyPhoneNumberCommand(string PhoneNumber, string Code) : IRequest<ErrorOr<AuthenticationResult>>;
+    public record VerifyPhoneNumberCommand(VerifyPhoneNumberDto VerifyDto) : IRequest<ErrorOr<AuthenticationResult>>;
 }

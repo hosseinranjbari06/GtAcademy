@@ -1,14 +1,13 @@
-﻿using GtAcademy.Application.Authentication.Commands.RegisterWithPhone;
+﻿using GtAcademy.Application.Authentication.Commands.LoginWithPhone;
+using GtAcademy.Application.Authentication.Commands.RegisterWithPhone;
 using GtAcademy.Application.Authentication.Commands.VerifyPhoneNumber;
 using GtAcademy.Application.Authentication.Common;
-using GtAcademy.Application.Authentication.Queries.LoginWithPhone;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace GtAcademy.Web.Controllers
 {
@@ -43,18 +42,18 @@ namespace GtAcademy.Web.Controllers
 
         public IActionResult VerifyPhoneNumber(string phoneNumber)
         {
-            return View(phoneNumber);
+            return View(new VerifyPhoneNumberDto() { PhoneNumber = phoneNumber, Code = string.Empty });
         }
 
         [HttpPost]
-        public async Task<IActionResult> VerifyPhoneNumber(string phoneNumber, string code)
+        public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberDto verifyDto)
         {
-            var result = await _mediator.Send(new VerifyPhoneNumberCommand(phoneNumber, code));
+            var result = await _mediator.Send(new VerifyPhoneNumberCommand(verifyDto));
 
             if (result.IsError)
             {
                 ModelState.AddModelError(result.FirstError.Code, result.FirstError.Description);
-                return View(phoneNumber, code);
+                return View(verifyDto);
             }
 
             await SignInUser(result.Value);
@@ -77,7 +76,7 @@ namespace GtAcademy.Web.Controllers
             if (User.Identity != null && User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
-            var result = await _mediator.Send(new LoginWithPhoneQuery(loginDto));
+            var result = await _mediator.Send(new LoginWithPhoneCommand(loginDto));
 
             if (result.IsError)
             {

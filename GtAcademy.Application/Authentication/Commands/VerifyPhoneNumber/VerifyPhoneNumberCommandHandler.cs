@@ -26,14 +26,14 @@ namespace GtAcademy.Application.Authentication.Commands.VerifyPhoneNumber
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(VerifyPhoneNumberCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetUserByPhoneNumber(request.PhoneNumber);
+            var user = await _userService.GetUserByPhoneNumber(request.VerifyDto.PhoneNumber);
 
             if (user == null)
             {
                 return Error.NotFound(code: "PhoneNumber");
             }
 
-            if (user.VerifyToken != request.Code)
+            if (user.VerifyToken != request.VerifyDto.Code)
             {
                 return Error.Validation(code: "Code", description: "کد وارد شده نامعتبر است");
             }

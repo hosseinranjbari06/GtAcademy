@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GtAcademy.Application.Authentication.Queries.LoginWithPhone
+namespace GtAcademy.Application.Authentication.Commands.LoginWithPhone
 {
     public class LoginWithPhoneDto
     {

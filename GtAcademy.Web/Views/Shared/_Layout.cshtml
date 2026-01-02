@@ -73,15 +73,22 @@
                         </form>
                     </div>
                     <div class="mid-header-right">
-                        <div class="header-right-icon d-xl-block d-lg-none">
-                            <a href="wishlist.html"><i class="fa-sharp fa-regular fa-heart"></i></a>
-                            <span class="number">0</span>
-                        </div>
-                        <div class="header-right-icon shop-btn">
-                            <a href="cart.html"><i class="fa-regular fa-cart-shopping"></i></a>
-                            <span class="number">0</span>
-                        </div>
-                        <a class="ed-primary-btn header-btn" href="/Login">ورود به سیستم / ثبت نام</a>
+                        @if(User.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                            <div class="header-right-icon d-xl-block d-lg-none">
+                                <a href="wishlist.html"><i class="fa-sharp fa-regular fa-heart"></i></a>
+                                <span class="number">0</span>
+                            </div>
+                            <div class="header-right-icon shop-btn">
+                                <a href="cart.html"><i class="fa-regular fa-cart-shopping"></i></a>
+                                <span class="number">0</span>
+                            </div>
+                            }
+                            else
+                            {
+                            <a class="ed-primary-btn header-btn" href="/Login">ورود به سیستم / ثبت نام</a>
+                            }
+                            
                     </div>
                 </div>
             </div>
