@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GtAcademy.Application.Authentication.Queries.LoginWithPhone
 {
-    public class LoginWithPhoneQueryValidation : AbstractValidator<LoginWithPhoneQuery>
+    public class LoginWithPhoneQueryValidation : AbstractValidator<LoginWithPhoneDto>
     {
         public LoginWithPhoneQueryValidation()
         {

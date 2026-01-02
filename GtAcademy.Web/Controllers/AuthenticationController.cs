@@ -72,20 +72,20 @@ namespace GtAcademy.Web.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(string phoneNumber)
+        public async Task<IActionResult> Login(LoginWithPhoneDto loginDto)
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
 
-            var result = await _mediator.Send(new LoginWithPhoneQuery(phoneNumber));
+            var result = await _mediator.Send(new LoginWithPhoneQuery(loginDto));
 
             if (result.IsError)
             {
                 ModelState.AddModelError(result.FirstError.Code, result.FirstError.Description);
-                return View(phoneNumber);
+                return View(loginDto);
             }
 
-            return RedirectToAction("VerifyPhoneNumber", new { phoneNumber });
+            return RedirectToAction("VerifyPhoneNumber", new { loginDto.PhoneNumber });
         }
 
         [Authorize]

@@ -8,7 +8,7 @@
     <!-- Site Title -->
     <title>Gt Academy - @ViewData["Title"]</title>
     <!-- Place favicon.ico in the root directory -->
-    <link href="assets/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <link href="/assets/img/favicon.png" rel="shortcut icon" type="image/x-icon" />
     <!-- CSS here -->
     <link href="/assets/css/bootstrap.min.rtl.css" rel="stylesheet" />
     <link href="/assets/css/fontawesome.min.rtl.css" rel="stylesheet" />
@@ -35,10 +35,6 @@
                         </ul>
                     </div>
                     <div class="top-bar-right">
-                        <div class="register-box">
-                            <div class="icon"><i class="fa-regular fa-user"></i></div>
-                            <a href="contact.html">ورود به سیستم / ثبت نام</a>
-                        </div>
                         <div class="top-social-wrap">
                             <span>ما را دنبال کنید</span>
                             <ul class="social-list">
@@ -58,7 +54,7 @@
                 <div class="mid-header-inner">
                     <div class="header-logo d-lg-block">
                         <a href="index.html">
-                            <img alt="Logo" src="assets/img/logo/logo-1.png" />
+                            <img alt="Logo" src="/assets/img/logo/logo-1.png" />
                         </a>
                     </div>
                     <div class="category-form-wrap">
@@ -85,7 +81,7 @@
                             <a href="cart.html"><i class="fa-regular fa-cart-shopping"></i></a>
                             <span class="number">0</span>
                         </div>
-                        <a class="ed-primary-btn header-btn" href="contact.html">آزمایش رایگان را شروع کنید</a>
+                        <a class="ed-primary-btn header-btn" href="/Login">ورود به سیستم / ثبت نام</a>
                     </div>
                 </div>
             </div>
@@ -95,7 +91,7 @@
                 <div class="primary-header-inner">
                     <div class="header-logo d-lg-none">
                         <a href="index.html">
-                            <img alt="Logo" src="assets/img/logo/logo-1.png" />
+                            <img alt="Logo" src="/assets/img/logo/logo-1.png" />
                         </a>
                     </div>
                     <div class="header-left-inner">
@@ -198,11 +194,11 @@
                     <div class="header-right-wrap">
                         <div class="header-right">
                             <div class="header-right-btn">
-                                <a class="ed-primary-btn" href="contact.html">آزمایش رایگان را شروع کنید</a>
+                                <a class="ed-primary-btn" href="/Login">ورود به سیستم / ثبت نام</a>
                             </div>
                             <div class="header-logo d-none d-lg-none">
                                 <a href="index.html">
-                                    <img alt="Logo" src="assets/img/logo/logo-1.png" />
+                                    <img alt="Logo" src="/assets/img/logo/logo-1.png" />
                                 </a>
                             </div>
                             <div class="header-right-item d-lg-none d-md-block">
@@ -229,7 +225,7 @@
     <div class="mobile-side-menu">
         <div class="side-menu-content">
             <div class="side-menu-head">
-                <a href="index.html"><img alt="logo" src="assets/img/logo/logo-1.png" /></a>
+                <a href="index.html"><img alt="logo" src="/assets/img/logo/logo-1.png" /></a>
                 <button class="mobile-side-menu-close"><i class="fa-regular fa-xmark"></i></button>
             </div>
             <div class="side-menu-wrap"></div>
@@ -243,12 +239,12 @@
     <!-- /.mobile-side-menu -->
     <div class="mobile-side-menu-overlay"></div>
     <div id="preloader">
-        <div class="spinner-logo"><img alt="logo" src="assets/img/favicon.png" /></div>
+        <div class="spinner-logo"><img alt="logo" src="/assets/img/favicon.png" /></div>
         <div class="spinner"></div>
     </div>
     <!-- ./ preloader -->
     @RenderBody()
-    <footer class="footer-section pt-120" data-background="assets/img/bg-img/footer-bg.png">
+    <footer class="footer-section pt-120" data-background="/assets/img/bg-img/footer-bg.png">
         <div class="footer-top-wrap">
             <div class="container">
                 <div class="footer-top text-center">
@@ -309,7 +305,7 @@
                         <div class="footer-widget">
                             <h3 class="widget-header">پست اخیر</h3>
                             <div class="sidebar-post mb-20">
-                                <img alt="post" src="assets/img/images/footer-post-1.png" />
+                                <img alt="post" src="/assets/img/images/footer-post-1.png" />
                                 <div class="post-content">
                                     <h3 class="title"><a href="#">جایی که رویاها خانه ای پیدا می کنند</a></h3>
                                     <ul class="post-meta">
@@ -318,7 +314,7 @@
                                 </div>
                             </div>
                             <div class="sidebar-post">
-                                <img alt="post" src="assets/img/images/footer-post-2.png" />
+                                <img alt="post" src="/assets/img/images/footer-post-2.png" />
                                 <div class="post-content">
                                     <h3 class="title"><a href="#">جایی که رویاها خانه ای پیدا می کنند</a></h3>
                                     <ul class="post-meta">
@@ -345,24 +341,24 @@
     </div>
     <!--scrollup-->
     <!-- JS here -->
-    <script src="assets/js/vendor/jquary-3.6.0.min.js"></script>
-    <script src="assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-    <script src="assets/js/vendor/bootstrap-bundle.js"></script>
-    <script src="assets/js/vendor/jquery.isotope.js"></script>
-    <script src="assets/js/vendor/waypoints.min.js"></script>
-    <script src="assets/js/vendor/moment.min.js"></script>
-    <script src="assets/js/vendor/daterangepicker.min.js"></script>
-    <script src="assets/js/vendor/venobox.min.js"></script>
-    <script src="assets/js/vendor/odometer.min.js"></script>
-    <script src="assets/js/vendor/countdown.js"></script>
-    <script src="assets/js/vendor/meanmenu.js"></script>
-    <script src="assets/js/vendor/smooth-scroll.js"></script>
-    <script src="assets/js/vendor/imagesloaded-pkgd.js"></script>
-    <script src="assets/js/vendor/wow.min.js"></script>
-    <script src="assets/js/vendor/jquery.carouselTicker.js"></script>
-    <script src="assets/js/vendor/nice-select.js"></script>
-    <script src="assets/js/vendor/swiper.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="/assets/js/vendor/jquary-3.6.0.min.js"></script>
+    <script src="/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap-bundle.js"></script>
+    <script src="/assets/js/vendor/jquery.isotope.js"></script>
+    <script src="/assets/js/vendor/waypoints.min.js"></script>
+    <script src="/assets/js/vendor/moment.min.js"></script>
+    <script src="/assets/js/vendor/daterangepicker.min.js"></script>
+    <script src="/assets/js/vendor/venobox.min.js"></script>
+    <script src="/assets/js/vendor/odometer.min.js"></script>
+    <script src="/assets/js/vendor/countdown.js"></script>
+    <script src="/assets/js/vendor/meanmenu.js"></script>
+    <script src="/assets/js/vendor/smooth-scroll.js"></script>
+    <script src="/assets/js/vendor/imagesloaded-pkgd.js"></script>
+    <script src="/assets/js/vendor/wow.min.js"></script>
+    <script src="/assets/js/vendor/jquery.carouselTicker.js"></script>
+    <script src="/assets/js/vendor/nice-select.js"></script>
+    <script src="/assets/js/vendor/swiper.min.js"></script>
+    <script src="/assets/js/main.js"></script>
     @RenderSection("Scripts", false)
 </body>
 </html>

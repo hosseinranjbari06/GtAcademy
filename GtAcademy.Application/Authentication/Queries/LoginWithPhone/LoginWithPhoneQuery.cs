@@ -7,5 +7,5 @@ using System.Text;
 
 namespace GtAcademy.Application.Authentication.Queries.LoginWithPhone
 {
-    public record LoginWithPhoneQuery(string PhoneNumber) : IRequest<ErrorOr<string>>;
+    public record LoginWithPhoneQuery(LoginWithPhoneDto LoginDto) : IRequest<ErrorOr<string>>;
 }

@@ -1,0 +1,44 @@
+﻿@using GtAcademy.Application.Authentication.Queries.LoginWithPhone
+@model LoginWithPhoneDto
+
+@{
+	ViewData["Title"] = "ورود به سایت";
+}
+
+<section class="contact-section pt-120 pb-120">
+    <div class="container">
+        <div class="row gy-lg-0 gy-5">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="blog-contact-form contact-form">
+                    <h2 class="title mb-0">ورود به سایت</h2>
+                    <p class="mb-30 mt-10">
+                        لطفا شماره موبایل خود را جهت ارسال کد تایید وارد کنید
+                    </p>
+                    <div class="request-form">
+                        <form asp-action="Login" class="form-horizontal" id="ajax_contact" method="post">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <div class="form-item">
+                                        <input asp-for="@Model.PhoneNumber" class="form-control" id="PhoneNumber" name="PhoneNumber" placeholder="شماره موبایل" type="text">
+                                        <div class="icon">
+                                            <i class="fa-regular fa-mobile-phone"></i>
+                                        </div>                                      
+                                    </div>
+                                    <div class="alert mt-20">
+                                        <span asp-validation-for="@Model.PhoneNumber"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="submit-btn">
+                                <button class="ed-primary-btn" id="submit" type="submit">
+                                    ادامه
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
