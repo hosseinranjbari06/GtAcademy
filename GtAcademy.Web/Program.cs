@@ -1,3 +1,4 @@
+using GtAcademy.Application;
 using GtAcademy.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -14,7 +15,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/AccessDenied";
     });
 
+
 builder.Services.AddInfrastructre(builder.Configuration);
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
