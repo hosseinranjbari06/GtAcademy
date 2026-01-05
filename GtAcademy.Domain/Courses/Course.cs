@@ -17,7 +17,7 @@ namespace GtAcademy.Domain.Courses
 
         public int Price { get; set; }
 
-        public Guid CreatorId { get; set; }
+        public Guid TeacherId { get; set; }
 
         public DateTime CreateDate { get; set; }
 

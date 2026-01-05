@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Application.Courses.Common;
+using GtAcademy.Application.Users.Common;
 using GtAcademy.Domain.Courses;
 using GtAcademy.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +17,12 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
 
         private readonly IMapper _mapper;
 
-        public CourseService(GtAcademyDbContext context, IMapper mapper)
+        private readonly IUserService _userService;
+
+        public CourseService(GtAcademyDbContext context, IUserService userService, IMapper mapper)
         {
             _context = context;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -37,9 +41,16 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
 
             courses = courses.OrderByDescending(course => course.LastUpdateDate);
 
-            return await courses
+            var courseDtos = await courses
                 .Select(course => _mapper.Map<CourseSummaryDto>(course))
                 .ToListAsync();
+
+            courseDtos.ForEach( dto =>
+                {
+                    dto.TeacherSummary =  _userService.GetUserSummary(dto.TeacherId).Result;
+                });
+
+            return courseDtos;
         }
     }
 }

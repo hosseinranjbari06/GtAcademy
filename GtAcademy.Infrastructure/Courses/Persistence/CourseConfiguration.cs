@@ -29,7 +29,7 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
               .HasMaxLength(100)
               .IsRequired();
 
-            builder.Property(c => c.CreatorId)
+            builder.Property(c => c.TeacherId)
               .IsRequired();
         }
     }

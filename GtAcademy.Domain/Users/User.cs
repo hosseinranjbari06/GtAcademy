@@ -18,6 +18,8 @@ namespace GtAcademy.Domain.Users
 
         public string? PhoneNumber { get; set; }
 
+        public string AvatarName { get; set; } = string.Empty;
+
         public string? VerifyToken { get; set; }
 
         public bool IsActive { get; set; }
@@ -25,6 +27,8 @@ namespace GtAcademy.Domain.Users
         public string? HomeAddress { get; set; }
 
         public string? Job { get; set; }
+
+        public string? Biography { get; set; }
 
         public DateTime? BirthDate { get; set; }
 
