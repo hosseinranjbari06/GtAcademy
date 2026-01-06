@@ -1,0 +1,342 @@
+﻿@using GtAcademy.Application.Courses.Common
+@using GtAcademy.Application.Tools.PersianDateConverter
+@model CourseDetailsDto
+
+@{
+	ViewData["Title"] = "دوره ها";
+}
+
+<section class="page-header">
+	<div class="bg-item">
+		<div class="bg-img" data-background="/assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;/assets/img/bg-img/page-header-bg.png&quot;);"></div>
+		<div class="overlay"></div>
+		<div class="shapes">
+			<div class="shape shape-1">
+				<img alt="shape" src="/assets/img/shapes/page-header-shape-1.png">
+			</div>
+			<div class="shape shape-2">
+				<img alt="shape" src="/assets/img/shapes/page-header-shape-2.png">
+			</div>
+			<div class="shape shape-3">
+				<img alt="shape" src="/assets/img/shapes/page-header-shape-3.png">
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="page-header-content">
+			<h1 class="title">جزئیات دوره</h1>
+			<h4 class="sub-title">
+				<a class="home" href="/">خانه</a><span class="icon">/</span><a class="inner-page" href="#">جزئیات دوره</a>
+			</h4>
+		</div>
+	</div>
+</section>
+
+<section class="course-details pt-120 pb-120">
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-9 col-lg-12">
+				<div class="course-details-content">
+					<div class="course-details-img">
+						<img alt="course" src="/assets/img/service/@Model.BannerName">
+					</div>
+					<div class="details-inner">
+						<ul class="details-meta">
+							@foreach (string tag in Model.Tags.Split(" "))
+							{
+								<li>@tag</li>
+							}
+						</ul>
+						<h2 class="title">
+							@Model.Title
+						</h2>
+						<ul class="course-details-list">
+							<li>
+								<img alt="author" src="/assets/img/images/@Model.TeacherSummary.AvatarName"><span>مربی:</span>@Model.TeacherSummary.UserName
+							</li>
+							<li><i class="fa-solid fa-tags"></i>Not Impelimented</li>
+							<li><i class="fa-light fa-calendar"></i>@Model.LastUpdateDate.ToShamsi()</li>
+							<li class="review-wrap">
+								<ul>
+									<li><i class="fa-sharp fa-regular fa-star"></i></li>
+									<li><i class="fa-sharp fa-regular fa-star"></i></li>
+									<li><i class="fa-sharp fa-regular fa-star"></i></li>
+									<li><i class="fa-sharp fa-regular fa-star"></i></li>
+									<li><i class="fa-sharp fa-regular fa-star"></i></li>
+								</ul>
+								(4.88)
+							</li>
+						</ul>
+					</div>
+					<div class="course-details-tab">
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<li class="nav-item" role="presentation">
+								<button aria-controls="home" aria-selected="true" class="nav-link active" data-bs-target="#home" data-bs-toggle="tab" id="home-tab" role="tab" type="button">
+									<i class="fa-sharp fa-regular fa-bookmark"></i>نمای کلی
+								</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button aria-controls="profile" aria-selected="false" class="nav-link" data-bs-target="#profile" data-bs-toggle="tab" id="profile-tab" role="tab" type="button" tabindex="-1">
+									<i class="fa-regular fa-book"></i>برنامه درسی
+								</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button aria-controls="contact" aria-selected="false" class="nav-link" data-bs-target="#contact" data-bs-toggle="tab" id="contact-tab" role="tab" type="button" tabindex="-1">
+									<i class="fa-regular fa-user"></i>مربی
+								</button>
+							</li>
+							<li class="nav-item" role="presentation">
+								<button aria-controls="contact-2" aria-selected="false" class="nav-link" data-bs-target="#contact-2" data-bs-toggle="tab" id="contact-tab-2" role="tab" type="button" tabindex="-1">
+									<i class="fa-regular fa-star"></i>نظرات
+								</button>
+							</li>
+						</ul>
+						<div class="tab-content" id="myTabContent">
+							<div aria-labelledby="home-tab" class="tab-pane fade show active" id="home" role="tabpanel">
+								<div class="tab-overview">
+									@Model.Description
+								</div>
+							</div>
+							<div aria-labelledby="profile-tab" class="tab-pane fade" id="profile" role="tabpanel">
+								<div class="curriculam-area">
+									<div class="accordion" id="accordionExample">
+										<div class="accordion-item">
+											<h2 class="accordion-header" id="headingOne">
+												<button aria-controls="collapseOne" aria-expanded="true" class="accordion-button" data-bs-target="#collapseOne" data-bs-toggle="collapse" type="button">
+													مبانی زبان انگلیسی روان
+												</button>
+											</h2>
+											<div aria-labelledby="headingOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample" id="collapseOne">
+												<div class="accordion-body">
+													<ul class="curri-list">
+														<li>
+															<span>
+																<i class="fa-regular fa-video"></i>تسلط بر
+																تلفظ و توجیه
+															</span>
+															<span>54.23<i class="fa-regular fa-unlock"></i></span>
+														</li>
+														<li>
+															<span>
+																<i class="fa-regular fa-video"></i>ساختن یک
+																واژگان قوی برای ارتباطات روزمره
+															</span>
+															<span>45.05<i class="fa-regular fa-unlock"></i></span>
+														</li>
+														<li>
+															<span><i class="fa-regular fa-file-contract"></i>درک ساختار اساسی جمله و دستور زبان</span>
+															<span>1.6 ساعت<i class="fa-regular fa-lock"></i></span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="accordion-item">
+											<h2 class="accordion-header" id="headingTwo">
+												<button aria-controls="collapseTwo" aria-expanded="false" class="accordion-button collapsed" data-bs-target="#collapseTwo" data-bs-toggle="collapse" type="button">
+													تکنیک های تحقیق کاربر
+												</button>
+											</h2>
+											<div aria-labelledby="headingTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapseTwo">
+												<div class="accordion-body">
+													<ul class="curri-list">
+														<li>
+															<span>
+																<i class="fa-regular fa-video"></i>تسلط بر
+																تلفظ و توجیه
+															</span>
+															<span>54.23<i class="fa-regular fa-unlock"></i></span>
+														</li>
+														<li>
+															<span>
+																<i class="fa-regular fa-video"></i>ساختن یک
+																واژگان قوی برای ارتباطات روزمره
+															</span>
+															<span>45.05<i class="fa-regular fa-unlock"></i></span>
+														</li>
+														<li>
+															<span><i class="fa-regular fa-file-contract"></i>درک ساختار اساسی جمله و دستور زبان</span>
+															<span>1.6 ساعت<i class="fa-regular fa-lock"></i></span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<div class="accordion-item">
+											<h2 class="accordion-header" id="headingThree">
+												<button aria-controls="collapseThree" aria-expanded="false" class="accordion-button collapsed" data-bs-target="#collapseThree" data-bs-toggle="collapse" type="button">
+													ویژگی های کلیدی در جریان
+												</button>
+											</h2>
+											<div aria-labelledby="headingThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapseThree">
+												<div class="accordion-body">
+													<ul class="curri-list">
+														<li>
+															<span>
+																<i class="fa-regular fa-video"></i>تسلط بر
+																تلفظ و توجیه
+															</span>
+															<span>54.23<i class="fa-regular fa-unlock"></i></span>
+														</li>
+														<li>
+															<span>
+																<i class="fa-regular fa-video"></i>ساختن یک
+																واژگان قوی برای ارتباطات روزمره
+															</span>
+															<span>45.05<i class="fa-regular fa-unlock"></i></span>
+														</li>
+														<li>
+															<span><i class="fa-regular fa-file-contract"></i>درک ساختار اساسی جمله و دستور زبان</span>
+															<span>1.6 ساعت<i class="fa-regular fa-lock"></i></span>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div aria-labelledby="contact-tab" class="tab-pane fade" id="contact" role="tabpanel">
+								<div class="row team-wrap-2 gy-lg-0 gy-4 justify-content-center">
+									<div class="col-lg-4 col-md-6">
+										<div class="team-item-3 team-item-5">
+											<div class="team-thumb">
+												<div class="shape">
+													<img alt="team" src="/assets/img/shapes/team-shape-3.png">
+												</div>
+												<div class="team-men">
+													<img alt="team" src="/assets/img/team/team-men-3.png">
+												</div>
+											</div>
+											<div class="team-content">
+												<h3 class="title">
+													<a href="team-details.html">@Model.TeacherSummary.UserName</a>
+												</h3>
+												<span>@Model.TeacherSummary.Biography</span>
+												<ul class="social-list">
+													<li>
+														<a href="#"><i class="fab fa-facebook-f"></i></a>
+													</li>
+													<li>
+														<a href="#"><i class="fab fa-instagram"></i></a>
+													</li>
+													<li>
+														<a href="#"><i class="fab fa-behance"></i></a>
+													</li>
+													<li>
+														<a href="#"><i class="fab fa-pinterest-p"></i></a>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div aria-labelledby="contact-tab-2" class="tab-pane fade" id="contact-2" role="tabpanel">
+								<div class="reviewr-wrap">
+									<div class="review-list">
+										<div class="review-item">
+											<div class="review-thumb">
+												<img alt="img" src="/assets/img/shop/review-list-1.jpg">
+											</div>
+											<div class="content">
+												<div class="content-top">
+													<h4 class="name">
+														Eleanor Fant<span>06 مارس ، 2023</span>
+													</h4>
+													<ul class="review">
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+													</ul>
+												</div>
+												<p>
+													موریس غیر دیگنیسیم پوروس، اِی‌سی کومودو دیام. دونک
+													سیت آمت لاکینیا نولا. آلیکوم کوئیس پوروس در جاستو
+													پول‌وینار تمپور..
+												</p>
+											</div>
+										</div>
+										<div class="review-item">
+											<div class="review-thumb">
+												<img alt="img" src="/assets/img/shop/review-list-2.jpg">
+											</div>
+											<div class="content">
+												<div class="content-top">
+													<h4 class="name">
+														هالی وایت<span>06 مارس ، 2023</span>
+													</h4>
+													<ul class="review">
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+														<li>
+															<i class="fa-sharp fa-solid fa-star"></i>
+														</li>
+													</ul>
+												</div>
+												<p>
+													بسیار مشابه با قیمت تقریبی دو برابر Galaxy Tab S6
+													طراحی شده است ، تنها حذف آن است. ماوریس نان
+													دیگنیسیم پوروس، اِی‌سی کومودو دیام. دونک سیت آمت
+													لاکینیا نولا. آلیکوم کوئیس پوروس در جاستو
+													پول‌وینار تمپور.
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-lg-12">
+				<div class="course-sidebar price-box">
+					<h4 class="price">@Model.Price تومان<span>0 ٪ تخفیف</span></h4>
+					<a class="ed-primary-btn" href="cart.html">به سبد خرید اضافه کنید</a>
+				</div>
+				<div class="course-sidebar sticky-widget">
+					<h4 class="sidebar-title">اطلاعات دوره</h4>
+					<ul class="course-sidebar-list">
+						<li>
+							<i class="fa-regular fa-house-chimney"></i>مربی:<span>@Model.TeacherSummary.UserName</span>
+						</li>
+						<li><i class="fa-regular fa-book"></i>دروس:<span>0</span></li>
+						<li>
+							<i class="fa-regular fa-clock"></i>مدت زمان:<span>15h 30m 36s</span>
+						</li>
+
+					</ul>
+					<div class="share-btn">
+						<button class="ed-primary-btn">
+							<i class="fa-regular fa-share-nodes"></i>این دوره را به اشتراک
+							بگذارید
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

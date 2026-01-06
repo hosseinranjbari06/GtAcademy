@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GtAcademy.Application.Users.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,7 +19,7 @@ namespace GtAcademy.Application.Courses.Common
 
         public int Price { get; set; }
 
-        public Guid CreatorId { get; set; }
+        public UserSummaryDto TeacherSummary { get; set; }
 
         public DateTime LastUpdateDate { get; set; }
     }

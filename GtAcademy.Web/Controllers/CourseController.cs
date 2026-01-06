@@ -26,6 +26,7 @@ namespace GtAcademy.Web.Controllers
             return View(courses);
         }
 
+        [Route("/CourseDetails/{courseId}")]
         public async Task<IActionResult> CourseDetails(Guid courseId)
         {
             var result = await _mediator.Send(new GetCourseDetailsQuery(courseId));
