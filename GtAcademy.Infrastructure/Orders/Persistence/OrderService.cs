@@ -30,7 +30,7 @@ namespace GtAcademy.Infrastructure.Orders.Persistence
             return await _context.Orders
                 .Where(order => order.UserId == userId && !order.IsPaid)
                 .Include(order => order.Courses)
-                .FirstAsync();
+                .FirstOrDefaultAsync();
         }
     }
 }

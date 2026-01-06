@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using GtAcademy.Application.Orders.Commands.AddCourseToOrder;
+using GtAcademy.Application.Orders.Commands.DeleteCourseFromOrder;
 using GtAcademy.Application.Orders.Queries.GetUserCurrentOrder;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +20,8 @@ namespace GtAcademy.Web.Controllers
             _mediator = mediator;
         }
 
-        [Route("Order")]
+        [Authorize]
+        [Route("/Order")]
         public async Task<IActionResult> GetCurrentOrder()
         {
             var result = await _mediator
@@ -31,6 +34,30 @@ namespace GtAcademy.Web.Controllers
             }
 
             return View(result.Value);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> AddCourseToOrder(Guid courseId)
+        {
+            var result = await _mediator
+                .Send(new AddCourseToOrderCommand(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!), courseId));
+
+            if (result.IsError)
+                return NotFound();
+
+            return RedirectToAction("GetCurrentOrder");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> DeleteCourseFromOrder(Guid courseId)
+        {
+            var result = await _mediator
+                .Send(new DeleteCourseFromOrderCommand(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!), courseId));
+
+            if (result.IsError)
+                return NotFound();
+
+            return RedirectToAction("GetCurrentOrder");
         }
     }
 }

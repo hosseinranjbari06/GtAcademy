@@ -40,11 +40,19 @@ namespace GtAcademy.Application.Orders.Commands.DeleteCourseFromOrder
 
             if (order.Courses.Contains(course))
             {
-                order.Courses.Remove(course);
-                order.TotalAmount -= course.Price;
-                order.ItemsCount -= 1;
+                if(order.ItemsCount == 1)
+                {
+                    _orderGenericService.Delete(order);
+                }
+                else
+                {
+                    order.Courses.Remove(course);
+                    order.TotalAmount -= course.Price;
+                    order.ItemsCount -= 1;
 
-                _orderGenericService.Update(order);
+                    _orderGenericService.Update(order);
+                }
+                
                 await _unitOfWork.CommitAsync();
 
                 return true;

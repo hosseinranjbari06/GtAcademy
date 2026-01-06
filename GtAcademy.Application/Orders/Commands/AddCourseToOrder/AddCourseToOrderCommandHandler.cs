@@ -45,7 +45,8 @@ namespace GtAcademy.Application.Orders.Commands.AddCourseToOrder
                     IsPaid = false,
                     CreateDate = DateTime.Now,
                     ItemsCount = 1,
-                    TotalAmount = course.Price
+                    TotalAmount = course.Price,
+                    Courses = new List<Course>()
                 };
 
                 order.Courses.Add(course);
@@ -53,11 +54,14 @@ namespace GtAcademy.Application.Orders.Commands.AddCourseToOrder
             }
             else
             {
-                order.TotalAmount += course.Price;
-                order.ItemsCount += 1;
-                order.Courses.Add(course);
+                if (!order.Courses.Contains(course))
+                {
+                    order.TotalAmount += course.Price;
+                    order.ItemsCount += 1;
+                    order.Courses.Add(course);
 
-                _orderGenericService.Update(order);
+                    _orderGenericService.Update(order);
+                }
             }
 
             await _unitOfWork.CommitAsync();

@@ -3,7 +3,7 @@
 @model CourseDetailsDto
 
 @{
-	ViewData["Title"] = "دوره ها";
+	ViewData["Title"] = Model.Title;
 }
 
 <section class="page-header">
@@ -315,7 +315,7 @@
 			<div class="col-xl-3 col-lg-12">
 				<div class="course-sidebar price-box">
 					<h4 class="price">@Model.Price تومان<span>0 ٪ تخفیف</span></h4>
-					<a class="ed-primary-btn" href="cart.html">به سبد خرید اضافه کنید</a>
+					<a class="ed-primary-btn" asp-action="AddCourseToOrder" asp-controller="Order" asp-route-courseId="@Model.CourseId">به سبد خرید اضافه کنید</a>
 				</div>
 				<div class="course-sidebar sticky-widget">
 					<h4 class="sidebar-title">اطلاعات دوره</h4>

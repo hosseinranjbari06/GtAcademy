@@ -1,0 +1,137 @@
+﻿@using GtAcademy.Application.Orders.Common
+@using GtAcademy.Application.Tools.PersianDateConverter
+@model OrderDetailsDto
+
+@{
+	ViewData["Title"] = "سبد خربد";
+}
+
+<section class="page-header">
+    <div class="bg-item">
+        <div class="bg-img" data-background="assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">سبد خرید</h1>
+            <h4 class="sub-title">
+                <a class="home" href="/">خانه</a><span class="icon">/</span><a class="inner-page" href="#">سبد خرید</a>
+            </h4>
+        </div>
+    </div>
+</section>
+
+
+
+@if(ViewBag.IsEmpty == true)
+{
+    <section class="cart-section pt-130 pb-130">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2>سبد خرید خالی است !</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="cart-section pt-130 pb-130">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    
+                    <div class="table-content cart-table">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="product-remove"></th>
+                                    <th class="cart-product-name text-center">محصولات</th>
+                                    <th class="product-price">قیمت</th>
+                                    <th class="product-quantity">تخفیف</th>
+                                    <th class="product-subtotal">قابل پرداخت</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var course in Model.Courses)
+                                {
+                                    <tr>
+                                        <td class="product-remove">
+                                            <a asp-action="DeleteCourseFromOrder" asp-controller="Order" asp-route-courseId="@course.CourseId">
+                                                <i class="fa-sharp fa-regular fa-xmark"></i>
+                                            </a>
+                                        </td>
+                                        <td class="product-thumbnail">
+                                            <a href="/coursedetails/@course.CourseId">
+                                                <img alt="img" src="assets/img/images/@course.BannerName">
+                                            </a>
+                                            <div class="product-thumbnail">
+                                                <a href="/coursedetails/@course.CourseId">
+                                                <h4 class="title">@course.Title</h4>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="product-price">
+                                            <span class="amount">@course.Price تومان</span>
+                                        </td>
+                                        <td class="product-quantity">
+                                            <span> %0 </span>
+                                        </td>
+                                        <td class="product-subtotal">
+                                            <span class="amount">@course.Price تومان</span>
+                                        </td>
+                                    </tr>
+                                }                               
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="cart-btn-wrap">
+                        <div class="left-item">
+                            <input class="form-control" placeholder="کد تخفیف" type="text">
+                            <button class="ed-primary-btn">اعمال کد تخفیف</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="checkout-wrapper">
+                        <div class="checkout-top checkout-item item-1">
+                            <h4 class="title">مشخصات</h4>
+                        </div>
+                        <div class="checkout-total checkout-item">
+                            <h4 class="title">تاریخ ایجاد</h4>
+                            <span>@Model.CreateDate.ToShamsi()</span>
+                        </div>
+                        <div class="checkout-total checkout-item">
+                            <h4 class="title">مجموع</h4>
+                            <span>@Model.TotalAmount تومان</span>
+                        </div>
+                        <div class="checkout-total checkout-item">
+                            <h4 class="title">تخفیف</h4>
+                            <span>0 تومان</span>
+                        </div>
+                        <div class="checkout-total checkout-item">
+                            <h4 class="title">قابل پرداخت</h4>
+                            <span>@Model.TotalAmount تومان</span>
+                        </div>
+                    </div>
+                    <div class="checkout-proceed">
+                        <a class="ed-primary-btn checkout-btn" href="checkout.html">ادامه و پرداخت</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
