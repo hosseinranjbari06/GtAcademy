@@ -1,6 +1,7 @@
 ﻿using GtAcademy.Domain.Common;
 using GtAcademy.Domain.Courses;
 using GtAcademy.Domain.Orders;
+using GtAcademy.Domain.Roles;
 using GtAcademy.Domain.Wallets;
 using System;
 using System.Collections.Generic;
@@ -34,8 +35,10 @@ namespace GtAcademy.Domain.Users
 
         public DateTime RegisterDate { get; set; }
 
-        public Wallet Wallet { get; set; }
+        public Wallet Wallet { get; set; } = new Wallet();
 
         public List<Order>? Orders { get; set; }
+
+        public List<Role> Roles { get; set; } = new List<Role>();
     }
 }
