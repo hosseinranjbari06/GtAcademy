@@ -52,5 +52,14 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
 
             return courseDtos;
         }
+
+        public async Task<Course?> GetCourseWithEpisodes(Guid courseId)
+        {
+            return await _context.Courses
+                .Where(course => course.CourseId == courseId)
+                .Include(course => course.Topics)
+                .ThenInclude(topic => topic.Episodes)
+                .FirstOrDefaultAsync();
+        }
     }
 }

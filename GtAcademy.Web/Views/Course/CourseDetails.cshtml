@@ -1,5 +1,6 @@
 ﻿@using GtAcademy.Application.Courses.Common
 @using GtAcademy.Application.Tools.PersianDateConverter
+@using GtAcademy.Application.Tools.TextFormatFixer
 @model CourseDetailsDto
 
 @{
@@ -38,7 +39,7 @@
 			<div class="col-xl-9 col-lg-12">
 				<div class="course-details-content">
 					<div class="course-details-img">
-						<img alt="course" src="/assets/img/service/@Model.BannerName">
+						<img alt="course" src="/assets/img/images/@Model.BannerName">
 					</div>
 					<div class="details-inner">
 						<ul class="details-meta">
@@ -100,99 +101,41 @@
 							<div aria-labelledby="profile-tab" class="tab-pane fade" id="profile" role="tabpanel">
 								<div class="curriculam-area">
 									<div class="accordion" id="accordionExample">
-										<div class="accordion-item">
-											<h2 class="accordion-header" id="headingOne">
-												<button aria-controls="collapseOne" aria-expanded="true" class="accordion-button" data-bs-target="#collapseOne" data-bs-toggle="collapse" type="button">
-													مبانی زبان انگلیسی روان
-												</button>
-											</h2>
-											<div aria-labelledby="headingOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample" id="collapseOne">
-												<div class="accordion-body">
-													<ul class="curri-list">
-														<li>
-															<span>
-																<i class="fa-regular fa-video"></i>تسلط بر
-																تلفظ و توجیه
-															</span>
-															<span>54.23<i class="fa-regular fa-unlock"></i></span>
-														</li>
-														<li>
-															<span>
-																<i class="fa-regular fa-video"></i>ساختن یک
-																واژگان قوی برای ارتباطات روزمره
-															</span>
-															<span>45.05<i class="fa-regular fa-unlock"></i></span>
-														</li>
-														<li>
-															<span><i class="fa-regular fa-file-contract"></i>درک ساختار اساسی جمله و دستور زبان</span>
-															<span>1.6 ساعت<i class="fa-regular fa-lock"></i></span>
-														</li>
-													</ul>
+										@{
+											int i = 1;
+										}
+										@foreach(var topic in Model.Topics)
+										{
+											<div class="accordion-item">
+												<h2 class="accordion-header" id="heading@(i)">
+													<button aria-controls="collapse@(i)" aria-expanded="true" class="accordion-button" data-bs-target="#collapse@(i)" data-bs-toggle="collapse" type="button">
+														@topic.Title
+													</button>
+												</h2>
+												<div aria-labelledby="heading@(i)" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapse@(i)">
+													<div class="accordion-body">
+														<ul class="curri-list">
+															
+															@foreach(var episode in topic.Episodes)
+															{
+																<li>
+																	<span>
+																		<i class="fa-regular fa-video"></i>
+																		@episode.Title
+																	</span>
+																	<span>@episode.Time<i class="fa-regular @((episode.IsFree) ? "fa-unlock" : "fa-lock")"></i></span>
+																</li>
+															}
+
+														</ul>
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="accordion-item">
-											<h2 class="accordion-header" id="headingTwo">
-												<button aria-controls="collapseTwo" aria-expanded="false" class="accordion-button collapsed" data-bs-target="#collapseTwo" data-bs-toggle="collapse" type="button">
-													تکنیک های تحقیق کاربر
-												</button>
-											</h2>
-											<div aria-labelledby="headingTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapseTwo">
-												<div class="accordion-body">
-													<ul class="curri-list">
-														<li>
-															<span>
-																<i class="fa-regular fa-video"></i>تسلط بر
-																تلفظ و توجیه
-															</span>
-															<span>54.23<i class="fa-regular fa-unlock"></i></span>
-														</li>
-														<li>
-															<span>
-																<i class="fa-regular fa-video"></i>ساختن یک
-																واژگان قوی برای ارتباطات روزمره
-															</span>
-															<span>45.05<i class="fa-regular fa-unlock"></i></span>
-														</li>
-														<li>
-															<span><i class="fa-regular fa-file-contract"></i>درک ساختار اساسی جمله و دستور زبان</span>
-															<span>1.6 ساعت<i class="fa-regular fa-lock"></i></span>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-										<div class="accordion-item">
-											<h2 class="accordion-header" id="headingThree">
-												<button aria-controls="collapseThree" aria-expanded="false" class="accordion-button collapsed" data-bs-target="#collapseThree" data-bs-toggle="collapse" type="button">
-													ویژگی های کلیدی در جریان
-												</button>
-											</h2>
-											<div aria-labelledby="headingThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapseThree">
-												<div class="accordion-body">
-													<ul class="curri-list">
-														<li>
-															<span>
-																<i class="fa-regular fa-video"></i>تسلط بر
-																تلفظ و توجیه
-															</span>
-															<span>54.23<i class="fa-regular fa-unlock"></i></span>
-														</li>
-														<li>
-															<span>
-																<i class="fa-regular fa-video"></i>ساختن یک
-																واژگان قوی برای ارتباطات روزمره
-															</span>
-															<span>45.05<i class="fa-regular fa-unlock"></i></span>
-														</li>
-														<li>
-															<span><i class="fa-regular fa-file-contract"></i>درک ساختار اساسی جمله و دستور زبان</span>
-															<span>1.6 ساعت<i class="fa-regular fa-lock"></i></span>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
+											{
+												i += 1;
+											}
+										}
+
 									</div>
 								</div>
 							</div>
@@ -323,7 +266,7 @@
 						<li>
 							<i class="fa-regular fa-house-chimney"></i>مربی:<span>@Model.TeacherSummary.UserName</span>
 						</li>
-						<li><i class="fa-regular fa-book"></i>دروس:<span>0</span></li>
+						<li><i class="fa-regular fa-book"></i>تعداد ویدیو ها :<span>@Model.EpisodeCount</span></li>
 						<li>
 							<i class="fa-regular fa-clock"></i>مدت زمان:<span>15h 30m 36s</span>
 						</li>

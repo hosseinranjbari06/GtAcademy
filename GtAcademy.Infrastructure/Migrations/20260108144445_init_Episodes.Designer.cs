@@ -4,6 +4,7 @@ using GtAcademy.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GtAcademy.Infrastructure.Migrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    partial class GtAcademyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260108144445_init_Episodes")]
+    partial class init_Episodes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,37 +106,11 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
-                    b.Property<int>("TopicId")
-                        .HasColumnType("int");
-
                     b.HasKey("EpisodeId");
-
-                    b.HasIndex("TopicId");
-
-                    b.ToTable("Episode");
-                });
-
-            modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
-                {
-                    b.Property<int>("TopicId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicId"));
-
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
-
-                    b.HasKey("TopicId");
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Topic");
+                    b.ToTable("Episode");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Orders.Order", b =>
@@ -319,19 +296,8 @@ namespace GtAcademy.Infrastructure.Migrations
 
             modelBuilder.Entity("GtAcademy.Domain.Courses.Episode", b =>
                 {
-                    b.HasOne("GtAcademy.Domain.Courses.Topic", "Topic")
-                        .WithMany("Episodes")
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Topic");
-                });
-
-            modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
-                {
                     b.HasOne("GtAcademy.Domain.Courses.Course", "Course")
-                        .WithMany("Topics")
+                        .WithMany("Episodes")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -377,11 +343,6 @@ namespace GtAcademy.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Courses.Course", b =>
-                {
-                    b.Navigation("Topics");
-                });
-
-            modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
                 {
                     b.Navigation("Episodes");
                 });

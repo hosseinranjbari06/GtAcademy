@@ -1,4 +1,5 @@
 ﻿using GtAcademy.Application.Users.Common;
+using GtAcademy.Domain.Courses;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,7 +20,11 @@ namespace GtAcademy.Application.Courses.Common
 
         public int Price { get; set; }
 
-        public UserSummaryDto TeacherSummary { get; set; }
+        public int EpisodeCount { get; set; }
+
+        public List<TopicDto> Topics { get; set; } = [];
+
+        public UserSummaryDto TeacherSummary { get; set; } = new UserSummaryDto();
 
         public DateTime LastUpdateDate { get; set; }
     }

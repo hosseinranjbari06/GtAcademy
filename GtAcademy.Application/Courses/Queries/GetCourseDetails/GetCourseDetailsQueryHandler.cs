@@ -13,32 +13,34 @@ namespace GtAcademy.Application.Courses.Queries.GetCourseDetails
 {
     public class GetCourseDetailsQueryHandler : IRequestHandler<GetCourseDetailsQuery, ErrorOr<CourseDetailsDto>>
     {
-        private readonly IGenericService<Course> _courseGenericService;
+        private readonly ICourseService _courseService;
 
         private readonly IUserService _userService;
 
         private readonly IMapper _mapper;
 
-        public GetCourseDetailsQueryHandler(IGenericService<Course> courseGenericService, IMapper mapper, IUserService userService)
+        public GetCourseDetailsQueryHandler(IMapper mapper, IUserService userService, ICourseService courseService)
         {
-            _courseGenericService = courseGenericService;
             _mapper = mapper;
             _userService = userService;
+            _courseService = courseService;
         }
 
         public async Task<ErrorOr<CourseDetailsDto>> Handle(GetCourseDetailsQuery request, CancellationToken cancellationToken)
         {
-            var course = await _courseGenericService.GetByIdAsync(request.CourseId);
+            var course = await _courseService.GetCourseWithEpisodes(request.CourseId);
 
             if (course == null)
                 return Error.NotFound();
 
-            var courseDto = _mapper.Map<CourseDetailsDto>(course);
+            var courseDto = _mapper.Map<Course, CourseDetailsDto>(course);
             var userSummary = await _userService.GetUserSummary(course.TeacherId);
 
-            if(userSummary == null) return Error.NotFound();
+            if (userSummary == null)
+                return Error.NotFound();
 
             courseDto.TeacherSummary = userSummary;
+            courseDto.Topics.ForEach(topic => { courseDto.EpisodeCount += topic.Episodes.Count; });
 
             return courseDto;
         }
