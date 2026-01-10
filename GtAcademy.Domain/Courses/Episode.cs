@@ -1,6 +1,8 @@
-﻿namespace GtAcademy.Domain.Courses
+﻿using GtAcademy.Domain.Common;
+
+namespace GtAcademy.Domain.Courses
 {
-    public class Episode
+    public class Episode : BaseDomain
     {
         public Guid EpisodeId { get; set; }
 

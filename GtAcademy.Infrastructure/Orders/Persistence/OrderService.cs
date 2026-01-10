@@ -32,5 +32,13 @@ namespace GtAcademy.Infrastructure.Orders.Persistence
                 .Include(order => order.Courses)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<bool> HasUserBoughtCourse(Guid userId, Guid courseId)
+        {
+            return await _context.Orders
+                .Where(order => order.UserId == userId && order.IsPaid)
+                .Include(order => order.Courses)
+                .AnyAsync(order => order.Courses.Any(course => course.CourseId == courseId));
+        }
     }
 }

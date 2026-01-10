@@ -1,7 +1,9 @@
 ﻿using GtAcademy.Application.Courses.Queries.GetCourseDetails;
 using GtAcademy.Application.Courses.Queries.GetCoursesList;
+using GtAcademy.Application.Courses.Queries.HasUserPermissionToEpisode;
 using GtAcademy.Application.Orders.Commands.AddCourseToOrder;
 using GtAcademy.Application.Orders.Commands.DeleteCourseFromOrder;
+using GtAcademy.Domain.Courses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +37,19 @@ namespace GtAcademy.Web.Controllers
                 return NotFound();
 
             return View(result.Value);
+        }
+
+        [Authorize]
+        [Route("/DownloadEpisodeFile/{episodeId}")]
+        public async Task<IActionResult> DownloadEpisodeFile(Guid episodeId)
+        {
+            var result = await _mediator.Send(new HasUserPermissionToEpisodeQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!), episodeId));
+
+            if (result.IsError) return NotFound();
+
+            string filepath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/coursefiles", result.Value);
+            byte[] file = System.IO.File.ReadAllBytes(filepath);
+            return File(file, "application/force-download", result.Value);
         }
     }
 }

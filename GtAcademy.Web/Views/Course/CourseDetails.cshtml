@@ -123,7 +123,8 @@
 																		<i class="fa-regular fa-video"></i>
 																		@episode.Title
 																	</span>
-																	<span>@episode.Time<i class="fa-regular @((episode.IsFree) ? "fa-unlock" : "fa-lock")"></i></span>
+																	<span>@episode.Time<i class="fa-regular @((episode.IsFree) ? "fa-unlock" : "fa-lock")"></i>@if(episode.IsFree){<a href="/DownloadEpisodeFile/@episode.EpisodeId"><i class="fa-regular fa-download"></i></a>}</span>
+																	
 																</li>
 															}
 

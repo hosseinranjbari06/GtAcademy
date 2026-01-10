@@ -10,5 +10,7 @@ namespace GtAcademy.Application.Common.Interfaces
         Task<Order?> GetOrderByIdIncludeItems(Guid orderId);
 
         Task<Order?> GetUserCurrentOrderIncludeItems(Guid userId);
+
+        Task<bool> HasUserBoughtCourse(Guid userId, Guid courseId);
     }
 }
