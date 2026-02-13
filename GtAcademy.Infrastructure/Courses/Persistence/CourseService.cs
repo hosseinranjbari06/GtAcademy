@@ -26,6 +26,20 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
             _mapper = mapper;
         }
 
+        public async Task<int> GetAllStudentsCount()
+        {
+            int studentsCount = 0;
+
+            var courseIds = await _context.Courses.Select(course => course.CourseId).ToListAsync();
+
+            foreach (var courseId in courseIds)
+            {
+                studentsCount += await GetCourseStudentsCount(courseId);
+            }
+
+            return studentsCount;
+        }
+
         public async Task<List<CourseCommentDto>> GetCourseCommentDtos(Guid courseId)
         {
             return await _context.CourseComments
@@ -54,12 +68,22 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 .Select(course => _mapper.Map<CourseSummaryDto>(course))
                 .ToListAsync();
 
-            courseDtos.ForEach( dto =>
+            courseDtos.ForEach(dto =>
                 {
-                    dto.TeacherSummary =  _userService.GetUserSummary(dto.TeacherId).Result;
+                    dto.TeacherSummary = _userService.GetUserSummary(dto.TeacherId).Result;
                 });
 
             return courseDtos;
+        }
+
+        public async Task<int> GetCourseStudentsCount(Guid courseId)
+        {
+            var course = await _context.Courses
+                .Where(course => course.CourseId == courseId)
+                .Include(course => course.Orders)
+                .FirstAsync();
+
+            return course.Orders.Where(order => order.IsPaid).Count();
         }
 
         public async Task<Course?> GetCourseWithEpisodes(Guid courseId)
@@ -69,6 +93,23 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 .Include(course => course.Topics)
                 .ThenInclude(topic => topic.Episodes)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<CourseSummaryDto>> GetPopularCoursesList(int take)
+        {
+            var courseDtos = await _context.Courses
+                .Include(course => course.Orders)
+                .OrderByDescending(course => course.Orders.Where(order => order.IsPaid).Count())
+                .Take(take)
+                .Select(course => _mapper.Map<CourseSummaryDto>(course))
+                .ToListAsync();
+
+            courseDtos.ForEach(dto =>
+            {
+                dto.TeacherSummary = _userService.GetUserSummary(dto.TeacherId).Result;
+            });
+
+            return courseDtos;
         }
 
         public async Task<bool> IsCourseExist(Guid courseId)

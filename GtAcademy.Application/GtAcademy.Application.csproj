@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="Authentication\Queries\" />
     <Folder Include="Users\Commands\" />
-    <Folder Include="Users\Queries\" />
   </ItemGroup>
 
 </Project>

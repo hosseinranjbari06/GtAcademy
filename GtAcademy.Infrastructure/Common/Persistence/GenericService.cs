@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GtAcademy.Infrastructure.Common.Persistence
 {
@@ -35,6 +36,11 @@ namespace GtAcademy.Infrastructure.Common.Persistence
         public async Task<T?> GetByIdAsync(object id)
         {
             return await _db.Set<T>().FindAsync(id);
+        }
+
+        public async Task<int> GetCountAsync()
+        {
+            return await _db.Set<T>().CountAsync();
         }
 
         public void Update(T entity)
