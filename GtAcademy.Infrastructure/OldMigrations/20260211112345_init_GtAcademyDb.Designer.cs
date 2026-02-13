@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GtAcademy.Infrastructure.Migrations
+namespace GtAcademy.Infrastructure.OldMigrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    [Migration("20260108144445_init_Episodes")]
-    partial class init_Episodes
+    [Migration("20260211112345_init_GtAcademyDb")]
+    partial class init_GtAcademyDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,6 +58,9 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EpisodeCount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
@@ -77,9 +80,43 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<TimeSpan>("TotalTime")
+                        .HasColumnType("time");
+
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.CourseComment", b =>
+                {
+                    b.Property<Guid>("CommentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("AdminSubmited")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CourseComments");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Courses.Episode", b =>
@@ -106,11 +143,37 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
                     b.HasKey("EpisodeId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("Episode");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
+                {
+                    b.Property<int>("TopicId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicId"));
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.HasKey("TopicId");
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Episode");
+                    b.ToTable("Topic");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Orders.Order", b =>
@@ -294,10 +357,40 @@ namespace GtAcademy.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GtAcademy.Domain.Courses.Episode", b =>
+            modelBuilder.Entity("GtAcademy.Domain.Courses.CourseComment", b =>
                 {
                     b.HasOne("GtAcademy.Domain.Courses.Course", "Course")
+                        .WithMany("CourseComments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GtAcademy.Domain.Users.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Episode", b =>
+                {
+                    b.HasOne("GtAcademy.Domain.Courses.Topic", "Topic")
                         .WithMany("Episodes")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
+                {
+                    b.HasOne("GtAcademy.Domain.Courses.Course", "Course")
+                        .WithMany("Topics")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -344,11 +437,20 @@ namespace GtAcademy.Infrastructure.Migrations
 
             modelBuilder.Entity("GtAcademy.Domain.Courses.Course", b =>
                 {
+                    b.Navigation("CourseComments");
+
+                    b.Navigation("Topics");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
+                {
                     b.Navigation("Episodes");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Users.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Orders");
 
                     b.Navigation("Wallet")

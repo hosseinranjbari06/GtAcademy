@@ -53,7 +53,7 @@
 						</h2>
 						<ul class="course-details-list">
 							<li>
-								<img alt="author" src="/assets/img/images/@Model.TeacherSummary.AvatarName"><span>مربی:</span>@Model.TeacherSummary.UserName
+								<img alt="author" src="/assets/img/users/@Model.TeacherSummary.AvatarName"><span>مربی:</span>@Model.TeacherSummary.UserName
 							</li>
 							<li><i class="fa-solid fa-tags"></i>Not Impelimented</li>
 							<li><i class="fa-light fa-calendar"></i>@Model.LastUpdateDate.ToShamsi()</li>
@@ -146,11 +146,11 @@
 										<div class="team-item-3 team-item-5">
 											<div class="team-thumb">
 												<div class="shape">
-													<img alt="team" src="/assets/img/shapes/team-shape-3.png">
+													<img alt="team" src="/assets/img/users/@Model.TeacherSummary.AvatarName">
 												</div>
-												<div class="team-men">
-													<img alt="team" src="/assets/img/team/team-men-3.png">
-												</div>
+												@* <div class="team-men">
+													<img alt="team" src="/assets/img/users/@Model.TeacherSummary.AvatarName">
+												</div> *@
 											</div>
 											<div class="team-content">
 												<h3 class="title">
@@ -178,77 +178,61 @@
 							</div>
 							<div aria-labelledby="contact-tab-2" class="tab-pane fade" id="contact-2" role="tabpanel">
 								<div class="reviewr-wrap">
+									@if(User.Identity?.IsAuthenticated == true)
+									{
+										<div class="blog-contact-form">
+											<h2 class="title">نظر خود را وارد کنید</h2>
+											<div class="request-form">
+												<form asp-action="AddComment" asp-controller="Course" class="form-horizontal" method="post">
+													<input type="hidden" name="courseId" value="@Model.CourseId"/>
+													<div class="form-group row">
+														<div class="col-md-12">
+															<div class="form-item message-item">
+																<textarea class="form-control address" cols="30" id="content" name="content" placeholder="متن" rows="5"></textarea>
+																<div class="icon">
+																	<i class="fa-light fa-comment"></i>
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="submit-btn">
+														<button class="ed-primary-btn" id="submit" type="submit">
+															ثبت نظر<i class="fa-sharp fa-regular fa-arrow-left"></i>
+														</button>
+													</div>
+												</form>
+											</div>
+										</div>
+									}
+									else
+									{
+										<br/>
+										<h4>برای ثبت نظر خود ابتدا <a href="/Login">وارد سایت شوید</a></h4>
+										<br />
+										<hr/>
+									}
 									<div class="review-list">
-										<div class="review-item">
-											<div class="review-thumb">
-												<img alt="img" src="/assets/img/shop/review-list-1.jpg">
-											</div>
-											<div class="content">
-												<div class="content-top">
-													<h4 class="name">
-														Eleanor Fant<span>06 مارس ، 2023</span>
-													</h4>
-													<ul class="review">
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-													</ul>
+										
+										@foreach(var comment in Model.CourseComments)
+										{
+											<div class="review-item">
+												<div class="review-thumb">
+													<img alt="img" src="/assets/img/users/@comment.User.AvatarName">
 												</div>
-												<p>
-													موریس غیر دیگنیسیم پوروس، اِی‌سی کومودو دیام. دونک
-													سیت آمت لاکینیا نولا. آلیکوم کوئیس پوروس در جاستو
-													پول‌وینار تمپور..
-												</p>
-											</div>
-										</div>
-										<div class="review-item">
-											<div class="review-thumb">
-												<img alt="img" src="/assets/img/shop/review-list-2.jpg">
-											</div>
-											<div class="content">
-												<div class="content-top">
-													<h4 class="name">
-														هالی وایت<span>06 مارس ، 2023</span>
-													</h4>
-													<ul class="review">
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-														<li>
-															<i class="fa-sharp fa-solid fa-star"></i>
-														</li>
-													</ul>
+												<div class="content">
+													<div class="content-top">
+														<h4 class="name">
+															@comment.User.UserName<span>@comment.CreateDate.FixDate()</span>
+														</h4>
+													</div>
+													<p>
+														@comment.Content
+													</p>
 												</div>
-												<p>
-													بسیار مشابه با قیمت تقریبی دو برابر Galaxy Tab S6
-													طراحی شده است ، تنها حذف آن است. ماوریس نان
-													دیگنیسیم پوروس، اِی‌سی کومودو دیام. دونک سیت آمت
-													لاکینیا نولا. آلیکوم کوئیس پوروس در جاستو
-													پول‌وینار تمپور.
-												</p>
 											</div>
-										</div>
+										}
+
 									</div>
 								</div>
 							</div>

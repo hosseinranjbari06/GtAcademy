@@ -27,5 +27,7 @@ namespace GtAcademy.Application.Courses.Common
         public UserSummaryDto TeacherSummary { get; set; } = new UserSummaryDto();
 
         public DateTime LastUpdateDate { get; set; }
+
+        public List<CourseCommentDto> CourseComments { get; set; } = [];
     }
 }

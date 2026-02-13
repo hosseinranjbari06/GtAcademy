@@ -33,6 +33,8 @@ namespace GtAcademy.Application.Profiles
 
             CreateMap<Episode, EpisodeDto>();
 
+            CreateMap<CourseComment, CourseCommentDto>();
+
             #endregion
 
             #region Order

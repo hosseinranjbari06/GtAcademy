@@ -55,6 +55,9 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EpisodeCount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
@@ -74,9 +77,43 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<TimeSpan>("TotalTime")
+                        .HasColumnType("time");
+
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.CourseComment", b =>
+                {
+                    b.Property<Guid>("CommentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("AdminSubmited")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CourseComments");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Courses.Episode", b =>
@@ -317,6 +354,25 @@ namespace GtAcademy.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GtAcademy.Domain.Courses.CourseComment", b =>
+                {
+                    b.HasOne("GtAcademy.Domain.Courses.Course", "Course")
+                        .WithMany("CourseComments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GtAcademy.Domain.Users.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("GtAcademy.Domain.Courses.Episode", b =>
                 {
                     b.HasOne("GtAcademy.Domain.Courses.Topic", "Topic")
@@ -378,6 +434,8 @@ namespace GtAcademy.Infrastructure.Migrations
 
             modelBuilder.Entity("GtAcademy.Domain.Courses.Course", b =>
                 {
+                    b.Navigation("CourseComments");
+
                     b.Navigation("Topics");
                 });
 
@@ -388,6 +446,8 @@ namespace GtAcademy.Infrastructure.Migrations
 
             modelBuilder.Entity("GtAcademy.Domain.Users.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Orders");
 
                     b.Navigation("Wallet")

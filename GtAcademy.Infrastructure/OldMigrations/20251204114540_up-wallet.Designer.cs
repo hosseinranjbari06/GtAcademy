@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GtAcademy.Infrastructure.Migrations
+namespace GtAcademy.Infrastructure.OldMigrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    [Migration("20260104093641_update-User")]
-    partial class updateUser
+    [Migration("20251204114540_up-wallet")]
+    partial class upwallet
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,9 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(5000)
@@ -68,9 +71,6 @@ namespace GtAcademy.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -116,13 +116,6 @@ namespace GtAcademy.Infrastructure.Migrations
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AvatarName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Biography")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");

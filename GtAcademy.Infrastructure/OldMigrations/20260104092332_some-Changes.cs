@@ -2,23 +2,21 @@
 
 #nullable disable
 
-namespace GtAcademy.Infrastructure.Migrations
+namespace GtAcademy.Infrastructure.OldMigrations
 {
     /// <inheritdoc />
-    public partial class upuser : Migration
+    public partial class someChanges : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsActive",
-                table: "Users",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
+            migrationBuilder.RenameColumn(
+                name: "CreatorId",
+                table: "Courses",
+                newName: "TeacherId");
 
             migrationBuilder.AddColumn<string>(
-                name: "VerifyToken",
+                name: "Biography",
                 table: "Users",
                 type: "nvarchar(max)",
                 nullable: true);
@@ -28,12 +26,13 @@ namespace GtAcademy.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsActive",
+                name: "Biography",
                 table: "Users");
 
-            migrationBuilder.DropColumn(
-                name: "VerifyToken",
-                table: "Users");
+            migrationBuilder.RenameColumn(
+                name: "TeacherId",
+                table: "Courses",
+                newName: "CreatorId");
         }
     }
 }

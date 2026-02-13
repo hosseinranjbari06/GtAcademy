@@ -17,9 +17,9 @@ namespace GtAcademy.Domain.Courses
 
         public int Price { get; set; }
 
-        //public int EpisodeCount { get; set; }
+        public int EpisodeCount { get; set; }
 
-        //public TimeSpan TotalTime { get; set; }
+        public TimeSpan TotalTime { get; set; }
 
         public Guid TeacherId { get; set; }
 
@@ -30,5 +30,7 @@ namespace GtAcademy.Domain.Courses
         public List<Order> Orders { get; set; } = [];
 
         public List<Topic> Topics { get; set; } = [];
+
+        public List<CourseComment> CourseComments { get; set; } = [];
     }
 }

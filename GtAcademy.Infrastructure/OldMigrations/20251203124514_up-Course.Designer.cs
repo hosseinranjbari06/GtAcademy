@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GtAcademy.Infrastructure.Migrations
+namespace GtAcademy.Infrastructure.OldMigrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    [Migration("20251201144746_init_DB")]
-    partial class init_DB
+    [Migration("20251203124514_up-Course")]
+    partial class upCourse
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,9 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
@@ -58,8 +61,16 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Price")
                         .HasColumnType("int");
+
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -117,6 +128,9 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Job")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -132,6 +146,9 @@ namespace GtAcademy.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("VerifyToken")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 

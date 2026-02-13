@@ -2,27 +2,37 @@
 
 #nullable disable
 
-namespace GtAcademy.Infrastructure.Migrations
+namespace GtAcademy.Infrastructure.OldMigrations
 {
     /// <inheritdoc />
-    public partial class updateUser : Migration
+    public partial class upuser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<bool>(
+                name: "IsActive",
+                table: "Users",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
+
             migrationBuilder.AddColumn<string>(
-                name: "AvatarName",
+                name: "VerifyToken",
                 table: "Users",
                 type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+                nullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "AvatarName",
+                name: "IsActive",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "VerifyToken",
                 table: "Users");
         }
     }

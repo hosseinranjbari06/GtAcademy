@@ -40,5 +40,7 @@ namespace GtAcademy.Domain.Users
         public List<Order>? Orders { get; set; }
 
         public List<Role> Roles { get; set; } = new List<Role>();
+
+        public List<CourseComment> Comments { get; set; } = [];
     }
 }

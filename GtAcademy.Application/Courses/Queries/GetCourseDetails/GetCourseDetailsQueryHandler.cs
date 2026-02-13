@@ -40,6 +40,7 @@ namespace GtAcademy.Application.Courses.Queries.GetCourseDetails
                 return Error.NotFound();
 
             courseDto.TeacherSummary = userSummary;
+            courseDto.CourseComments = await _courseService.GetCourseCommentDtos(course.CourseId);
             courseDto.Topics.ForEach(topic => { courseDto.EpisodeCount += topic.Episodes.Count; });
 
             return courseDto;

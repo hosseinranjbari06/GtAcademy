@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GtAcademy.Infrastructure.Migrations
+namespace GtAcademy.Infrastructure.OldMigrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    [Migration("20251202102807_up-user")]
-    partial class upuser
+    [Migration("20251201144746_init_DB")]
+    partial class init_DB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,9 +117,6 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Job")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -135,9 +132,6 @@ namespace GtAcademy.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("VerifyToken")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
 

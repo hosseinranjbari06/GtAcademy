@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GtAcademy.Infrastructure.Migrations
+namespace GtAcademy.Infrastructure.OldMigrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    [Migration("20260108100808_init_Roles")]
-    partial class init_Roles
+    [Migration("20260104093641_update-User")]
+    partial class updateUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,55 +112,6 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("GtAcademy.Domain.Roles.Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            RoleId = 1,
-                            Description = "دسترسی کامل",
-                            Title = "ادمین"
-                        },
-                        new
-                        {
-                            RoleId = 2,
-                            Description = "دسترسی به بخش دوره ها",
-                            Title = "مدرس"
-                        },
-                        new
-                        {
-                            RoleId = 3,
-                            Description = "دسترسی به بخش محصولات",
-                            Title = "مدیر محصول"
-                        },
-                        new
-                        {
-                            RoleId = 4,
-                            Description = "دسترسی به بخش کاربران",
-                            Title = "مدیر کاربران"
-                        });
-                });
-
             modelBuilder.Entity("GtAcademy.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -233,21 +184,6 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.ToTable("Wallets");
                 });
 
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.Property<int>("RolesRoleId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UsersUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("RolesRoleId", "UsersUserId");
-
-                    b.HasIndex("UsersUserId");
-
-                    b.ToTable("RoleUser");
-                });
-
             modelBuilder.Entity("CourseOrder", b =>
                 {
                     b.HasOne("GtAcademy.Domain.Courses.Course", null)
@@ -283,21 +219,6 @@ namespace GtAcademy.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.HasOne("GtAcademy.Domain.Roles.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GtAcademy.Domain.Users.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Users.User", b =>

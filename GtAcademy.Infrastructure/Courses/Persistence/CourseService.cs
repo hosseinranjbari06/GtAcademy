@@ -26,6 +26,15 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
             _mapper = mapper;
         }
 
+        public async Task<List<CourseCommentDto>> GetCourseCommentDtos(Guid courseId)
+        {
+            return await _context.CourseComments
+                .Where(cc => cc.CourseId == courseId)
+                .Include(cc => cc.User)
+                .Select(cc => _mapper.Map<CourseCommentDto>(cc))
+                .ToListAsync();
+        }
+
         public async Task<List<CourseSummaryDto>> GetCoursesList(string search = "", int seperate = 6, int pageId = 1)
         {
             IQueryable<Course> courses = _context.Courses;
@@ -60,6 +69,11 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 .Include(course => course.Topics)
                 .ThenInclude(topic => topic.Episodes)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> IsCourseExist(Guid courseId)
+        {
+            return await _context.Courses.AnyAsync(course => course.CourseId == courseId);
         }
     }
 }

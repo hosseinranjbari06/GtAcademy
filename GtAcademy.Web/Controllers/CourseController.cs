@@ -1,4 +1,7 @@
-﻿using GtAcademy.Application.Courses.Queries.GetCourseDetails;
+﻿using GtAcademy.Application.Courses.Commands.CreateComment;
+using GtAcademy.Application.Courses.Commands.CreateCourseComment;
+using GtAcademy.Application.Courses.Common;
+using GtAcademy.Application.Courses.Queries.GetCourseDetails;
 using GtAcademy.Application.Courses.Queries.GetCoursesList;
 using GtAcademy.Application.Courses.Queries.HasUserPermissionToEpisode;
 using GtAcademy.Application.Orders.Commands.AddCourseToOrder;
@@ -50,6 +53,24 @@ namespace GtAcademy.Web.Controllers
             string filepath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/coursefiles", result.Value);
             byte[] file = System.IO.File.ReadAllBytes(filepath);
             return File(file, "application/force-download", result.Value);
+        }
+
+        [Authorize]
+        [HttpPost("/AddComment")]
+        public async Task<IActionResult> AddComment(Guid courseId, string content)
+        {
+            var comment = new CreateCourseCommentDto()
+            {
+                CourseId = courseId,
+                UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!),
+                Content = content
+            };
+
+            var result = await _mediator.Send(new CreateCourseCommentCommand(comment));
+
+            if (result.IsError) return NotFound();
+
+            return RedirectToAction("CourseDetails", new { courseId});
         }
     }
 }

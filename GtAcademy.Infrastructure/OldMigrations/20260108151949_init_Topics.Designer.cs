@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace GtAcademy.Infrastructure.Migrations
+namespace GtAcademy.Infrastructure.OldMigrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    [Migration("20260104092332_some-Changes")]
-    partial class someChanges
+    [Migration("20260108151949_init_Topics")]
+    partial class init_Topics
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,6 +82,63 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Episode", b =>
+                {
+                    b.Property<Guid>("EpisodeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsFree")
+                        .HasColumnType("bit");
+
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
+                    b.HasKey("EpisodeId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("Episode");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
+                {
+                    b.Property<int>("TopicId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicId"));
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.HasKey("TopicId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Topic");
+                });
+
             modelBuilder.Entity("GtAcademy.Domain.Orders.Order", b =>
                 {
                     b.Property<Guid>("OrderId")
@@ -112,10 +169,63 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("GtAcademy.Domain.Roles.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1,
+                            Description = "دسترسی کامل",
+                            Title = "ادمین"
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            Description = "دسترسی به بخش دوره ها",
+                            Title = "مدرس"
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            Description = "دسترسی به بخش محصولات",
+                            Title = "مدیر محصول"
+                        },
+                        new
+                        {
+                            RoleId = 4,
+                            Description = "دسترسی به بخش کاربران",
+                            Title = "مدیر کاربران"
+                        });
+                });
+
             modelBuilder.Entity("GtAcademy.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AvatarName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Biography")
                         .HasColumnType("nvarchar(max)");
@@ -180,6 +290,21 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.ToTable("Wallets");
                 });
 
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<int>("RolesRoleId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UsersUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RolesRoleId", "UsersUserId");
+
+                    b.HasIndex("UsersUserId");
+
+                    b.ToTable("RoleUser");
+                });
+
             modelBuilder.Entity("CourseOrder", b =>
                 {
                     b.HasOne("GtAcademy.Domain.Courses.Course", null)
@@ -193,6 +318,28 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasForeignKey("OrdersOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Episode", b =>
+                {
+                    b.HasOne("GtAcademy.Domain.Courses.Topic", "Topic")
+                        .WithMany("Episodes")
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Topic");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
+                {
+                    b.HasOne("GtAcademy.Domain.Courses.Course", "Course")
+                        .WithMany("Topics")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Orders.Order", b =>
@@ -215,6 +362,31 @@ namespace GtAcademy.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("GtAcademy.Domain.Roles.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GtAcademy.Domain.Users.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Course", b =>
+                {
+                    b.Navigation("Topics");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
+                {
+                    b.Navigation("Episodes");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Users.User", b =>
