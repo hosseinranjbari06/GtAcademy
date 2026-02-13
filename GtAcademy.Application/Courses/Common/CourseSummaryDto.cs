@@ -11,14 +11,16 @@ namespace GtAcademy.Application.Courses.Common
 
         public Guid TeacherId { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string BannerName { get; set; }
+        public string BannerName { get; set; } = string.Empty;
 
         public int Price { get; set; }
 
-        public UserSummaryDto TeacherSummary { get; set; }
+        public int EpisodeCount { get; set; }
 
-        public int EpisodesCount { get; set; }
+        public TimeSpan TotalTime { get; set; }
+
+        public UserSummaryDto TeacherSummary { get; set; } = new UserSummaryDto();
     }
 }

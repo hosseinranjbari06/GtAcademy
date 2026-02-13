@@ -22,6 +22,8 @@ namespace GtAcademy.Application.Courses.Common
 
         public int EpisodeCount { get; set; }
 
+        public TimeSpan TotalTime { get; set; }
+
         public List<TopicDto> Topics { get; set; } = [];
 
         public UserSummaryDto TeacherSummary { get; set; } = new UserSummaryDto();
