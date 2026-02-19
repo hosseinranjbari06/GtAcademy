@@ -1,0 +1,120 @@
+﻿@using GtAcademy.Application.Tools.PersianDateConverter
+@using GtAcademy.Application.Users.Common
+@using GtAcademy.Application.Users.Queries.GetUserProfileForEdit
+@model EditUserProfileDto
+@{
+    ViewData["Title"] = "ویرایش پروفایل";
+}
+
+<section class="page-header">
+    <div class="bg-item">
+        <div class="bg-img" data-background="assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">ویرایش پروفایل</h1>
+            <h4 class="sub-title">
+                <a class="home" href="/">خانه</a><span class="icon">/</span><a class="inner-page" href="#">ویرایش پروفایل</a>
+            </h4>
+        </div>
+    </div>
+</section>
+
+<section class="event-details pt-120 pb-120">
+    <div class="container">
+        <div class="row gy-xl-0 gy-5">
+            <div class="col-lg-4 col-md-12">
+                @{
+                    List<string> partialModel = new List<string>() { Model.UserName, Model.AvatarName };
+                }
+                <partial name="_ProfileSideBar" model="@partialModel"/>
+
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="event-details-content">
+                    <div class="checkout-left">
+                        <h3 class="form-header">پروفایل</h3>
+
+                        @if (ViewBag.IsSuccess == true)
+                        {
+                            <div class="alert alert-success">
+                                <span>تغییرات با موفقیت اعمال شد</span>
+                            </div>
+                        }
+
+                        <form asp-action="EditProfile" asp-controller="UserPanel" method="post" enctype="multipart/form-data">
+                            <input asp-for="@Model.UserId" type="hidden">
+                            <input asp-for="@Model.AvatarName" type="hidden">
+                            <div class="checkout-form-wrap">
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-item">
+                                            <h4 class="form-title">نام کاربری</h4>
+                                            <input asp-for="@Model.UserName" class="form-control" value="@Model.UserName">
+                                            <span class="text-danger" asp-validation-for="@Model.UserName"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-item name">
+                                            <h4 class="form-title">آواتار</h4>
+                                            <input name="avatarFile" class="form-control" type="file">
+                                            <span class="text-danger" asp-validation-for="@Model.AvatarName"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <div class="form-item">
+                                            <h4 class="form-title">تاریخ تولد</h4>
+                                            <input asp-for="@Model.BirthDate" class="form-control" value="@(Model.BirthDate?.ToShamsi())">
+                                            <span class="text-danger" asp-validation-for="@Model.BirthDate"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-item name">
+                                            <h4 class="form-title">شغل</h4>
+                                            <input asp-for="@Model.Job" class="form-control" value="@Model.Job" type="text">
+                                            <span class="text-danger" asp-validation-for="@Model.Job"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="form-item">
+                                            <h4 class="form-title">آدرس</h4>
+                                            <input asp-for="@Model.HomeAddress" class="form-control" value="@Model.HomeAddress">
+                                            <span class="text-danger" asp-validation-for="@Model.HomeAddress"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="form-item">
+                                            <h4 class="form-title">بیوگرافی</h4>
+                                            <textarea asp-for="@Model.Biography" class="form-control address" cols="30" rows="4">@Model.Biography</textarea>
+                                            <span class="text-danger" asp-validation-for="@Model.Biography"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <button type="submit" class="ed-primary-btn">ویرایش</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

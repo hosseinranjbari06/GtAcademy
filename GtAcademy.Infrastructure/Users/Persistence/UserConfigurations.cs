@@ -29,6 +29,9 @@ namespace GtAcademy.Infrastructure.Users.Persistence
             builder.Property(u => u.HomeAddress)
                 .HasMaxLength(500);
 
+            builder.Property(u => u.Biography)
+                .HasMaxLength(500);
+
             builder.Property(u => u.Job)
                 .HasMaxLength(50);
         }

@@ -47,5 +47,10 @@ namespace GtAcademy.Infrastructure.Common.Persistence
         {
             _db.Set<T>().Update(entity);
         }
+
+        public void UpdateRange(T entity)
+        {
+            _db.Set<T>().UpdateRange(entity);
+        }
     }
 }

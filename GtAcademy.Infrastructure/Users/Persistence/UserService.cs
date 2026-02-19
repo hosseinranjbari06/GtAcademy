@@ -32,6 +32,17 @@ namespace GtAcademy.Infrastructure.Users.Persistence
             return await _context.Users.AnyAsync(user => user.UserName == userName);
         }
 
+        public async Task<User?> GetUserById(Guid userId)
+        {
+            return await _context.Users
+                .Where(u => u.UserId == userId)
+                .Include(u => u.Orders)
+                .Include(u => u.Wallet)
+                .Include(u => u.Roles)
+                .Include(u => u.Comments)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<User?> GetUserByPhoneNumber(string phoneNumber)
         {
             return await _context.Users.FirstOrDefaultAsync(user => user.PhoneNumber == phoneNumber);

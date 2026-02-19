@@ -1,0 +1,46 @@
+﻿@model List<string>
+
+@{
+    Layout = null;
+}
+
+<div class="course-sidebar price-box event-sidebar">
+    <div class="team-item-3 bg-white wow fade-in-bottom" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fade-in-bottom;">
+        <div class="team-thumb-wrap">
+            <div class="team-thumb">
+                <img alt="team" src="assets/img/users/@Model[1]">
+            </div>
+        </div>
+        <div class="team-content">
+            <h3 class="title">
+                <a href="team-details.html">@Model[0]</a>
+            </h3>
+        </div>
+    </div>
+</div>
+<div class="sidebar-widget">
+    <h3 class="widget-title">داشبورد</h3>
+    <ul class="category-list">
+        <li>
+            <a href="/UserPanel"><i class="fa-sharp fa-solid fa-user"></i>پروفایل</a>
+        </li>
+        <li>
+            <a href="/Order"><i class="fa-sharp fa-solid fa-cart-shopping"></i>سبد خرید</a>
+        </li>
+        <li>
+            <a href="#"><i class="fa-sharp fa-solid fa-list"></i>فاکتور ها</a>
+        </li>
+        <li>
+            <a href="/EditProfile">
+                <i class="fa-sharp fa-solid fa-user-edit"></i>ویرایش پروفایل
+            </a>
+        </li>
+        <li>
+            <form asp-action="SignOutUser" asp-controller="Authentication" method="post">
+                <button type="submit">
+                    <i class="fa-sharp fa-solid fa-sign-out"></i>خروج از حساب
+                </button>
+            </form>
+        </li>
+    </ul>
+</div>

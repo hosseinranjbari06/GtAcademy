@@ -15,6 +15,8 @@ namespace GtAcademy.Application.Common.Interfaces
 
         void Update(T entity);
 
+        void UpdateRange(T entity);
+
         void Delete(T entity);
 
         Task<int> GetCountAsync();

@@ -7,10 +7,10 @@ namespace GtAcademy.Application.Tools.PersianDateConverter
 {
     public static class PersianDateConverter
     {
-        public static string ToShamsi(this DateTime date)
+        public static DateTime ToShamsi(this DateTime date)
         {
             PersianCalendar pc = new PersianCalendar();
-            return $"{pc.GetYear(date)}/{pc.GetMonth(date)}/{pc.GetDayOfMonth(date)}";
+            return new DateTime(pc.GetYear(date), pc.GetMonth(date), pc.GetDayOfMonth(date));
         }
     }
 }

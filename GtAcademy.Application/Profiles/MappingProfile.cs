@@ -2,6 +2,7 @@
 using GtAcademy.Application.Courses.Common;
 using GtAcademy.Application.Orders.Common;
 using GtAcademy.Application.Users.Common;
+using GtAcademy.Application.Users.Queries.GetUserProfile;
 using GtAcademy.Domain.Courses;
 using GtAcademy.Domain.Orders;
 using GtAcademy.Domain.Users;
@@ -18,6 +19,8 @@ namespace GtAcademy.Application.Profiles
             #region User
 
             CreateMap<User, UserSummaryDto>();
+            CreateMap<User, UserProfileDto>();
+            CreateMap<User, EditUserProfileDto>().ReverseMap();
 
             #endregion
 

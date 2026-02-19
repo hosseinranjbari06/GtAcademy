@@ -66,13 +66,11 @@
 					<div class="mid-header-right">
 						@if (User.Identity != null && User.Identity.IsAuthenticated)
 						{
-							<div class="header-right-icon d-xl-block d-lg-none">
-								<a href="/Favorites"><i class="fa-sharp fa-regular fa-heart"></i></a>
-								<span class="number">0</span>
-							</div>
 							<div class="header-right-icon shop-btn">
 								<a href="/Order"><i class="fa-regular fa-cart-shopping"></i></a>
-								<span class="number">0</span>
+							</div>
+							<div class="header-right-icon d-xl-block d-lg-none">
+								<a href="/UserPanel"><i class="fa-sharp fa-regular fa-user"></i></a>
 							</div>
 						}
 						else
