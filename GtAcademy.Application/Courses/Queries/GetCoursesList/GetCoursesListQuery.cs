@@ -7,7 +7,8 @@ using System.Text;
 namespace GtAcademy.Application.Courses.Queries.GetCoursesList
 {
     public record GetCoursesListQuery(
-                    string search = "",
+                    string search = "", 
+                    string categoryTitle = "",
                     int seperate = 6,
                     int pageId = 1) : IRequest<List<CourseSummaryDto>>;
 }

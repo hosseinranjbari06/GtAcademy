@@ -31,5 +31,7 @@ namespace GtAcademy.Application.Courses.Common
         public DateTime LastUpdateDate { get; set; }
 
         public List<CourseCommentDto> CourseComments { get; set; } = [];
+
+        public List<CourseCategoryDto> CourseCategories { get; set; } = new List<CourseCategoryDto>();
     }
 }

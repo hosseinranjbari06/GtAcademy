@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GtAcademy.Infrastructure.Migrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    [Migration("20260211112516_init_GtAcademyDb")]
+    [Migration("20260219145413_init_GtAcademyDb")]
     partial class init_GtAcademyDb
     {
         /// <inheritdoc />
@@ -24,6 +24,21 @@ namespace GtAcademy.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CourseCourseCategory", b =>
+                {
+                    b.Property<Guid>("CourseCategoriesCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CoursesCourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CourseCategoriesCategoryId", "CoursesCourseId");
+
+                    b.HasIndex("CoursesCourseId");
+
+                    b.ToTable("CourseCourseCategory");
+                });
 
             modelBuilder.Entity("CourseOrder", b =>
                 {
@@ -86,6 +101,21 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Courses.CourseCategory", b =>
+                {
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("CourseCategories");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Courses.CourseComment", b =>
@@ -265,7 +295,8 @@ namespace GtAcademy.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Biography")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
@@ -340,6 +371,21 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.HasIndex("UsersUserId");
 
                     b.ToTable("RoleUser");
+                });
+
+            modelBuilder.Entity("CourseCourseCategory", b =>
+                {
+                    b.HasOne("GtAcademy.Domain.Courses.CourseCategory", null)
+                        .WithMany()
+                        .HasForeignKey("CourseCategoriesCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GtAcademy.Domain.Courses.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesCourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CourseOrder", b =>

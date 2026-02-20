@@ -18,7 +18,7 @@ namespace GtAcademy.Application.Courses.Queries.GetCoursesList
 
         public async Task<List<CourseSummaryDto>> Handle(GetCoursesListQuery request, CancellationToken cancellationToken)
         {
-            return await _courseService.GetCoursesList(request.search, request.seperate, request.pageId);
+            return await _courseService.GetCoursesList(request.search, request.categoryTitle, request.seperate, request.pageId);
         }
     }
 }

@@ -61,6 +61,7 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
                 UserId = Guid.NewGuid(),
                 UserName = request.RegisterDto.UserName,
                 PhoneNumber = request.RegisterDto.PhoneNumber,
+                AvatarName = "default.jpg",
                 RegisterDate = DateTime.Now,
                 IsActive = false,
                 VerifyToken = _codeGenerator.GenerateFiveDigitCode()

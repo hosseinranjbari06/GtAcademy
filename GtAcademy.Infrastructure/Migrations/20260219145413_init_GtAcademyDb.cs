@@ -14,6 +14,18 @@ namespace GtAcademy.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "CourseCategories",
+                columns: table => new
+                {
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseCategories", x => x.CategoryId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Courses",
                 columns: table => new
                 {
@@ -61,13 +73,37 @@ namespace GtAcademy.Infrastructure.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     HomeAddress = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Job = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Biography = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     RegisterDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseCourseCategory",
+                columns: table => new
+                {
+                    CourseCategoriesCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CoursesCourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseCourseCategory", x => new { x.CourseCategoriesCategoryId, x.CoursesCourseId });
+                    table.ForeignKey(
+                        name: "FK_CourseCourseCategory_CourseCategories_CourseCategoriesCategoryId",
+                        column: x => x.CourseCategoriesCategoryId,
+                        principalTable: "CourseCategories",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CourseCourseCategory_Courses_CoursesCourseId",
+                        column: x => x.CoursesCourseId,
+                        principalTable: "Courses",
+                        principalColumn: "CourseId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -254,6 +290,11 @@ namespace GtAcademy.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CourseCourseCategory_CoursesCourseId",
+                table: "CourseCourseCategory",
+                column: "CoursesCourseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CourseOrder_OrdersOrderId",
                 table: "CourseOrder",
                 column: "OrdersOrderId");
@@ -292,6 +333,9 @@ namespace GtAcademy.Infrastructure.Migrations
                 name: "CourseComments");
 
             migrationBuilder.DropTable(
+                name: "CourseCourseCategory");
+
+            migrationBuilder.DropTable(
                 name: "CourseOrder");
 
             migrationBuilder.DropTable(
@@ -302,6 +346,9 @@ namespace GtAcademy.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Wallets");
+
+            migrationBuilder.DropTable(
+                name: "CourseCategories");
 
             migrationBuilder.DropTable(
                 name: "Orders");

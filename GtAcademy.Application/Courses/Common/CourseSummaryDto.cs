@@ -22,5 +22,7 @@ namespace GtAcademy.Application.Courses.Common
         public TimeSpan TotalTime { get; set; }
 
         public UserSummaryDto TeacherSummary { get; set; } = new UserSummaryDto();
+
+        public List<CourseCategoryDto> CourseCategories { get; set; } = new List<CourseCategoryDto>();
     }
 }

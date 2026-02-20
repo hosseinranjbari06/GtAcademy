@@ -32,5 +32,7 @@ namespace GtAcademy.Domain.Courses
         public List<Topic> Topics { get; set; } = [];
 
         public List<CourseComment> CourseComments { get; set; } = [];
+
+        public List<CourseCategory> CourseCategories { get; set; } = [];
     }
 }

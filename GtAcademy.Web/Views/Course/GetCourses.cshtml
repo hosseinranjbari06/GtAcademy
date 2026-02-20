@@ -36,12 +36,27 @@
     <section class="feature-course bg-white pt-120 pb-120">
         <div class="container">
             <div class="section-heading text-center">
-                <h4 class="sub-heading wow fade-in-bottom" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fade-in-bottom;">
-                    <span class="heading-icon"><i class="fa-sharp fa-solid fa-bolt"></i></span>دوره های کلاس بالا
-                </h4>
-                <h2 class="section-title wow fade-in-bottom" data-wow-delay="400ms" style="visibility: visible; animation-delay: 400ms; animation-name: fade-in-bottom;">
-                    دوره های برجسته را کاوش کنید
-                </h2>
+                @if (!string.IsNullOrEmpty(ViewBag.Search))
+                {
+                    <h2 class="section-title wow fade-in-bottom" data-wow-delay="400ms" style="visibility: visible; animation-delay: 400ms; animation-name: fade-in-bottom;">
+                        نتایج جست و جوی عبارت " @ViewBag.Search " :
+                    </h2>
+                }
+                else if (!string.IsNullOrEmpty(ViewBag.Category))
+                {
+                    <h2 class="section-title wow fade-in-bottom" data-wow-delay="400ms" style="visibility: visible; animation-delay: 400ms; animation-name: fade-in-bottom;">
+                        دوره های مربوط به دسته بندی " @ViewBag.Category " :
+                    </h2>
+                }
+                else
+                {
+                    <h4 class="sub-heading wow fade-in-bottom" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fade-in-bottom;">
+                        <span class="heading-icon"><i class="fa-sharp fa-solid fa-bolt"></i></span>دوره های کلاس بالا
+                    </h4>
+                    <h2 class="section-title wow fade-in-bottom" data-wow-delay="400ms" style="visibility: visible; animation-delay: 400ms; animation-name: fade-in-bottom;">
+                        دوره های برجسته را کاوش کنید
+                    </h2>
+                }
             </div>
             <div class="row gy-4 justify-content-center">
                 @foreach (var course in Model)
@@ -54,7 +69,10 @@
                                 </div>
                             </div>
                             <div class="course-content">
-                                <span class="offer">اقتصاد</span>
+                                @foreach (var category in course.CourseCategories)
+                                {
+                                    <span class="offer">@category.Title</span>
+                                }
                                 <h3 class="title">
                                     <a href="/coursedetails/@course.CourseId">@course.Title</a>
                                 </h3>
@@ -89,6 +107,18 @@
                         </div>
                     </div>
                 }
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="cart-section pt-130 pb-130">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2>نتیجه ای یافت نشد !</h2>
+                </div>
             </div>
         </div>
     </section>

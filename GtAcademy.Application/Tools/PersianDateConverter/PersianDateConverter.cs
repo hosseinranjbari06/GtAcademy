@@ -12,5 +12,10 @@ namespace GtAcademy.Application.Tools.PersianDateConverter
             PersianCalendar pc = new PersianCalendar();
             return new DateTime(pc.GetYear(date), pc.GetMonth(date), pc.GetDayOfMonth(date));
         }
+
+        public static string FixShamsiDate(this DateTime date)
+        {
+            return $"{date.Year}/{date.Month}/{date.Day}";
+        }
     }
 }

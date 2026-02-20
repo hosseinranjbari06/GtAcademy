@@ -1,4 +1,5 @@
-﻿@{
+﻿@using GtAcademy.Application.Courses.Common
+@{
 	ViewData["Title"] = "خانه";
 }
 
@@ -124,23 +125,10 @@
 			<h2 class="section-title wow fade-in-bottom" data-wow-delay="400ms">صنعت را در جایی که می خواهید یاد بگیرید انتخاب کنید</h2>
 		</div>
 		<div class="category-items wow fade-in-bottom" data-wow-delay="500ms">
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-1.png" /></span>مدیریت تجارت</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-2.png" /></span>هنر و طراحی</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-3.png" /></span>توسعه شخصی</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-4.png" /></span>سلامتی و تناسب اندام</a></div>
-		</div>
-		<div class="category-items wow fade-in-bottom" data-wow-delay="600ms">
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-5.png" /></span>بازاریابی</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-6.png" /></span>تجارت و امور مالی</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-7.png" /></span>علوم کامپیوتر</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-2.png" /></span>ویدئو و عکاسی</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-4.png" /></span>علم داده ها</a></div>
-		</div>
-		<div class="category-items wow fade-in-bottom" data-wow-delay="700ms">
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-1.png" /></span>آژانس راه اندازی آن</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-2.png" /></span>شرکت نرم افزاری</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-3.png" /></span>شرکت با تکنولوژی بالا</a></div>
-			<div class="category-item"><a href="course-details.html"><span><img alt="icon" src="assets/img/icon/category-4.png" /></span>استودیوی بازی سه بعدی</a></div>
+		@foreach (CourseCategoryDto categoryDto in ViewBag.CourseCategories)
+		{
+				<div class="col-xl-2 col-lg-3 col-md-3 category-item"><a href="/Courses?category=@categoryDto.Title"><span><img alt="icon" src="assets/img/icon/category-2.png" /></span>@categoryDto.Title</a></div>
+		}
 		</div>
 	</div>
 </section>
@@ -213,7 +201,10 @@
 									</div>
 								</div>
 								<div class="course-content">
-									<span class="offer">اقتصاد</span>
+									@foreach (var category in course.CourseCategories)
+									{
+										<span class="offer">@category.Title</span>
+									}
 									<h3 class="title">
 										<a href="/coursedetails/@course.CourseId">@course.Title</a>
 									</h3>
@@ -1363,7 +1354,7 @@
 					</div>
 					<p class="desc mb-20 wow fade-in-bottom" data-wow-delay="400ms">فن آوری های کیفیت از طریق روش های کاملاً آزمایش شده توانمندسازی. پس از تخصص عملکردی متقابل ، بهترین شیوه ها را فعال کرد.</p>
 					<div class="request-form-wrapper wow fade-in-bottom" data-wow-delay="500ms">
-						<form action="mail.php">
+						<form action="/Logout" method="post">
 							<div class="form-items">
 								<div class="form-item">
 									<input class="form-control" id="name" name="name" placeholder="نام دوره" type="text" />
@@ -1372,6 +1363,7 @@
 									<input class="form-control" id="email" name="email" placeholder="آدرس ایمیل" type="text" />
 								</div>
 							</div>
+							<button type="submit">sub</button>
 						</form>
 					</div>
 					<div class="request-btn wow fade-in-bottom" data-wow-delay="600ms"><button class="ed-primary-btn">هم اکنون مشترک شوید</button></div>

@@ -40,6 +40,13 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
             return studentsCount;
         }
 
+        public async Task<List<CourseCategoryDto>> GetCourseCategories()
+        {
+            return await _context.CourseCategories
+                .Select(category => _mapper.Map<CourseCategoryDto>(category))
+                .ToListAsync();
+        }
+
         public async Task<List<CourseCommentDto>> GetCourseCommentDtos(Guid courseId)
         {
             return await _context.CourseComments
@@ -49,13 +56,17 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 .ToListAsync();
         }
 
-        public async Task<List<CourseSummaryDto>> GetCoursesList(string search = "", int seperate = 6, int pageId = 1)
+        public async Task<List<CourseSummaryDto>> GetCoursesList(string search = "", string categoryTitle = "", int seperate = 6, int pageId = 1)
         {
-            IQueryable<Course> courses = _context.Courses;
+            IQueryable<Course> courses = _context.Courses.Include(course => course.CourseCategories);
 
             if (!string.IsNullOrEmpty(search))
                 courses = courses
                     .Where(course => course.Title.Contains(search) || course.Tags.Contains(search));
+
+            if (!string.IsNullOrEmpty(categoryTitle))
+                courses = courses
+                    .Where(course => course.CourseCategories.Any(category => category.Title == categoryTitle));
 
             if (seperate > 0 && pageId > 0)
                 courses = courses
@@ -90,6 +101,7 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
         {
             return await _context.Courses
                 .Where(course => course.CourseId == courseId)
+                .Include(course => course.CourseCategories)
                 .Include(course => course.Topics)
                 .ThenInclude(topic => topic.Episodes)
                 .FirstOrDefaultAsync();
@@ -99,6 +111,7 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
         {
             var courseDtos = await _context.Courses
                 .Include(course => course.Orders)
+                .Include(course => course.CourseCategories)
                 .OrderByDescending(course => course.Orders.Where(order => order.IsPaid).Count())
                 .Take(take)
                 .Select(course => _mapper.Map<CourseSummaryDto>(course))

@@ -1,0 +1,26 @@
+﻿@using GtAcademy.Application.Courses.Common
+@using GtAcademy.Application.Courses.Queries.GetCourseCategories
+@using MediatR
+@inject IMediator mediator
+
+@{
+    Layout = null;
+    List<CourseCategoryDto> courseCategories = await mediator.Send(new GetCourseCategoriesQuery());
+}
+
+<div class="category-area">
+	<div class="category-btn">
+		<i class="fa-sharp fa-solid fa-grid-2"></i>
+		<span>دسته بندی ها</span>
+		<ul class="category-sub-menu">
+			<li>
+				<ul>
+					@foreach (var category in courseCategories)
+					{
+						<li><a class="menu-item" href="/Courses?category=@category.Title">@category.Title</a></li>
+					}
+				</ul>
+			</li>
+		</ul>
+	</div>
+</div>

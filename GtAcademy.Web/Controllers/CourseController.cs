@@ -25,9 +25,13 @@ namespace GtAcademy.Web.Controllers
         }
 
         [Route("/Courses")]
-        public async Task<IActionResult> GetCourses(string search = "", int seperate = 6, int pageId = 1)
+        public async Task<IActionResult> GetCourses(string search = "", string category = "", int seperate = 6, int pageId = 1)
         {
-            var courses = await _mediator.Send(new GetCoursesListQuery(search, seperate, pageId));
+            var courses = await _mediator.Send(new GetCoursesListQuery(search, category, seperate, pageId));
+
+            ViewBag.Search = search;
+            ViewBag.Category = category;
+
             return View(courses);
         }
 

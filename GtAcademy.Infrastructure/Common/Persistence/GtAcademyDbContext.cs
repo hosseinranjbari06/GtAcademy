@@ -41,5 +41,7 @@ namespace GtAcademy.Infrastructure.Common.Persistence
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<CourseComment> CourseComments { get; set; }
+
+        public DbSet<CourseCategory> CourseCategories { get; set; }
     }
 }

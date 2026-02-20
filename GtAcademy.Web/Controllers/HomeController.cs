@@ -1,4 +1,5 @@
 ﻿using GtAcademy.Application.Courses.Queries.GetAllStudentsCount;
+using GtAcademy.Application.Courses.Queries.GetCourseCategories;
 using GtAcademy.Application.Courses.Queries.GetCoursesCount;
 using GtAcademy.Application.Courses.Queries.GetPopularCoursesList;
 using GtAcademy.Application.Users.Queries.GetUsersCount;
@@ -23,6 +24,7 @@ namespace GtAcademy.Web.Controllers
             ViewBag.UsersCount = await _mediator.Send(new GetUsersCountQuery());
             ViewBag.StudentsCount = await _mediator.Send(new GetAllStudentsCountQuery());
             ViewBag.PopularCourses = await _mediator.Send(new GetPopularCoursesListQuery());
+            ViewBag.CourseCategories = await _mediator.Send(new GetCourseCategoriesQuery());
 
             return View();
         }

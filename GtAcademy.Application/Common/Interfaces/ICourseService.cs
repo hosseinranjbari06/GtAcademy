@@ -8,7 +8,7 @@ namespace GtAcademy.Application.Common.Interfaces
 {
     public interface ICourseService
     {
-        Task<List<CourseSummaryDto>> GetCoursesList(string search = "", int seperate = 6, int pageId = 1);
+        Task<List<CourseSummaryDto>> GetCoursesList(string search = "", string categoryTitle = "", int seperate = 6, int pageId = 1);
 
         Task<List<CourseSummaryDto>> GetPopularCoursesList(int take);
 
@@ -21,5 +21,7 @@ namespace GtAcademy.Application.Common.Interfaces
         Task<int> GetCourseStudentsCount(Guid courseId);
 
         Task<int> GetAllStudentsCount();
+
+        Task<List<CourseCategoryDto>> GetCourseCategories();
     }
 }

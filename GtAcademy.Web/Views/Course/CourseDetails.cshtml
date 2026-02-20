@@ -55,8 +55,13 @@
 							<li>
 								<img alt="author" src="/assets/img/users/@Model.TeacherSummary.AvatarName"><span>مربی:</span>@Model.TeacherSummary.UserName
 							</li>
-							<li><i class="fa-solid fa-tags"></i>Not Impelimented</li>
-							<li><i class="fa-light fa-calendar"></i>@Model.LastUpdateDate.ToShamsi()</li>
+							<li><i class="fa-solid fa-tags"></i>
+								@foreach (var categoryDto in Model.CourseCategories)
+								{
+									@categoryDto.Title
+								}	
+							</li>
+							<li><i class="fa-light fa-calendar"></i>@Model.LastUpdateDate.ToShamsi().FixShamsiDate()</li>
 							<li class="review-wrap">
 								<ul>
 									<li><i class="fa-sharp fa-regular fa-star"></i></li>
