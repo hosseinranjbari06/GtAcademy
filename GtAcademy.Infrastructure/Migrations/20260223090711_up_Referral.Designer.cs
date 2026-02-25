@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GtAcademy.Infrastructure.Migrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    [Migration("20260219145413_init_GtAcademyDb")]
-    partial class init_GtAcademyDb
+    [Migration("20260223090711_up_Referral")]
+    partial class up_Referral
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.0")
+                .HasAnnotation("ProductVersion", "10.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -236,6 +236,55 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("GtAcademy.Domain.Referral.Referral", b =>
+                {
+                    b.Property<Guid>("ReferralId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ReferredId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ReferrerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ReferralId");
+
+                    b.HasIndex("ReferredId")
+                        .IsUnique();
+
+                    b.HasIndex("ReferrerId");
+
+                    b.ToTable("Referrals");
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Referral.ReferralOptions", b =>
+                {
+                    b.Property<int>("ReferralOptionsId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("RewardPercent")
+                        .HasMaxLength(100)
+                        .HasColumnType("real");
+
+                    b.HasKey("ReferralOptionsId");
+
+                    b.ToTable("ReferralOptions");
+
+                    b.HasData(
+                        new
+                        {
+                            ReferralOptionsId = 1,
+                            RewardPercent = 1f
+                        });
+                });
+
             modelBuilder.Entity("GtAcademy.Domain.Roles.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -319,6 +368,13 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("ReferralCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ReferralId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("RegisterDate")
                         .HasColumnType("datetime2");
@@ -455,6 +511,25 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("GtAcademy.Domain.Referral.Referral", b =>
+                {
+                    b.HasOne("GtAcademy.Domain.Users.User", "Referred")
+                        .WithOne("ReferralReceived")
+                        .HasForeignKey("GtAcademy.Domain.Referral.Referral", "ReferredId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GtAcademy.Domain.Users.User", "Referrer")
+                        .WithMany("ReferralsSent")
+                        .HasForeignKey("ReferrerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Referred");
+
+                    b.Navigation("Referrer");
+                });
+
             modelBuilder.Entity("GtAcademy.Domain.Wallets.Wallet", b =>
                 {
                     b.HasOne("GtAcademy.Domain.Users.User", "User")
@@ -498,6 +573,10 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("ReferralReceived");
+
+                    b.Navigation("ReferralsSent");
 
                     b.Navigation("Wallet")
                         .IsRequired();

@@ -1,6 +1,7 @@
 ﻿using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Domain.Courses;
 using GtAcademy.Domain.Orders;
+using GtAcademy.Domain.Referral;
 using GtAcademy.Domain.Roles;
 using GtAcademy.Domain.Users;
 using GtAcademy.Domain.Wallets;
@@ -39,6 +40,10 @@ namespace GtAcademy.Infrastructure.Common.Persistence
         public DbSet<Course> Courses { get; set; }
 
         public DbSet<Role> Roles { get; set; }
+
+        public DbSet<Referral> Referrals { get; set; }
+
+        public DbSet<ReferralOptions> ReferralOptions { get; set; }
 
         public DbSet<CourseComment> CourseComments { get; set; }
 

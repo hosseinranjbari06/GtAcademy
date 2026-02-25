@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using GtAcademy.Application.Courses.Common;
 using GtAcademy.Application.Orders.Common;
+using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo;
 using GtAcademy.Application.Users.Common;
 using GtAcademy.Application.Users.Queries.GetUserProfile;
 using GtAcademy.Domain.Courses;
 using GtAcademy.Domain.Orders;
+using GtAcademy.Domain.Referral;
 using GtAcademy.Domain.Users;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,12 @@ namespace GtAcademy.Application.Profiles
             CreateMap<User, UserSummaryDto>();
             CreateMap<User, UserProfileDto>();
             CreateMap<User, EditUserProfileDto>().ReverseMap();
+
+            #endregion
+
+            #region Referral
+
+            CreateMap<Referral, UsersReferredDto>();
 
             #endregion
 

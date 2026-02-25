@@ -20,20 +20,25 @@ namespace GtAcademy.Web.Controllers
             _mediator = mediator;
         }
 
-        [Route("Register")]
-        public IActionResult Register()
+        [Route("/Register/{referrerCode?}")]
+        public IActionResult Register(string? referrerCode)
         {
+            if (User.Identity != null && User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
+            ViewBag.ReferrerCode = referrerCode;
             return View();
         }
 
-        [HttpPost("Register")]
-        public async Task<IActionResult> Register(RegisterWithPhoneDto registerDto)
+        [HttpPost("/Register/{referrerCode?}")]
+        public async Task<IActionResult> Register(string? referrerCode, RegisterWithPhoneDto registerDto)
         {
             var result = await _mediator.Send(new RegisterWithPhoneCommand(registerDto));
 
             if (result.IsError)
             {
                 ModelState.AddModelError(result.FirstError.Code, result.FirstError.Description);
+                ViewBag.ReferrerCode = referrerCode;
                 return View(registerDto);
             }
 

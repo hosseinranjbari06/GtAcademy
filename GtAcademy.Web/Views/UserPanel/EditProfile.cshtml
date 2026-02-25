@@ -36,10 +36,8 @@
     <div class="container">
         <div class="row gy-xl-0 gy-5">
             <div class="col-lg-4 col-md-12">
-                @{
-                    List<string> partialModel = new List<string>() { Model.UserName, Model.AvatarName };
-                }
-                <partial name="_ProfileSideBar" model="@partialModel"/>
+
+                <partial name="_ProfileSideBar" />
 
             </div>
             <div class="col-lg-8 col-md-12">

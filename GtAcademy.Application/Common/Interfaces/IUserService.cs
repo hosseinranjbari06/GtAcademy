@@ -16,6 +16,10 @@ namespace GtAcademy.Application.Common.Interfaces
 
         Task<User?> GetUserByPhoneNumber(string phoneNumber);
 
+        Task<User?> GetUserWithReferralsInfo(Guid userId);
+
+        Task<User?> GetUserByReferralCode(string referralCode);
+
         Task<UserSummaryDto?> GetUserSummary(Guid userId);
     }
 }

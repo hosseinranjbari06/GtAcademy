@@ -242,6 +242,9 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
+
                     b.Property<Guid>("ReferredId")
                         .HasColumnType("uniqueidentifier");
 

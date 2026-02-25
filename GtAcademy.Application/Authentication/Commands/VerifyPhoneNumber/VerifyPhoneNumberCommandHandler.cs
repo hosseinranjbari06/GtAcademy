@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using GtAcademy.Application.Authentication.Common;
 using GtAcademy.Application.Common.Interfaces;
+using GtAcademy.Domain.Referral;
 using GtAcademy.Domain.Users;
 using MediatR;
 using System;
@@ -13,15 +14,21 @@ namespace GtAcademy.Application.Authentication.Commands.VerifyPhoneNumber
     {
         private readonly IUserService _userService;
 
+        private readonly IReferralService _referralService;
+
         private readonly IGenericService<User> _userGenericService;
+
+        private readonly IGenericService<Referral> _referralGenericService;
 
         private readonly IUnitOfWork _unitOfWork;
 
-        public VerifyPhoneNumberCommandHandler(IUserService userService, IGenericService<User> userGenericService, IUnitOfWork unitOfWork)
+        public VerifyPhoneNumberCommandHandler(IUserService userService, IGenericService<User> userGenericService, IUnitOfWork unitOfWork, IReferralService referralService, IGenericService<Referral> referralGenericService)
         {
             _userService = userService;
             _userGenericService = userGenericService;
             _unitOfWork = unitOfWork;
+            _referralService = referralService;
+            _referralGenericService = referralGenericService;
         }
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(VerifyPhoneNumberCommand request, CancellationToken cancellationToken)
@@ -36,6 +43,14 @@ namespace GtAcademy.Application.Authentication.Commands.VerifyPhoneNumber
             if (user.VerifyToken != request.VerifyDto.Code)
             {
                 return Error.Validation(code: "Code", description: "کد وارد شده نامعتبر است");
+            }
+
+            var referral = await _referralService.GetReferralByReferredId(user.UserId);
+
+            if (referral != null && !referral.IsVerified)
+            {
+                referral.IsVerified = true;
+                _referralGenericService.Update(referral);
             }
 
             user.IsActive = true;

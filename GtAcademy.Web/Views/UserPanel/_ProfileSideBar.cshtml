@@ -1,19 +1,23 @@
-﻿@model List<string>
+﻿@using GtAcademy.Application.Users.Queries.GetUserProfileSummary
+@using MediatR
+@using System.Security.Claims
+@inject IMediator mediator
 
 @{
     Layout = null;
+    var userDto = await mediator.Send(new GetUserProfileSummaryQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
 }
 
 <div class="course-sidebar price-box event-sidebar">
     <div class="team-item-3 bg-white wow fade-in-bottom" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fade-in-bottom;">
         <div class="team-thumb-wrap">
             <div class="team-thumb">
-                <img alt="team" src="assets/img/users/@Model[1]">
+                <img alt="team" src="assets/img/users/@userDto.Value.AvatarName">
             </div>
         </div>
         <div class="team-content">
             <h3 class="title">
-                <a href="team-details.html">@Model[0]</a>
+                <a href="team-details.html">@userDto.Value.UserName</a>
             </h3>
         </div>
     </div>
@@ -26,6 +30,9 @@
         </li>
         <li>
             <a href="/Order"><i class="fa-sharp fa-solid fa-cart-shopping"></i>سبد خرید</a>
+        </li>
+        <li>
+            <a href="/Networking"><i class="fa-sharp fa-solid fa-network-wired"></i>بازاریابی</a>
         </li>
         <li>
             <a href="#"><i class="fa-sharp fa-solid fa-list"></i>فاکتور ها</a>

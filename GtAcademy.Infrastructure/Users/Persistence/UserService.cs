@@ -48,10 +48,26 @@ namespace GtAcademy.Infrastructure.Users.Persistence
             return await _context.Users.FirstOrDefaultAsync(user => user.PhoneNumber == phoneNumber);
         }
 
+        public async Task<User?> GetUserByReferralCode(string referralCode)
+        {
+            return await _context.Users.FirstOrDefaultAsync(user => user.ReferralCode == referralCode);
+        }
+
         public async Task<UserSummaryDto?> GetUserSummary(Guid userId)
         {
             var user = await _context.Users.FirstOrDefaultAsync(user => user.UserId == userId);
             return _mapper.Map<UserSummaryDto>(user);
+        }
+
+        public async Task<User?> GetUserWithReferralsInfo(Guid userId)
+        {
+            return await _context.Users
+                .Where(user => user.UserId == userId)
+                .Include(user => user.ReferralReceived)
+                .ThenInclude(referral => referral.Referrer)
+                .Include(user => user.ReferralsSent)
+                .ThenInclude(referral => referral.Referred)
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GtAcademy.Application.Users.Commands.EditUserProfile;
+﻿using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo;
+using GtAcademy.Application.Users.Commands.EditUserProfile;
 using GtAcademy.Application.Users.Common;
 using GtAcademy.Application.Users.Queries.GetUserProfile;
 using GtAcademy.Application.Users.Queries.GetUserProfileForEdit;
@@ -64,7 +65,7 @@ namespace GtAcademy.Web.Controllers
             }
             else
             {
-                if(avatarFile != null)
+                if (avatarFile != null)
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\assets\\img\\users");
                     await FileManager.SaveFile(avatarFile, path, profileDto.AvatarName!);
@@ -74,6 +75,18 @@ namespace GtAcademy.Web.Controllers
             }
 
             return View(profileDto);
+        }
+
+        [Route("Networking")]
+        public async Task<IActionResult> Networking()
+        {
+            var result = await _mediator.Send(new GetUserReferralInfoQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
+
+            if (result.IsError) return NotFound();
+
+            ViewBag.ReferrerLink = Url.Action("Register", "Authentication", new { referrerCode = result.Value.ReferralCode }, "https", HttpContext.Request.Host.Value);
+
+            return View(result.Value);
         }
     }
 }

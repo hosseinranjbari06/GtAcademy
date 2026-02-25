@@ -7,5 +7,7 @@ namespace GtAcademy.Application.Tools.RandomCodeGenerator
     public interface ICodeGenerator
     {
         string GenerateFiveDigitCode();
+
+        string GenerateReferralCode(int length = 8);
     }
 }

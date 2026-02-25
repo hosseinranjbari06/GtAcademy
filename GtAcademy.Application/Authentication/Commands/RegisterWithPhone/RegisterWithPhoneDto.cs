@@ -9,5 +9,7 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
         public string UserName { get; set; }
 
         public string PhoneNumber { get; set; }
+
+        public string? ReferrerCode { get; set; }
     }
 }

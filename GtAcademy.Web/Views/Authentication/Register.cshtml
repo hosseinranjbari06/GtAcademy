@@ -17,6 +17,7 @@
                     </p>
                     <div class="request-form">
                         <form asp-action="Register" class="form-horizontal" id="ajax_contact" method="post">
+                            <input asp-for="@Model.ReferrerCode" type="hidden" value="@ViewBag.ReferrerCode">
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <div class="form-item">
@@ -25,7 +26,7 @@
                                             <i class="fa-regular fa-user"></i>
                                         </div>
                                     </div>
-                                    <div class="alert mt-20">
+                                    <div class="text-danger alert mt-20">
                                         <span asp-validation-for="@Model.UserName"></span>
                                     </div>
                                 </div>
@@ -38,8 +39,9 @@
                                             <i class="fa-regular fa-mobile-phone"></i>
                                         </div>
                                     </div>
-                                    <div class="alert mt-20">
+                                    <div class="text-danger alert mt-20">
                                         <span asp-validation-for="@Model.PhoneNumber"></span>
+                                        <span asp-validation-for="@Model.ReferrerCode"></span>
                                     </div>
                                 </div>
                             </div>

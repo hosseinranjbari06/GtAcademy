@@ -47,6 +47,18 @@ namespace GtAcademy.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ReferralOptions",
+                columns: table => new
+                {
+                    ReferralOptionsId = table.Column<int>(type: "int", nullable: false),
+                    RewardPercent = table.Column<float>(type: "real", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReferralOptions", x => x.ReferralOptionsId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -75,7 +87,9 @@ namespace GtAcademy.Infrastructure.Migrations
                     Job = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Biography = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RegisterDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RegisterDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReferralCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReferralId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -178,6 +192,32 @@ namespace GtAcademy.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Referrals",
+                columns: table => new
+                {
+                    ReferralId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReferrerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ReferredId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Referrals", x => x.ReferralId);
+                    table.ForeignKey(
+                        name: "FK_Referrals_Users_ReferredId",
+                        column: x => x.ReferredId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Referrals_Users_ReferrerId",
+                        column: x => x.ReferrerId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleUser",
                 columns: table => new
                 {
@@ -269,6 +309,11 @@ namespace GtAcademy.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "ReferralOptions",
+                columns: new[] { "ReferralOptionsId", "RewardPercent" },
+                values: new object[] { 1, 1f });
+
+            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "RoleId", "Description", "Title" },
                 values: new object[,]
@@ -310,6 +355,17 @@ namespace GtAcademy.Infrastructure.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Referrals_ReferredId",
+                table: "Referrals",
+                column: "ReferredId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Referrals_ReferrerId",
+                table: "Referrals",
+                column: "ReferrerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleUser_UsersUserId",
                 table: "RoleUser",
                 column: "UsersUserId");
@@ -340,6 +396,12 @@ namespace GtAcademy.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Episode");
+
+            migrationBuilder.DropTable(
+                name: "ReferralOptions");
+
+            migrationBuilder.DropTable(
+                name: "Referrals");
 
             migrationBuilder.DropTable(
                 name: "RoleUser");

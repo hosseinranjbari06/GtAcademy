@@ -1,6 +1,7 @@
 ﻿using GtAcademy.Domain.Common;
 using GtAcademy.Domain.Courses;
 using GtAcademy.Domain.Orders;
+using GtAcademy.Domain.Referral;
 using GtAcademy.Domain.Roles;
 using GtAcademy.Domain.Wallets;
 using System;
@@ -34,6 +35,14 @@ namespace GtAcademy.Domain.Users
         public DateTime? BirthDate { get; set; }
 
         public DateTime RegisterDate { get; set; }
+
+        public string ReferralCode { get; set; } = string.Empty;
+
+        public Guid? ReferralId { get; set; }
+
+        public Referral.Referral? ReferralReceived { get; set; }
+
+        public List<Referral.Referral> ReferralsSent { get; set; } = [];
 
         public Wallet Wallet { get; set; } = new Wallet();
 

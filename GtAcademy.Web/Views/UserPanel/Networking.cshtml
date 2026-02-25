@@ -1,0 +1,118 @@
+﻿@using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo
+@using GtAcademy.Application.Tools.PersianDateConverter
+@model UserReferralInfoDto
+@{
+    ViewData["Title"] = "بازاریابی";
+}
+
+<section class="page-header">
+    <div class="bg-item">
+        <div class="bg-img" data-background="assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">بازاریابی</h1>
+            <h4 class="sub-title">
+                <a class="home" href="/">خانه</a><span class="icon">/</span><a class="inner-page" href="#">بازاریابی</a>
+            </h4>
+        </div>
+    </div>
+</section>
+
+<section class="event-details pt-120 pb-120">
+    <div class="container">
+        <div class="row gy-xl-0 gy-5">
+            <div class="col-lg-4 col-md-12">
+
+                <partial name="_ProfileSideBar" />
+
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="event-details-content">
+                    <div class="checkout-left">
+                        <h3 class="form-header">بازاریابی</h3>
+
+                        <div class="checkout-form-wrap">
+                            <div class="form-group row">
+                                <div class="col-md-8">
+                                    <div class="form-item">
+                                        <h4 class="form-title">لینک دعوت</h4>
+
+                                        <div class="row">
+                                            <div class="col-md-9 col-sm-12"><input disabled class="form-control" id="link" name="link" type="url" value="@ViewBag.ReferrerLink"></div>
+                                            <div class="col-md-3 col-sm-4"><button class="ed-primary-btn" onclick="copyCode()">کپی</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (Model.ReferralsSent.Any())
+                        {
+                            <br />
+                            <hr />
+                            <br />
+                            <div class="form-item"><h5 class="form-title">کاربران دعوت شده توسط شما</h5></div>
+
+                            <div class="row gy-4 justify-content-center">
+                                @foreach (var refer in Model.ReferralsSent)
+                                {
+                                    <div class="col-xl-6 col-lg-6 col-md-6">
+                                        <div class="course-item wow fade-in-bottom" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fade-in-bottom;">
+                                            <div class="course-content">
+                                                <div class="course-author-box">
+                                                    <div class="course-author">
+                                                        <div class="author-img">
+                                                            <img alt="course" src="assets/img/users/@refer.Referred.AvatarName">
+                                                        </div>
+                                                        <div class="author-info">
+                                                            <h4 class="name">@refer.Referred.UserName</h4>
+                                                            <span>@refer.CreateDate.ToShamsi().FixShamsiDate()</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script>
+          function copyCode() {
+          // Get the text field
+          var copyText = document.getElementById("link");
+
+          // Select the text field
+          copyText.select();
+          copyText.setSelectionRange(0, 99999); // For mobile devices
+
+           // Copy the text inside the text field
+          navigator.clipboard.writeText(copyText.value);
+
+          // Alert the copied text
+          alert("Copied the text: " + copyText.value);
+        }
+    </script>
+}
