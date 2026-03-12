@@ -1,4 +1,8 @@
 ﻿using AutoMapper;
+using GtAcademy.Application.Admin.Users.Commands.CreateUserByAdmin;
+using GtAcademy.Application.Admin.Users.Commands.EditUserByAdmin;
+using GtAcademy.Application.Admin.Users.Queries.GetUserDetailsForAdmin;
+using GtAcademy.Application.Admin.Users.Queries.GetUsersListForAdmin;
 using GtAcademy.Application.Courses.Common;
 using GtAcademy.Application.Orders.Common;
 using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo;
@@ -23,6 +27,10 @@ namespace GtAcademy.Application.Profiles
             CreateMap<User, UserSummaryDto>();
             CreateMap<User, UserProfileDto>();
             CreateMap<User, EditUserProfileDto>().ReverseMap();
+            CreateMap<User, UserListItemDto>();
+            CreateMap<User, UserDetailsDto>();
+            CreateMap<User, EditUserDto>();
+            CreateMap<CreateUserDto, User>();
 
             #endregion
 

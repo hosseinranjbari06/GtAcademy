@@ -3,6 +3,7 @@ using GtAcademy.Application.Tools.RandomCodeGenerator;
 using GtAcademy.Infrastructure.Common.Persistence;
 using GtAcademy.Infrastructure.Courses.Persistence;
 using GtAcademy.Infrastructure.Orders.Persistence;
+using GtAcademy.Infrastructure.Permissions.Persistence;
 using GtAcademy.Infrastructure.Referrals.Persistence;
 using GtAcademy.Infrastructure.Roles.Persistence;
 using GtAcademy.Infrastructure.Tools.Persistence;
@@ -33,6 +34,7 @@ namespace GtAcademy.Infrastructure
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IReferralService, ReferralService>();
+            services.AddScoped<IPermissionService, PermissionService>();
 
             return services;
         }

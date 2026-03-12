@@ -1,4 +1,5 @@
-﻿using GtAcademy.Domain.Users;
+﻿using GtAcademy.Domain.Common;
+using GtAcademy.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Security;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace GtAcademy.Domain.Roles
 {
-    public class Role
+    public class Role : BaseDomain
     {
         public int RoleId { get; set; }
 

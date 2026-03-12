@@ -6,6 +6,5 @@ namespace GtAcademy.Application.Common.Interfaces
 {
     public interface IRoleService
     {
-        Task<bool> UserHasRole(Guid userId, int roleId);
     }
 }

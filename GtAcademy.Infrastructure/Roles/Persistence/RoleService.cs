@@ -15,14 +15,5 @@ namespace GtAcademy.Infrastructure.Roles.Persistence
         {
             _context = context;
         }
-
-        public async Task<bool> UserHasRole(Guid userId, int roleId)
-        {
-            var user = await _context.Users
-                .Where(user => user.UserId == userId)
-                .Include(user => user.Roles).FirstAsync();
-
-            return user.Roles.Any(role => role.RoleId == roleId);
-        }
     }
 }

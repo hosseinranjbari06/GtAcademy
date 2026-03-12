@@ -1,4 +1,5 @@
-﻿using GtAcademy.Application.Users.Common;
+﻿using GtAcademy.Application.Admin.Users.Queries.GetUsersListForAdmin;
+using GtAcademy.Application.Users.Common;
 using GtAcademy.Domain.Users;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,10 @@ namespace GtAcademy.Application.Common.Interfaces
 
         Task<bool> ExistByPhoneNumber(string phoneNumber);
 
+        Task<bool> ExistByEmail(string emailAddess); 
+
+        Task<bool> ExistByReferralCode(string referralCode);
+
         Task<User?> GetUserByPhoneNumber(string phoneNumber);
 
         Task<User?> GetUserWithReferralsInfo(Guid userId);
@@ -21,5 +26,15 @@ namespace GtAcademy.Application.Common.Interfaces
         Task<User?> GetUserByReferralCode(string referralCode);
 
         Task<UserSummaryDto?> GetUserSummary(Guid userId);
+
+        #region Admin
+
+        Task<List<UserListItemDto>> GetUsersListForAdmin(SearchUsersListDto searchDto);
+
+        Task<User?> GetUserForEditByAdmin(Guid userId);
+
+        Task<User?> GetUserByIdForAdmin(Guid userId);
+
+        #endregion
     }
 }

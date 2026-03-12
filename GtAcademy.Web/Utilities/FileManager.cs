@@ -44,5 +44,25 @@ namespace GtAcademy.Web.Utilities
         {
             return Path.GetRandomFileName() + Path.GetExtension(oldFileName);
         }
+
+        public static async Task<ErrorOr<bool>> DeleteFile(string path, string fileName)
+        {
+            try
+            {
+                string filePath = Path.Combine(path, fileName);
+
+                if (Directory.Exists(path))
+                {
+                    File.Delete(filePath);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return Error.Unexpected(description: ex.Message);
+            }
+
+            return false;
+        }
     }
 }

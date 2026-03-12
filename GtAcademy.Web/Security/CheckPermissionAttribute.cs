@@ -9,13 +9,16 @@ namespace GtAcademy.Web.Security
 {
     public class CheckPermissionAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
-        private IRoleService _roleService;
+        private IPermissionService _permissionService;
 
-        private readonly int _roleId = 0;
+        private readonly List<int> _roleIds = [];
 
-        public CheckPermissionAttribute(int roleId)
+        public CheckPermissionAttribute(string roleIds)
         {
-            _roleId = roleId;
+            foreach (string roleId in roleIds.Split(" "))
+            {
+                _roleIds.Add(Convert.ToInt32(roleId));
+            }
         }
 
         public async void OnAuthorization(AuthorizationFilterContext context)
@@ -23,10 +26,23 @@ namespace GtAcademy.Web.Security
             if (context.HttpContext.User.Identity != null &&
                 context.HttpContext.User.Identity.IsAuthenticated)
             {
-                _roleService = (IRoleService)context.HttpContext.RequestServices.GetService(typeof(IRoleService))!;
+                _permissionService = (IPermissionService)context.HttpContext.RequestServices.GetService(typeof(IPermissionService))!;
                 Guid userId = Guid.Parse(context.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-                if (!await _roleService.UserHasRole(userId, _roleId))
+                bool isVerified = false;
+
+                foreach (int id in _roleIds)
+                {                
+                    if (_permissionService.UserHasRole(userId, id).Result)
+                    {
+                        isVerified = true;
+                        break;
+                    }
+                }
+
+                //_permissionService.DisposeContext();
+
+                if (!isVerified)
                 {
                     context.Result = new RedirectResult("/NotFound");
                 }

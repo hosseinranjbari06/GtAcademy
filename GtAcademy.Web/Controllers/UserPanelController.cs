@@ -1,6 +1,7 @@
 ﻿using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo;
 using GtAcademy.Application.Users.Commands.EditUserProfile;
 using GtAcademy.Application.Users.Common;
+using GtAcademy.Application.Users.Queries.GetUserAvatarNameById;
 using GtAcademy.Application.Users.Queries.GetUserProfile;
 using GtAcademy.Application.Users.Queries.GetUserProfileForEdit;
 using GtAcademy.Web.Utilities;
@@ -44,6 +45,8 @@ namespace GtAcademy.Web.Controllers
         [HttpPost("EditProfile")]
         public async Task<IActionResult> EditProfile(EditUserProfileDto profileDto, IFormFile? avatarFile)
         {
+            string oldAvatarName = "";
+
             if (avatarFile != null)
             {
                 var fileValidation = FileManager.IsFileValid(avatarFile);
@@ -53,6 +56,9 @@ namespace GtAcademy.Web.Controllers
                     ModelState.AddModelError("AvatarName", fileValidation.FirstError.Description);
                     return View(profileDto);
                 }
+
+                var avatarResult = await _mediator.Send(new GetUserAvatarNameByIdQuery(profileDto.UserId));
+                if (!avatarResult.IsError) { oldAvatarName = avatarResult.Value; }
 
                 profileDto.AvatarName = FileManager.GenerateRandomFileName(avatarFile.FileName);
             }
@@ -68,6 +74,12 @@ namespace GtAcademy.Web.Controllers
                 if (avatarFile != null)
                 {
                     string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\assets\\img\\users");
+
+                    if (!string.IsNullOrEmpty(oldAvatarName) && oldAvatarName != "default.jpg")
+                    {
+                        await FileManager.DeleteFile(path, oldAvatarName);
+                    }
+
                     await FileManager.SaveFile(avatarFile, path, profileDto.AvatarName!);
                 }
 
