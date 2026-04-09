@@ -1,0 +1,186 @@
+﻿@using GtAcademy.Application.Tools.PersianDateConverter
+@model GtAcademy.Application.Admin.CourseComments.Queries.GetCourseCommentsListForAdmin.SearchCourseCommentsListDto
+
+@{
+    ViewData["Title"] = "کامنت ها";
+}
+
+<div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
+    <!-- Breadcrumb Start -->
+    <div class="breadcrumb mb-24">
+        <ul class="flex-align gap-4">
+            <li><a href="/Admin" class="text-gray-200 fw-normal text-15 hover-text-main-600">خانه</a></li>
+            <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-left"></i></span> </li>
+            <li><span class="text-main-600 fw-normal text-15">کامنت ها</span></li>
+        </ul>
+    </div>
+    <!-- Breadcrumb End -->
+</div>
+
+
+<div class="card mt-24">
+    <div class="card-body">
+        <form name="pageForm" id="pageForm" asp-action="Index" asp-controller="Comments" asp-area="Admin" class="search-input-form">
+            <input id="PageId" name="PageId" type="hidden" />
+            <input name="CourseId" value="@Model.CourseId" type="hidden" />
+
+            @{
+                var countItems = new List<SelectListItem>()
+                        {
+                        new SelectListItem(){Text = "تعداد نمایش",Value = ""},
+                        new SelectListItem(){Text = "2",Value = "2"},
+                        new SelectListItem(){Text = "10",Value = "10"},
+                        new SelectListItem(){Text = "20",Value = "20"},
+                        new SelectListItem(){Text = "50",Value = "50"},
+                        new SelectListItem(){Text = "100",Value = "100"},
+                        };
+                var countSelect = new SelectList(countItems, "Value", "Text", Model.Take);
+            }
+            <div class="search-input">
+                <select name="Take" asp-items="@countSelect" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
+                </select>
+            </div>
+            <div class="form-check mb-0 flex-shrink-0">
+                <input class="form-check-input flex-shrink-0 rounded-4" asp-for="AdminSubmited" type="checkbox">
+                <label class="form-check-label text-15 flex-grow-1" for="remember">تایید شده</label>
+            </div>
+
+            <div class="search-input">
+                <button type="submit" class="btn btn-main rounded-pill py-9 w-100">جستجو</button>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div class="card overflow-hidden">
+    <div class="card-body p-0 overflow-x-auto">
+        <div id="studentTable_wrapper" class="dt-container dt-empty-footer">
+            <div class="dt-layout-row"><div class="dt-layout-cell dt-start "></div><div class="dt-layout-cell dt-end "></div></div><div class="dt-layout-row dt-layout-table">
+                <div class="dt-layout-cell ">
+                    <table id="studentTable" class="table table-striped dataTable" style="width: 1285px;">
+                        <colgroup><col data-dt-column="0" style="width: 180px;"><col data-dt-column="1" style="width: 100px;"><col data-dt-column="2" style="width: 110px;"><col data-dt-column="3" style="width: 100px;"><col data-dt-column="4" style="width: 100px;"><col data-dt-column="5" style="width: 250px;"></colgroup>
+                        <thead>
+                            <tr role="row">
+                                <th class="h6 text-gray-300 dt-orderable-asc dt-orderable-desc" aria-label="دانش‌آموزان: Activate to sort" data-dt-column="1" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">کاربر</span></th>
+                                <th class="h6 text-gray-300 dt-type-numeric dt-orderable-asc dt-orderable-desc" data-dt-column="3" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">‌دوره</span></th>
+                                <th class="h6 text-gray-300 dt-type-numeric dt-orderable-asc dt-orderable-desc" data-dt-column="4" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">محتوا</span></th>
+                                <th class="h6 text-gray-300 dt-orderable-asc dt-orderable-desc" data-dt-column="5" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">تاریخ ایجاد</span></th>
+                                <th class="h6 text-gray-300 dt-orderable-asc dt-orderable-desc" data-dt-column="5" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">وضعیت</span></th>
+                                <th class="h6 text-gray-300 dt-orderable-none" data-dt-column="6" rowspan="1" colspan="1" aria-label="اقدامات"><span class="dt-column-title">اقدامات</span><span class="dt-column-order"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var comment in Model.Comments)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="flex-align gap-8">
+                                            <img src="/assets/img/users/@comment.User.AvatarName" alt="" class="w-40 h-40 rounded-circle">
+                                            <span class="h6 mb-0 fw-medium text-gray-300">@comment.User.UserName</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="/coursedetails/@comment.CourseId" class="h6 mb-0 fw-medium text-gray-300">@comment.CourseTitle</a>
+                                    </td>
+                                    <td>
+                                        <span class="h6 mb-0 fw-medium text-gray-300">@comment.Content</span>
+                                    </td>
+                                    <td>
+                                        <span class="h6 mb-0 fw-medium text-gray-300">@comment.CreateDate.ToShamsi().FixShamsiDate()</span>
+                                    </td>
+                                    <td>
+                                        @if (comment.AdminSubmited)
+                                        {
+                                            <span class="text-13 py-2 px-8 bg-success-50 text-success-600 d-inline-flex align-items-center gap-8 rounded-pill">
+                                                <span class="w-6 h-6 bg-success-600 rounded-circle flex-shrink-0"></span>
+                                                تایید شده
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-13 py-2 px-8 bg-danger-50 text-danger-600 d-inline-flex align-items-center gap-8 rounded-pill">
+                                                <span class="w-6 h-6 bg-danger-600 rounded-circle flex-shrink-0"></span>
+                                                تایید نشده
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-action="SubmitComment" asp-route-id="@comment.CommentId" class="bg-success-50 text-success-600 py-2 px-14 rounded-pill hover-bg-success-600 hover-text-white">تایید</a>
+                                        <a asp-action="Details" asp-route-id="@comment.CommentId" class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white">جزئیات</a>
+                                        <a asp-action="Delete" asp-route-id="@comment.CommentId" class="bg-danger-50 text-danger-600 py-2 px-14 rounded-pill hover-bg-danger-600 hover-text-white">حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div><div class="dt-layout-row"><div class="dt-layout-cell dt-start "></div><div class="dt-layout-cell dt-end "></div></div>
+        </div>
+    </div>
+    <div class="card-footer flex-between flex-wrap">
+        <ul class="pagination flex-align flex-wrap">
+
+            @if (Model.PagesCount < 9)
+            {
+                for (int i = 1; i < Model.PagesCount + 1; i++)
+                {
+                    <li class="page-item @((i == Model.PageId) ? "active" : "")">
+                        <a onclick="ChangePage(@i)" href="#" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@i</a>
+                    </li>
+                }
+            }
+            else
+            {
+                <li class="page-item @((1 == Model.PageId) ? "active" : "")">
+                    <a onclick="ChangePage(1)" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">1</a>
+                </li>
+                <li class="page-item @((2 == Model.PageId) ? "active" : "")">
+                    <a onclick="ChangePage(2)" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">2</a>
+                </li>
+                <li class="page-item @((3 == Model.PageId) ? "active" : "")">
+                    <a onclick="ChangePage(3)" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium" href="#">...</a>
+                </li>
+
+                @if (Model.PageId > 2 && Model.PageId < Model.PagesCount - 1)
+                {
+                    <li class="page-item">
+                        <a onclick="ChangePage(@(Model.PageId - 1))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(Model.PageId - 1)</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(Model.PageId)</a>
+                    </li>
+                    <li class="page-item">
+                        <a onclick="ChangePage(@(Model.PageId + 1))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(Model.PageId + 1)</a>
+                    </li>
+                }
+
+                <li class="page-item">
+                    <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium" href="#">...</a>
+                </li>
+                <li class="page-item @((Model.PagesCount - 2 == Model.PageId) ? "active" : "")">
+                    <a onclick="ChangePage(@(Model.PagesCount - 2))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(Model.PagesCount - 2)</a>
+                </li>
+                <li class="page-item @((Model.PagesCount - 1 == Model.PageId) ? "active" : "")">
+                    <a onclick="ChangePage(@(Model.PagesCount - 1))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(Model.PagesCount - 1)</a>
+                </li>
+                <li class="page-item @((Model.PagesCount - 2 == Model.PageId) ? "active" : "")">
+                    <a onclick="ChangePage(@(Model.PagesCount))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@Model.PagesCount</a>
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function ChangePage(pageid){
+            $("#PageId").val(pageid);
+            $("#pageForm").submit();
+        }
+    </script>
+}
