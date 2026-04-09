@@ -5,81 +5,87 @@
     ViewData["Title"] = "ویرایش کاربر";
 }
 
-<h1>ویرایش</h1>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UserId" />
-            <div class="form-group">
-                <label class="control-label">نام کاربری</label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
+<div class="card">
+    <div class="card-body">
+
+        <h1>ویرایش</h1>
+
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="UserId" />
+                    <div class="form-group">
+                        <label class="control-label">نام کاربری</label>
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">شماره موبایل</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">ایمیل</label>
+                        <input asp-for="EmailAddress" class="form-control" />
+                        <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">آدرس</label>
+                        <input asp-for="HomeAddress" class="form-control" />
+                        <span asp-validation-for="HomeAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">شغل</label>
+                        <input asp-for="Job" class="form-control" />
+                        <span asp-validation-for="Job" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">بیوگرافی</label>
+                        <input asp-for="Biography" class="form-control" />
+                        <span asp-validation-for="Biography" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">تاریخ تولد</label>
+                        <input asp-for="BirthDate" class="form-control" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">کد معرف</label>
+                        <input asp-for="ReferralCode" class="form-control" />
+                        <span asp-validation-for="ReferralCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="DeleteAvatar" /> حذف عکس پروفایل
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">نقش کاربر</label>
+                        <ul>
+                            @foreach (Role role in ViewBag.Roles)
+                            {
+                                <li>
+                                    <input name="RoleIds" type="checkbox" value="@role.RoleId" @((Model.RoleIds.Contains(role.RoleId)) ? "checked" : "") /> @role.Title
+                                </li>
+                            }
+                        </ul>
+                        <span asp-validation-for="RoleIds" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="ویرایش" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label class="control-label">شماره موبایل</label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">ایمیل</label>
-                <input asp-for="EmailAddress" class="form-control" />
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">آدرس</label>
-                <input asp-for="HomeAddress" class="form-control" />
-                <span asp-validation-for="HomeAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">شغل</label>
-                <input asp-for="Job" class="form-control" />
-                <span asp-validation-for="Job" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">بیوگرافی</label>
-                <input asp-for="Biography" class="form-control" />
-                <span asp-validation-for="Biography" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">تاریخ تولد</label>
-                <input asp-for="BirthDate" class="form-control" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">کد معرف</label>
-                <input asp-for="ReferralCode" class="form-control" />
-                <span asp-validation-for="ReferralCode" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DeleteAvatar" /> حذف عکس پروفایل
-                </label>
-            </div>
-            <div class="form-group">
-                <label class="control-label">نقش کاربر</label>
-                <ul>
-                    @foreach (Role role in ViewBag.Roles)
-                    {
-                        <li>
-                            <input name="RoleIds" type="checkbox" value="@role.RoleId" @((Model.RoleIds.Contains(role.RoleId)) ? "checked" : "") /> @role.Title
-                        </li>
-                    }
-                </ul>
-                <span asp-validation-for="RoleIds" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <input type="submit" value="ویرایش" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
+        <div>
+            <a asp-action="Index">بازگشت به لیست کاربران</a>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">بازگشت به لیست کاربران</a>
 </div>
 
 @section Scripts {

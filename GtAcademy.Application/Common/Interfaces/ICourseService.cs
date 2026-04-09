@@ -1,4 +1,5 @@
-﻿using GtAcademy.Application.Courses.Common;
+﻿using GtAcademy.Application.Admin.Courses.Queries.GetCoursesListForAdmin;
+using GtAcademy.Application.Courses.Common;
 using GtAcademy.Domain.Courses;
 using System;
 using System.Collections.Generic;
@@ -23,5 +24,13 @@ namespace GtAcademy.Application.Common.Interfaces
         Task<int> GetAllStudentsCount();
 
         Task<List<CourseCategoryDto>> GetCourseCategories();
+
+        #region Admin
+
+        Task<List<CourseListItemDto>> GetCoursesListForAdmin(SearchCourseListDto searchDto);
+
+        Task<Course?> GetCourseForEditById(Guid courseId);
+
+        #endregion
     }
 }

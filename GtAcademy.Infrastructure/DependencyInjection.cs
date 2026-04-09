@@ -35,6 +35,8 @@ namespace GtAcademy.Infrastructure
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IReferralService, ReferralService>();
             services.AddScoped<IPermissionService, PermissionService>();
+            services.AddScoped<ICourseCommentService, CourseCommentService>();
+            services.AddScoped<ICourseCategoryService, CourseCategoryService>();
 
             return services;
         }

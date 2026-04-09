@@ -6,97 +6,103 @@
     ViewData["Title"] = "جزئیات کاربر";
 }
 
-<h1>جزئیات کاربر</h1>
 
-<div>
-    <hr />
-    <img class="img-thumbnail" style="width:20%" src="/assets/img/users/@Model.AvatarName" />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            نام کاربری
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt class = "col-sm-2">
-            ایمیل
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EmailAddress)
-        </dd>
-        <dt class = "col-sm-2">
-            تلفن همراه
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            توکن فعالسازی حساب
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VerifyToken)
-        </dd>
-        <dt class = "col-sm-2">
-            فعال بودن حساب
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class = "col-sm-2">
-            آدرس
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.HomeAddress)
-        </dd>
-        <dt class = "col-sm-2">
-            شغل
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Job)
-        </dd>
-        <dt class = "col-sm-2">
-            بیوگرافی
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Biography)
-        </dd>
-        <dt class = "col-sm-2">
-            تاریخ تولد
-        </dt>
-        <dd class = "col-sm-10">
-            @if(Model.BirthDate != null)
-            {
-                @Model.BirthDate?.ToShamsi().FixShamsiDate()
-            }
-        </dd>
-        <dt class = "col-sm-2">
-            تاریخ ثبت نام
-        </dt>
-        <dd class = "col-sm-10">
-            @Model.RegisterDate.ToShamsi().FixShamsiDate()
-        </dd>
-        <dt class = "col-sm-2">
-            کد معرف
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReferralCode)
-        </dd>
-        <dt class="col-sm-2">
-            نقش کاربر
-        </dt>
-        <dd class="col-sm-10">
-            <ul>
-                @foreach (Role role in Model.Roles)
-                {
-                    <li>
-                        <input disabled type="checkbox" value="@role.RoleId" checked /> @role.Title
-                    </li>
-                }
-            </ul>
-        </dd>
-    </dl>
-</div>
-<div>
-    <a class="link-warning" asp-action="Edit" asp-route-id="@Model?.UserId">ویرایش</a> |
-    <a class="link-info" asp-action="Index">برگشت به لیست کاربران</a>
+
+<div class="card">
+    <div class="card-body">
+        <h1>جزئیات کاربر</h1>
+
+        <div>
+            <hr />
+            <img class="img-thumbnail" style="width:20%" src="/assets/img/users/@Model.AvatarName" />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    نام کاربری
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt class="col-sm-2">
+                    ایمیل
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.EmailAddress)
+                </dd>
+                <dt class="col-sm-2">
+                    تلفن همراه
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    توکن فعالسازی حساب
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.VerifyToken)
+                </dd>
+                <dt class="col-sm-2">
+                    فعال بودن حساب
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.IsActive)
+                </dd>
+                <dt class="col-sm-2">
+                    آدرس
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.HomeAddress)
+                </dd>
+                <dt class="col-sm-2">
+                    شغل
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Job)
+                </dd>
+                <dt class="col-sm-2">
+                    بیوگرافی
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Biography)
+                </dd>
+                <dt class="col-sm-2">
+                    تاریخ تولد
+                </dt>
+                <dd class="col-sm-10">
+                    @if (Model.BirthDate != null)
+                    {
+                        @Model.BirthDate?.ToShamsi().FixShamsiDate()
+                    }
+                </dd>
+                <dt class="col-sm-2">
+                    تاریخ ثبت نام
+                </dt>
+                <dd class="col-sm-10">
+                    @Model.RegisterDate.ToShamsi().FixShamsiDate()
+                </dd>
+                <dt class="col-sm-2">
+                    کد معرف
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ReferralCode)
+                </dd>
+                <dt class="col-sm-2">
+                    نقش کاربر
+                </dt>
+                <dd class="col-sm-10">
+                    <ul>
+                        @foreach (Role role in Model.Roles)
+                        {
+                            <li>
+                                <input disabled type="checkbox" value="@role.RoleId" checked /> @role.Title
+                            </li>
+                        }
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a class="link-warning" asp-action="Edit" asp-route-id="@Model?.UserId">ویرایش</a> |
+            <a class="link-info" asp-action="Index">برگشت به لیست کاربران</a>
+        </div>
+    </div>
 </div>

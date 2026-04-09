@@ -39,6 +39,10 @@ namespace GtAcademy.Infrastructure.Common.Persistence
 
         public DbSet<Course> Courses { get; set; }
 
+        public DbSet<Topic> Topics { get; set; }
+
+        public DbSet<Episode> Episodes  { get; set; }
+
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<Referral> Referrals { get; set; }

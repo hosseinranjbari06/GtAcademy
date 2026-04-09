@@ -1,4 +1,8 @@
 ﻿using AutoMapper;
+using GtAcademy.Application.Admin.CourseComments.Queries.GetCourseCommentDetailsForAdmin;
+using GtAcademy.Application.Admin.Courses.Commands.CreateCourseByAdmin;
+using GtAcademy.Application.Admin.Courses.Commands.EditCourseByAdmin;
+using GtAcademy.Application.Admin.Courses.Queries.GetCoursesListForAdmin;
 using GtAcademy.Application.Admin.Users.Commands.CreateUserByAdmin;
 using GtAcademy.Application.Admin.Users.Commands.EditUserByAdmin;
 using GtAcademy.Application.Admin.Users.Queries.GetUserDetailsForAdmin;
@@ -48,13 +52,19 @@ namespace GtAcademy.Application.Profiles
 
             CreateMap<Course, CourseDetailsDto>();
 
+            CreateMap<Course, CourseListItemDto>();
+
+            CreateMap<EditCourseDto, Course>().ReverseMap();
+
             CreateMap<Topic, TopicDto>();
 
             CreateMap<Episode, EpisodeDto>();
 
             CreateMap<CourseComment, CourseCommentDto>();
 
-            CreateMap<CourseCategory, CourseCategoryDto>();
+            CreateMap<CourseComment, CourseCommentDetailsDto>();
+
+            CreateMap<CourseCategory, CourseCategoryDto>().ReverseMap();
 
             #endregion
 
