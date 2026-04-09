@@ -1,0 +1,111 @@
+﻿@using GtAcademy.Application.Courses.Common
+@using GtAcademy.Application.Users.Common
+@model GtAcademy.Application.Admin.Courses.Commands.EditCourseByAdmin.EditCourseDto
+@{
+    ViewData["Title"] = "ویرایش دوره";
+}
+
+
+<div class="card">
+    <div class="card-body">
+        <h4>ویرایش دوره</h4>
+        <hr />
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <input type="hidden" asp-for="@Model.CourseId"/>
+            <input type="hidden" asp-for="@Model.BannerName"/>
+            <div class="row">
+
+                <div class="col-md-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">عنوان دوره</label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">توضیحات دوره</label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">تگ ها</label>
+                        <input asp-for="Tags" class="form-control" />
+                        <span asp-validation-for="Tags" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">قیمت بر اساس تومان</label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">بنر دوره</label>
+                        <input name="bannerFile" type="file" class="form-control" />
+                        <span asp-validation-for="BannerName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="ویرایش" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <ul>
+                        <label class="control-label">مدرس</label>
+
+                        @foreach (UserSummaryDto teacher in ViewBag.Teachers)
+                        {
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-check">
+                                            <input name="TeacherId" @((Model.TeacherId == teacher.UserId) ? "checked" : "") value="@teacher.UserId" class="form-radio border-gray-200 rounded-4" type="radio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="flex-align gap-8">
+                                            <img src="/assets/img/users/@teacher.AvatarName" alt="" class="w-40 h-40 rounded-circle">
+                                            <span class="h6 mb-0 fw-medium text-gray-300">@teacher.UserName</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        <span asp-validation-for="TeacherId" class="text-danger"></span>
+                    </ul>
+                    <ul>
+                        <label class="control-label">دسته بندی</label>
+                        @foreach (CourseCategoryDto category in ViewBag.Categories)
+                        {
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-check">
+                                            <input name="CategoryId" @((Model.CategoryId == category.CategoryId) ? "checked" : "") value="@category.CategoryId" class="form-radio border-gray-200 rounded-4" type="radio">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="flex-align gap-8">
+                                            <span class="h6 mb-0 fw-medium text-gray-300">@category.Title</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </ul>
+                </div>
+
+            </div>
+        </form>
+        <div>
+            <a asp-action="Index">بازگشت به لیست دوره ها</a>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

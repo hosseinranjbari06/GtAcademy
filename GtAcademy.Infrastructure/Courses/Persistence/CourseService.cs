@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
+using GtAcademy.Application.Admin.Courses.Queries.GetCoursesListForAdmin;
 using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Application.Courses.Common;
-using GtAcademy.Application.Users.Common;
 using GtAcademy.Domain.Courses;
 using GtAcademy.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GtAcademy.Infrastructure.Courses.Persistence
 {
@@ -49,11 +46,11 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
 
         public async Task<List<CourseCommentDto>> GetCourseCommentDtos(Guid courseId)
         {
-            return await _context.CourseComments
-                .Where(cc => cc.CourseId == courseId)
-                .Include(cc => cc.User)
-                .Select(cc => _mapper.Map<CourseCommentDto>(cc))
-                .ToListAsync();
+            var course = await _context.Courses
+                .Where(course => course.CourseId == courseId)
+                .Include(course => course.CourseComments).FirstAsync();
+
+            return course.CourseComments.Where(comment => comment.AdminSubmited).Select(_mapper.Map<CourseCommentDto>).ToList();
         }
 
         public async Task<List<CourseSummaryDto>> GetCoursesList(string search = "", string categoryTitle = "", int seperate = 6, int pageId = 1)
@@ -102,8 +99,10 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
             return await _context.Courses
                 .Where(course => course.CourseId == courseId)
                 .Include(course => course.CourseCategories)
-                .Include(course => course.Topics)
-                .ThenInclude(topic => topic.Episodes)
+                .Include(course => course.CourseComments)
+                .ThenInclude(comment => comment.User)
+                //.Include(course => course.Topics)
+                //.ThenInclude(topic => topic.Episodes)
                 .FirstOrDefaultAsync();
         }
 
@@ -129,5 +128,56 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
         {
             return await _context.Courses.AnyAsync(course => course.CourseId == courseId);
         }
+
+        #region Admin
+
+        public async Task<List<CourseListItemDto>> GetCoursesListForAdmin(SearchCourseListDto searchDto)
+        {
+            IQueryable<Course> courses = _context.Courses;
+
+            if (!string.IsNullOrEmpty(searchDto.Title))
+            {
+                courses = courses.Where(course => course.Title.Contains(searchDto.Title));
+            }
+            if (!string.IsNullOrEmpty(searchDto.Tags))
+            {
+                courses = courses.Where(course => course.Tags.Contains(searchDto.Tags));
+            }
+
+            switch (searchDto.OrderBy)
+            {
+                case "Title":
+                    courses = courses.OrderBy(course => course.Title);
+                    break;
+                case "Price":
+                    courses = courses.OrderByDescending(course => course.Price);
+                    break;
+                case "TotalTime":
+                    courses = courses.OrderByDescending(course => course.TotalTime);
+                    break;
+                case "LastUpdateDate":
+                    courses = courses.OrderByDescending(course => course.LastUpdateDate);
+                    break;
+                default:
+                    courses = courses.OrderByDescending(course => course.LastUpdateDate);
+                    break;
+            }
+
+            courses = courses.Skip((searchDto.PageId - 1) * searchDto.Take).Take(searchDto.Take);
+
+            return await courses.Select(course => _mapper.Map<CourseListItemDto>(course)).ToListAsync();
+        }
+
+        public async Task<Course?> GetCourseForEditById(Guid courseId)
+        {
+            return await _context.Courses
+                .Include(course => course.CourseCategories)
+                .Include(course => course.CourseComments)
+                //.Include(course => course.Topics)
+                .Include(course => course.Orders)
+                .FirstOrDefaultAsync(course => course.CourseId == courseId);
+        }
+
+        #endregion
     }
 }

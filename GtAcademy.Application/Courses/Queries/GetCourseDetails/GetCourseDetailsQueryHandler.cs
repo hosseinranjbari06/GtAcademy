@@ -35,12 +35,12 @@ namespace GtAcademy.Application.Courses.Queries.GetCourseDetails
 
             var courseDto = _mapper.Map<Course, CourseDetailsDto>(course);
             var userSummary = await _userService.GetUserSummary(course.TeacherId);
+            courseDto.CourseComments = courseDto.CourseComments.OrderByDescending(comment => comment.CreateDate).ToList();
 
             if (userSummary == null)
                 return Error.NotFound();
 
             courseDto.TeacherSummary = userSummary;
-            courseDto.CourseComments = await _courseService.GetCourseCommentDtos(course.CourseId);
             courseDto.Topics.ForEach(topic => { courseDto.EpisodeCount += topic.Episodes.Count; });
 
             return courseDto;

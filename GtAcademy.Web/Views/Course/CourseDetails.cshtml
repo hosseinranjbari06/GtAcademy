@@ -4,271 +4,280 @@
 @model CourseDetailsDto
 
 @{
-	ViewData["Title"] = Model.Title;
+    ViewData["Title"] = Model.Title;
 }
 
 <section class="page-header">
-	<div class="bg-item">
-		<div class="bg-img" data-background="/assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;/assets/img/bg-img/page-header-bg.png&quot;);"></div>
-		<div class="overlay"></div>
-		<div class="shapes">
-			<div class="shape shape-1">
-				<img alt="shape" src="/assets/img/shapes/page-header-shape-1.png">
-			</div>
-			<div class="shape shape-2">
-				<img alt="shape" src="/assets/img/shapes/page-header-shape-2.png">
-			</div>
-			<div class="shape shape-3">
-				<img alt="shape" src="/assets/img/shapes/page-header-shape-3.png">
-			</div>
-		</div>
-	</div>
-	<div class="container">
-		<div class="page-header-content">
-			<h1 class="title">جزئیات دوره</h1>
-			<h4 class="sub-title">
-				<a class="home" href="/">خانه</a><span class="icon">/</span><a class="inner-page" href="#">جزئیات دوره</a>
-			</h4>
-		</div>
-	</div>
+    <div class="bg-item">
+        <div class="bg-img" data-background="/assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;/assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">جزئیات دوره</h1>
+            <h4 class="sub-title">
+                <a class="home" href="/">خانه</a><span class="icon">/</span><a class="inner-page" href="#">جزئیات دوره</a>
+            </h4>
+        </div>
+    </div>
 </section>
 
 <section class="course-details pt-120 pb-120">
-	<div class="container">
-		<div class="row">
-			<div class="col-xl-9 col-lg-12">
-				<div class="course-details-content">
-					<div class="course-details-img">
-						<img alt="course" src="/assets/img/images/@Model.BannerName">
-					</div>
-					<div class="details-inner">
-						<ul class="details-meta">
-							@foreach (string tag in Model.Tags.Split(" "))
-							{
-								<li>@tag</li>
-							}
-						</ul>
-						<h2 class="title">
-							@Model.Title
-						</h2>
-						<ul class="course-details-list">
-							<li>
-								<img alt="author" src="/assets/img/users/@Model.TeacherSummary.AvatarName"><span>مربی:</span>@Model.TeacherSummary.UserName
-							</li>
-							<li><i class="fa-solid fa-tags"></i>
-								@foreach (var categoryDto in Model.CourseCategories)
-								{
-									@categoryDto.Title
-								}	
-							</li>
-							<li><i class="fa-light fa-calendar"></i>@Model.LastUpdateDate.ToShamsi().FixShamsiDate()</li>
-							<li class="review-wrap">
-								<ul>
-									<li><i class="fa-sharp fa-regular fa-star"></i></li>
-									<li><i class="fa-sharp fa-regular fa-star"></i></li>
-									<li><i class="fa-sharp fa-regular fa-star"></i></li>
-									<li><i class="fa-sharp fa-regular fa-star"></i></li>
-									<li><i class="fa-sharp fa-regular fa-star"></i></li>
-								</ul>
-								(4.88)
-							</li>
-						</ul>
-					</div>
-					<div class="course-details-tab">
-						<ul class="nav nav-tabs" id="myTab" role="tablist">
-							<li class="nav-item" role="presentation">
-								<button aria-controls="home" aria-selected="true" class="nav-link active" data-bs-target="#home" data-bs-toggle="tab" id="home-tab" role="tab" type="button">
-									<i class="fa-sharp fa-regular fa-bookmark"></i>نمای کلی
-								</button>
-							</li>
-							<li class="nav-item" role="presentation">
-								<button aria-controls="profile" aria-selected="false" class="nav-link" data-bs-target="#profile" data-bs-toggle="tab" id="profile-tab" role="tab" type="button" tabindex="-1">
-									<i class="fa-regular fa-book"></i>برنامه درسی
-								</button>
-							</li>
-							<li class="nav-item" role="presentation">
-								<button aria-controls="contact" aria-selected="false" class="nav-link" data-bs-target="#contact" data-bs-toggle="tab" id="contact-tab" role="tab" type="button" tabindex="-1">
-									<i class="fa-regular fa-user"></i>مربی
-								</button>
-							</li>
-							<li class="nav-item" role="presentation">
-								<button aria-controls="contact-2" aria-selected="false" class="nav-link" data-bs-target="#contact-2" data-bs-toggle="tab" id="contact-tab-2" role="tab" type="button" tabindex="-1">
-									<i class="fa-regular fa-star"></i>نظرات
-								</button>
-							</li>
-						</ul>
-						<div class="tab-content" id="myTabContent">
-							<div aria-labelledby="home-tab" class="tab-pane fade show active" id="home" role="tabpanel">
-								<div class="tab-overview">
-									@Model.Description
-								</div>
-							</div>
-							<div aria-labelledby="profile-tab" class="tab-pane fade" id="profile" role="tabpanel">
-								<div class="curriculam-area">
-									<div class="accordion" id="accordionExample">
-										@{
-											int i = 1;
-										}
-										@foreach(var topic in Model.Topics)
-										{
-											<div class="accordion-item">
-												<h2 class="accordion-header" id="heading@(i)">
-													<button aria-controls="collapse@(i)" aria-expanded="true" class="accordion-button" data-bs-target="#collapse@(i)" data-bs-toggle="collapse" type="button">
-														@topic.Title
-													</button>
-												</h2>
-												<div aria-labelledby="heading@(i)" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapse@(i)">
-													<div class="accordion-body">
-														<ul class="curri-list">
-															
-															@foreach(var episode in topic.Episodes)
-															{
-																<li>
-																	<span>
-																		<i class="fa-regular fa-video"></i>
-																		@episode.Title
-																	</span>
-																	<span>@episode.Time<i class="fa-regular @((episode.IsFree) ? "fa-unlock" : "fa-lock")"></i>@if(episode.IsFree){<a href="/DownloadEpisodeFile/@episode.EpisodeId"><i class="fa-regular fa-download"></i></a>}</span>
-																	
-																</li>
-															}
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 col-lg-12">
+                <div class="course-details-content">
+                    <div class="course-details-img">
+                        <img alt="course" src="/assets/img/courses/@Model.BannerName">
+                    </div>
+                    <div class="details-inner">
+                        <ul class="details-meta">
+                            @foreach (string tag in Model.Tags.Split(" "))
+                            {
+                                <li>@tag</li>
+                            }
+                        </ul>
+                        <h2 class="title">
+                            @Model.Title
+                        </h2>
+                        <ul class="course-details-list">
+                            <li>
+                                <img alt="author" src="/assets/img/users/@Model.TeacherSummary.AvatarName"><span>مربی:</span>@Model.TeacherSummary.UserName
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-tags"></i>
+                                @foreach (var categoryDto in Model.CourseCategories)
+                                {
+                                    @categoryDto.Title
+                                }
+                            </li>
+                            <li><i class="fa-light fa-calendar"></i>@Model.LastUpdateDate.ToShamsi().FixShamsiDate()</li>
+                            <li class="review-wrap">
+                                <ul>
+                                    <li><i class="fa-sharp fa-regular fa-star"></i></li>
+                                    <li><i class="fa-sharp fa-regular fa-star"></i></li>
+                                    <li><i class="fa-sharp fa-regular fa-star"></i></li>
+                                    <li><i class="fa-sharp fa-regular fa-star"></i></li>
+                                    <li><i class="fa-sharp fa-regular fa-star"></i></li>
+                                </ul>
+                                (4.88)
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="course-details-tab">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button aria-controls="home" aria-selected="true" class="nav-link active" data-bs-target="#home" data-bs-toggle="tab" id="home-tab" role="tab" type="button">
+                                    <i class="fa-sharp fa-regular fa-bookmark"></i>نمای کلی
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button aria-controls="profile" aria-selected="false" class="nav-link" data-bs-target="#profile" data-bs-toggle="tab" id="profile-tab" role="tab" type="button" tabindex="-1">
+                                    <i class="fa-regular fa-book"></i>برنامه درسی
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button aria-controls="contact" aria-selected="false" class="nav-link" data-bs-target="#contact" data-bs-toggle="tab" id="contact-tab" role="tab" type="button" tabindex="-1">
+                                    <i class="fa-regular fa-user"></i>مربی
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button aria-controls="contact-2" aria-selected="false" class="nav-link" data-bs-target="#contact-2" data-bs-toggle="tab" id="contact-tab-2" role="tab" type="button" tabindex="-1">
+                                    <i class="fa-regular fa-star"></i>نظرات
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div aria-labelledby="home-tab" class="tab-pane fade show active" id="home" role="tabpanel">
+                                <div class="tab-overview">
+                                    @Model.Description
+                                </div>
+                            </div>
+                            <div aria-labelledby="profile-tab" class="tab-pane fade" id="profile" role="tabpanel">
+                                <div class="curriculam-area">
+                                    <div class="accordion" id="accordionExample">
+                                        @{
+                                            int i = 1;
+                                        }
+                                        @foreach (var topic in Model.Topics)
+                                        {
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="heading@(i)">
+                                                    <button aria-controls="collapse@(i)" aria-expanded="true" class="accordion-button" data-bs-target="#collapse@(i)" data-bs-toggle="collapse" type="button">
+                                                        @topic.Title
+                                                    </button>
+                                                </h2>
+                                                <div aria-labelledby="heading@(i)" class="accordion-collapse collapse" data-bs-parent="#accordionExample" id="collapse@(i)">
+                                                    <div class="accordion-body">
+                                                        <ul class="curri-list">
 
-														</ul>
-													</div>
-												</div>
-											</div>
-											{
-												i += 1;
-											}
-										}
+                                                            @foreach (var episode in topic.Episodes)
+                                                            {
+                                                                <li>
+                                                                    <span>
+                                                                        <i class="fa-regular fa-video"></i>
+                                                                        @episode.Title
+                                                                    </span>
+                                                                    <span>@episode.Time<i class="fa-regular @((episode.IsFree) ? "fa-unlock" : "fa-lock")"></i>@if(episode.IsFree){
+                                                                    <a href="/DownloadEpisodeFile/@episode.EpisodeId"><i class="fa-regular fa-download"></i></a>
+                                                                }
+    </span>
 
-									</div>
-								</div>
-							</div>
-							<div aria-labelledby="contact-tab" class="tab-pane fade" id="contact" role="tabpanel">
-								<div class="row team-wrap-2 gy-lg-0 gy-4 justify-content-center">
-									<div class="col-lg-4 col-md-6">
-										<div class="team-item-3 team-item-5">
-											<div class="team-thumb">
-												<div class="shape">
-													<img alt="team" src="/assets/img/users/@Model.TeacherSummary.AvatarName">
-												</div>
-												@* <div class="team-men">
+                                                            </li>
+                                                        }
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {
+                                            i += 1;
+                                        }
+                                                                                }
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div aria-labelledby="contact-tab" class="tab-pane fade" id="contact" role="tabpanel">
+                                <div class="row team-wrap-2 gy-lg-0 gy-4 justify-content-center">
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="team-item-3 team-item-5">
+                                            <div class="team-thumb">
+                                                <div class="shape">
+                                                    <img alt="team" src="/assets/img/users/@Model.TeacherSummary.AvatarName">
+                                                </div>
+                                                @* <div class="team-men">
 													<img alt="team" src="/assets/img/users/@Model.TeacherSummary.AvatarName">
 												</div> *@
-											</div>
-											<div class="team-content">
-												<h3 class="title">
-													<a href="team-details.html">@Model.TeacherSummary.UserName</a>
-												</h3>
-												<span>@Model.TeacherSummary.Biography</span>
-												<ul class="social-list">
-													<li>
-														<a href="#"><i class="fab fa-facebook-f"></i></a>
-													</li>
-													<li>
-														<a href="#"><i class="fab fa-instagram"></i></a>
-													</li>
-													<li>
-														<a href="#"><i class="fab fa-behance"></i></a>
-													</li>
-													<li>
-														<a href="#"><i class="fab fa-pinterest-p"></i></a>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div aria-labelledby="contact-tab-2" class="tab-pane fade" id="contact-2" role="tabpanel">
-								<div class="reviewr-wrap">
-									@if(User.Identity?.IsAuthenticated == true)
-									{
-										<div class="blog-contact-form">
-											<h2 class="title">نظر خود را وارد کنید</h2>
-											<div class="request-form">
-												<form asp-action="AddComment" asp-controller="Course" class="form-horizontal" method="post">
-													<input type="hidden" name="courseId" value="@Model.CourseId"/>
-													<div class="form-group row">
-														<div class="col-md-12">
-															<div class="form-item message-item">
-																<textarea class="form-control address" cols="30" id="content" name="content" placeholder="متن" rows="5"></textarea>
-																<div class="icon">
-																	<i class="fa-light fa-comment"></i>
-																</div>
-															</div>
-														</div>
-													</div>
+                                            </div>
+                                            <div class="team-content">
+                                                <h3 class="title">
+                                                    <a href="team-details.html">@Model.TeacherSummary.UserName</a>
+                                                </h3>
+                                                <span>@Model.TeacherSummary.Biography</span>
+                                                <ul class="social-list">
+                                                    <li>
+                                                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i class="fab fa-instagram"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i class="fab fa-behance"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div aria-labelledby="contact-tab-2" class="tab-pane fade" id="contact-2" role="tabpanel">
+                                <div class="reviewr-wrap">
+                                    @if (User.Identity?.IsAuthenticated == true)
+                                    {
+                                        <div class="blog-contact-form">
+                                            <h2 class="title">نظر خود را وارد کنید</h2>
+                                            <div class="request-form">
+                                                <form asp-action="AddComment" asp-controller="Course" class="form-horizontal" method="post">
+                                                    <input type="hidden" name="courseId" value="@Model.CourseId" />
+                                                    <div class="form-group row">
+                                                        <div class="col-md-12">
+                                                            <div class="form-item message-item">
+                                                                <textarea class="form-control address" cols="30" id="content" name="content" placeholder="متن" rows="5"></textarea>
+                                                                <div class="icon">
+                                                                    <i class="fa-light fa-comment"></i>
+                                                                </div>
+                                                                @if (!string.IsNullOrEmpty(ViewBag.CommentValidation))
+                                                                {
+                                                                    <span class="text-danger">@ViewBag.CommentValidation</span>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
 
-													<div class="submit-btn">
-														<button class="ed-primary-btn" id="submit" type="submit">
-															ثبت نظر<i class="fa-sharp fa-regular fa-arrow-left"></i>
-														</button>
-													</div>
-												</form>
-											</div>
-										</div>
-									}
-									else
-									{
-										<br/>
-										<h4>برای ثبت نظر خود ابتدا <a href="/Login">وارد سایت شوید</a></h4>
-										<br />
-									}
-									<div class="review-list">
-										
-										@foreach(var comment in Model.CourseComments)
-										{
-											<div class="review-item">
-												<div class="review-thumb">
-													<img alt="img" src="/assets/img/users/@comment.User.AvatarName">
-												</div>
-												<div class="content">
-													<div class="content-top">
-														<h4 class="name">
-															@comment.User.UserName<span>@comment.CreateDate.FixDate()</span>
-														</h4>
-													</div>
-													<p>
-														@comment.Content
-													</p>
-												</div>
-											</div>
-										}
+                                                    <div class="submit-btn">
+                                                        <button class="ed-primary-btn" id="submit" type="submit">
+                                                            ثبت نظر<i class="fa-sharp fa-regular fa-arrow-left"></i>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <br />
+                                        <h4>برای ثبت نظر خود ابتدا <a href="/Login">وارد سایت شوید</a></h4>
+                                        <br />
+                                    }
+                                    <br />
+                                    <div class="review-list">
 
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-3 col-lg-12">
-				<div class="course-sidebar price-box">
-					<h4 class="price">@Model.Price تومان<span>0 ٪ تخفیف</span></h4>
-					<a class="ed-primary-btn" asp-action="AddCourseToOrder" asp-controller="Order" asp-route-courseId="@Model.CourseId">به سبد خرید اضافه کنید</a>
-				</div>
-				<div class="course-sidebar sticky-widget">
-					<h4 class="sidebar-title">اطلاعات دوره</h4>
-					<ul class="course-sidebar-list">
-						<li>
-							<i class="fa-regular fa-house-chimney"></i>مربی:<span>@Model.TeacherSummary.UserName</span>
-						</li>
-						<li><i class="fa-regular fa-book"></i>تعداد ویدیو ها :<span>@Model.EpisodeCount</span></li>
-						<li>
-							<i class="fa-regular fa-clock"></i>مدت زمان:<span>@Model.TotalTime</span>
-						</li>
+                                        @foreach (var comment in Model.CourseComments)
+                                        {
+                                            <div class="review-item">
+                                                <div class="review-thumb">
+                                                    <img alt="img" src="/assets/img/users/@comment.User.AvatarName">
+                                                </div>
+                                                <div class="content">
+                                                    <div class="content-top">
+                                                        <h4 class="name">
+                                                            @comment.User.UserName<span>@comment.CreateDate.FixDate()</span>
+                                                        </h4>
+                                                    </div>
+                                                    <p>
+                                                        @comment.Content
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
 
-					</ul>
-					<div class="share-btn">
-						<button class="ed-primary-btn">
-							<i class="fa-regular fa-share-nodes"></i>این دوره را به اشتراک
-							بگذارید
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-12">
+                <div class="course-sidebar price-box">
+                    <h4 class="price">@Model.Price تومان<span>0 ٪ تخفیف</span></h4>
+                    <a class="ed-primary-btn" asp-action="AddCourseToOrder" asp-controller="Order" asp-route-courseId="@Model.CourseId">به سبد خرید اضافه کنید</a>
+                </div>
+                <div class="course-sidebar sticky-widget">
+                    <h4 class="sidebar-title">اطلاعات دوره</h4>
+                    <ul class="course-sidebar-list">
+                        <li>
+                            <i class="fa-regular fa-house-chimney"></i>مربی:<span>@Model.TeacherSummary.UserName</span>
+                        </li>
+                        <li><i class="fa-regular fa-book"></i>تعداد ویدیو ها :<span>@Model.EpisodeCount</span></li>
+                        <li>
+                            <i class="fa-regular fa-clock"></i>مدت زمان:<span>@Model.TotalTime</span>
+                        </li>
+
+                    </ul>
+                    <div class="share-btn">
+                        <button class="ed-primary-btn">
+                            <i class="fa-regular fa-share-nodes"></i>این دوره را به اشتراک
+                            بگذارید
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>

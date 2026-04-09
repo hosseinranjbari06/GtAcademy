@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GtAcademy.Application.Courses.Common
+namespace GtAcademy.Application.Admin.Courses.Commands.EditCourseByAdmin
 {
-    public class CreateCourseDto
+    public class EditCourseDto
     {
+        public Guid CourseId { get; set; }
+
         public string Title { get; set; } = string.Empty;
 
         public string BannerName { get; set; } = string.Empty;
@@ -16,6 +18,8 @@ namespace GtAcademy.Application.Courses.Common
 
         public int Price { get; set; }
 
-        public Guid CreatorId { get; set; }
+        public Guid TeacherId { get; set; }
+
+        public Guid CategoryId { get; set; }
     }
 }

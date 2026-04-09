@@ -1,0 +1,188 @@
+﻿@using GtAcademy.Application.Tools.PersianDateConverter
+@model List<GtAcademy.Application.Admin.Courses.Queries.GetCoursesListForAdmin.CourseListItemDto>
+
+@{
+    ViewData["Title"] = "لیست دوره ها";
+}
+
+<div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
+    <!-- Breadcrumb Start -->
+    <div class="breadcrumb mb-24">
+        <ul class="flex-align gap-4">
+            <li><a href="/Admin" class="text-gray-200 fw-normal text-15 hover-text-main-600">خانه</a></li>
+            <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-left"></i></span> </li>
+            <li><span class="text-main-600 fw-normal text-15">لیست دوره ها</span></li>
+        </ul>
+    </div>
+    <!-- Breadcrumb End -->
+</div>
+
+
+<div class="card mt-24">
+    <div class="card-body">
+        <form name="pageForm" id="pageForm" asp-action="Index" asp-controller="Courses" asp-area="Admin" class="search-input-form">
+            <input id="PageId" name="PageId" type="hidden" />
+            <div class="search-input">
+                <input class="form-control h6 rounded-4 mb-0 py-6 px-8" type="text" name="Title" placeholder="عنوان" value="@ViewBag.Search.Title" />
+            </div>
+            <div class="search-input">
+                <input class="form-control h6 rounded-4 mb-0 py-6 px-8" type="text" name="Tags" placeholder="تگ ها" value="@ViewBag.Search.Tags" />
+            </div>
+            @{
+                var orderItems = new List<SelectListItem>()
+                        {
+                        new SelectListItem(){Text = "مرتب سازی بر اساس",Value = ""},
+                        new SelectListItem(){Text = "عنوان",Value = "Title"},
+                        new SelectListItem(){Text = "قیمت",Value = "Price"},
+                        new SelectListItem(){Text = "تاریخ اخرین آپدیت",Value = "LastUpdateDate"},
+                        new SelectListItem(){Text = "مدت زمان دوره",Value = "TotalTime"}
+                        };
+                var orderSelect = new SelectList(orderItems, "Value", "Text", ViewBag.Search.OrderBy);
+            }
+            <div class="search-input">
+                <select name="OrderBy" asp-items="@orderSelect" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
+                </select>
+            </div>
+
+            @{
+                var countItems = new List<SelectListItem>()
+                        {
+                        new SelectListItem(){Text = "تعداد نمایش",Value = ""},
+                        new SelectListItem(){Text = "2",Value = "2"},
+                        new SelectListItem(){Text = "10",Value = "10"},
+                        new SelectListItem(){Text = "20",Value = "20"},
+                        new SelectListItem(){Text = "50",Value = "50"},
+                        new SelectListItem(){Text = "100",Value = "100"},
+                        };
+                var countSelect = new SelectList(countItems, "Value", "Text", ViewBag.Search.Take);
+            }
+            <div class="search-input">
+                <select name="Take" asp-items="@countSelect" class="form-control form-select h6 rounded-4 mb-0 py-6 px-8">
+                </select>
+            </div>
+
+            <div class="search-input">
+                <button type="submit" class="btn btn-main rounded-pill py-9 w-100">جستجو</button>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div class="card overflow-hidden">
+    <div class="card-body p-0 overflow-x-auto">
+        <div id="studentTable_wrapper" class="dt-container dt-empty-footer">
+            <div class="dt-layout-row"><div class="dt-layout-cell dt-start "></div><div class="dt-layout-cell dt-end "></div></div><div class="dt-layout-row dt-layout-table">
+                <div class="dt-layout-cell ">
+                    <table id="studentTable" class="table table-striped dataTable" style="width: 1285px;">
+                        <colgroup><col data-dt-column="0" style="width: 200px;"><col data-dt-column="1" style="width: 100px;"><col data-dt-column="2" style="width: 80px;"><col data-dt-column="3" style="width: 100px;"><col data-dt-column="4" style="width: 100px;"><col data-dt-column="5" style="width: 250px;"></colgroup>
+                        <thead>
+                            <tr role="row">
+                                <th class="h6 text-gray-300 dt-orderable-asc dt-orderable-desc" aria-label="دانش‌آموزان: Activate to sort" data-dt-column="1" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">عنوان دوره</span></th>
+                                <th class="h6 text-gray-300 dt-orderable-asc dt-orderable-desc" data-dt-column="2" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">قیمت</span></th>
+                                <th class="h6 text-gray-300 dt-type-numeric dt-orderable-asc dt-orderable-desc" data-dt-column="3" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">‌تعداد اپیزود ها</span></th>
+                                <th class="h6 text-gray-300 dt-type-numeric dt-orderable-asc dt-orderable-desc" data-dt-column="4" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">مدت زمان دوره</span></th>
+                                <th class="h6 text-gray-300 dt-orderable-asc dt-orderable-desc" data-dt-column="5" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">تاریخ اخرین آپدیت</span></th>
+                                <th class="h6 text-gray-300 dt-orderable-none" data-dt-column="6" rowspan="1" colspan="1" aria-label="اقدامات"><span class="dt-column-title">اقدامات</span><span class="dt-column-order"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var course in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="flex-align gap-8">                                            
+                                            <span class="h6 mb-0 fw-medium text-gray-300">@course.Title</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="h6 mb-0 fw-medium text-gray-300">@course.Price</span>
+                                    </td>
+                                    <td>
+                                        <span class="h6 mb-0 fw-medium text-gray-300">@course.EpisodeCount</span>
+                                    </td>
+                                    <td>
+                                        <span class="h6 mb-0 fw-medium text-gray-300">@course.TotalTime</span>
+                                    </td>
+                                    <td>
+                                        <span class="h6 mb-0 fw-medium text-gray-300">@course.LastUpdateDate.ToShamsi().FixShamsiDate()</span>
+                                    </td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@course.CourseId" class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white">جزئیات</a>
+                                        <a asp-action="Edit" asp-route-id="@course.CourseId" class="bg-warning-50 text-warning-600 py-2 px-14 rounded-pill hover-bg-warning-600 hover-text-white">ویرایش</a>
+                                        <a asp-action="Delete" asp-route-id="@course.CourseId" class="bg-danger-50 text-danger-600 py-2 px-14 rounded-pill hover-bg-danger-600 hover-text-white">حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div><div class="dt-layout-row"><div class="dt-layout-cell dt-start "></div><div class="dt-layout-cell dt-end "></div></div>
+        </div>
+    </div>
+    <div class="card-footer flex-between flex-wrap">
+        <ul class="pagination flex-align flex-wrap">
+
+            @if (ViewBag.PagesCount < 9)
+            {
+                for (int i = 1; i < ViewBag.PagesCount + 1; i++)
+                {
+                    <li class="page-item @((i == ViewBag.CurrentPage) ? "active" : "")">
+                        <a onclick="ChangePage(@i)" href="#" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@i</a>
+                    </li>
+                }
+            }
+            else
+            {
+                <li class="page-item @((1 == ViewBag.CurrentPage) ? "active" : "")">
+                    <a onclick="ChangePage(1)" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">1</a>
+                </li>
+                <li class="page-item @((2 == ViewBag.CurrentPage) ? "active" : "")">
+                    <a onclick="ChangePage(2)" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">2</a>
+                </li>
+                <li class="page-item @((3 == ViewBag.CurrentPage) ? "active" : "")">
+                    <a onclick="ChangePage(3)" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium" href="#">...</a>
+                </li>
+
+                @if (ViewBag.CurrentPage > 2 && ViewBag.CurrentPage < ViewBag.PagesCount - 1)
+                {
+                    <li class="page-item">
+                        <a onclick="ChangePage(@(ViewBag.CurrentPage - 1))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(ViewBag.CurrentPage - 1)</a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(ViewBag.CurrentPage)</a>
+                    </li>
+                    <li class="page-item">
+                        <a onclick="ChangePage(@(ViewBag.CurrentPage + 1))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(ViewBag.CurrentPage + 1)</a>
+                    </li>
+                }
+
+                <li class="page-item">
+                    <a class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium" href="#">...</a>
+                </li>
+                <li class="page-item @((ViewBag.PagesCount - 2 == ViewBag.CurrentPage) ? "active" : "")">
+                    <a onclick="ChangePage(@(ViewBag.PagesCount - 2))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(ViewBag.PagesCount - 2)</a>
+                </li>
+                <li class="page-item @((ViewBag.PagesCount - 1 == ViewBag.CurrentPage) ? "active" : "")">
+                    <a onclick="ChangePage(@(ViewBag.PagesCount - 1))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@(ViewBag.PagesCount - 1)</a>
+                </li>
+                <li class="page-item @((ViewBag.PagesCount - 2 == ViewBag.CurrentPage) ? "active" : "")">
+                    <a onclick="ChangePage(@(ViewBag.PagesCount))" class="page-link h-44 w-44 flex-center text-15 rounded-8 fw-medium">@ViewBag.PagesCount</a>
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function ChangePage(pageid){
+            $("#PageId").val(pageid);
+            $("#pageForm").submit();
+        }
+    </script>
+}

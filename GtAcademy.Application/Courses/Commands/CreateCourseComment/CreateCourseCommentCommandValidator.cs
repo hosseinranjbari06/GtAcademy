@@ -11,14 +11,17 @@ namespace GtAcademy.Application.Courses.Commands.CreateCourseComment
         public CreateCourseCommentCommandValidator()
         {
             RuleFor(cc => cc.CourseId)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("درخواست شما نامعتبر است");
 
             RuleFor(cc => cc.UserId)
                 .NotEmpty();
 
             RuleFor(cc => cc.Content)
                 .NotEmpty()
-                .MaximumLength(200);
+                .WithMessage("لطفا متن نظر خود را وارد کنید")
+                .MaximumLength(500)
+                .WithMessage("متن نظر نمیتواند بیشتر از 500 کاراکتر داشته باشد");
         }
     }
 }

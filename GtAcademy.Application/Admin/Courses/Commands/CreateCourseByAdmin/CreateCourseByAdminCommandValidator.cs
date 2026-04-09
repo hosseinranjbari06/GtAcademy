@@ -1,14 +1,14 @@
 ﻿using FluentValidation;
-using GtAcademy.Application.Courses.Common;
+using GtAcademy.Application.Admin.Courses.Commands.CreateCourseByAdmin;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GtAcademy.Application.Courses.Commands.CreateCourse
+namespace GtAcademy.Application.Admin.Courses.Commands.CreateCourseByAdmin
 {
-    public class CreateCourseCommandValidator : AbstractValidator<CreateCourseDto>
+    public class CreateCourseByAdminCommandValidator : AbstractValidator<CreateCourseDto>
     {
-        public CreateCourseCommandValidator()
+        public CreateCourseByAdminCommandValidator()
         {
             RuleFor(c => c.Title)
                 .NotEmpty()
@@ -31,6 +31,12 @@ namespace GtAcademy.Application.Courses.Commands.CreateCourse
             RuleFor(c => c.Price)
                 .NotEmpty()
                 .LessThan(999999999);
+
+            RuleFor(c => c.TeacherId)
+                .NotEmpty();
+
+            RuleFor(c => c.CategoryId)
+                .NotEmpty();
         }
     }
 }

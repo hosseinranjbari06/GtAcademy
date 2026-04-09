@@ -1,4 +1,5 @@
-﻿using GtAcademy.Application.Courses.Commands.CreateComment;
+﻿using ErrorOr;
+using GtAcademy.Application.Courses.Commands.CreateComment;
 using GtAcademy.Application.Courses.Commands.CreateCourseComment;
 using GtAcademy.Application.Courses.Common;
 using GtAcademy.Application.Courses.Queries.GetCourseDetails;
@@ -72,9 +73,22 @@ namespace GtAcademy.Web.Controllers
 
             var result = await _mediator.Send(new CreateCourseCommentCommand(comment));
 
-            if (result.IsError) return NotFound();
+            if (result.IsError) 
+            { 
+                if(result.FirstError.Type == ErrorType.Validation)
+                {
+                    ViewBag.CommentValidation = result.FirstError.Description;
 
-            return RedirectToAction("CourseDetails", new { courseId});
+                    var courseResult = await _mediator.Send(new GetCourseDetailsQuery(courseId));
+                    return View("CourseDetails", courseResult.Value);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+
+            return RedirectToAction(nameof(CourseDetails), new{ courseId });
         }
     }
 }
