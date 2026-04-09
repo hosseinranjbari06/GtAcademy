@@ -1,0 +1,56 @@
+﻿@model IEnumerable<GtAcademy.Application.Courses.Common.CourseCategoryDto>
+@using GtAcademy.Application.Tools.PersianDateConverter
+@{
+    ViewData["Title"] = "لیست دسته بندی";
+}
+
+<div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
+    <!-- Breadcrumb Start -->
+    <div class="breadcrumb mb-24">
+        <ul class="flex-align gap-4">
+            <li><a href="/Admin" class="text-gray-200 fw-normal text-15 hover-text-main-600">خانه</a></li>
+            <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-left"></i></span> </li>
+            <li><span class="text-main-600 fw-normal text-15">دسته بندی ها</span></li>
+        </ul>
+    </div>
+    <!-- Breadcrumb End -->
+</div>
+
+<div class="card overflow-hidden">
+    <div class="card-body p-0 overflow-x-auto">
+        <div id="studentTable_wrapper" class="dt-container dt-empty-footer">
+            <div class="dt-layout-row"><div class="dt-layout-cell dt-start "></div><div class="dt-layout-cell dt-end "></div></div><div class="dt-layout-row dt-layout-table">
+                <div class="dt-layout-cell ">
+                    <table id="studentTable" class="table table-striped dataTable" style="width: 1285px;">
+                        <colgroup><col data-dt-column="0" style="width: 210px;"><col data-dt-column="1" style="width: 100px;"><col data-dt-column="2" style="width: 100px;"><col data-dt-column="3" style="width: 80px;"><col data-dt-column="4" style="width: 90px;"><col data-dt-column="5" style="width: 250px;"></colgroup>
+                        <thead>
+                            <tr role="row">
+                                <th class="h6 text-gray-300 dt-orderable-asc dt-orderable-desc" aria-label="دانش‌آموزان: Activate to sort" data-dt-column="1" rowspan="1" colspan="1" tabindex="0"><span class="dt-column-title" role="button">عنوان دسته بندی</span></th>
+                                <th class="h6 text-gray-300 dt-orderable-none" data-dt-column="6" rowspan="1" colspan="1" aria-label="اقدامات"><span class="dt-column-title">اقدامات</span><span class="dt-column-order"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="h6 mb-0 fw-medium text-gray-300">@category.Title</span>
+                                    </td>
+                                    <td>
+                                        <form method="post" asp-action="Delete">
+                                            <a asp-action="Edit" asp-route-id="@category.CategoryId" class="bg-warning-50 text-warning-600 py-2 px-14 rounded-pill hover-bg-warning-600 hover-text-white">ویرایش</a>
+
+                                            <input name="id" type="hidden" value="@category.CategoryId"/>
+                                            <button type="submit" class="bg-danger-50 text-danger-600 py-2 px-14 rounded-pill hover-bg-danger-600 hover-text-white">حذف</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div><div class="dt-layout-row"><div class="dt-layout-cell dt-start "></div><div class="dt-layout-cell dt-end "></div></div>
+        </div>
+    </div>
+</div>
