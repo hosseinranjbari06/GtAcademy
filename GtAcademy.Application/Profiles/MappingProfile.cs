@@ -12,10 +12,12 @@ using GtAcademy.Application.Orders.Common;
 using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo;
 using GtAcademy.Application.Users.Common;
 using GtAcademy.Application.Users.Queries.GetUserProfile;
+using GtAcademy.Application.Wallets.Queries.GetUsersWalletWithDetails;
 using GtAcademy.Domain.Courses;
 using GtAcademy.Domain.Orders;
 using GtAcademy.Domain.Referral;
 using GtAcademy.Domain.Users;
+using GtAcademy.Domain.Wallets;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,6 +43,7 @@ namespace GtAcademy.Application.Profiles
             #region Referral
 
             CreateMap<Referral, UsersReferredDto>();
+            CreateMap<WalletIncome, ReferralRewardDto>();
 
             #endregion
 
@@ -71,6 +74,13 @@ namespace GtAcademy.Application.Profiles
             #region Order
 
             CreateMap<Order, OrderDetailsDto>();
+
+            #endregion
+
+            #region
+
+            CreateMap<Wallet, WalletDto>();
+            CreateMap<WalletIncome, WalletIncomeDto>();
 
             #endregion
         }

@@ -31,7 +31,10 @@ namespace GtAcademy.Application.Referrals.Queries.GetUserReferralInfo
             {
                 ReferralCode = user.ReferralCode,
                 ReferralReceivedUser = _mapper.Map<UserSummaryDto>(user.ReferralReceived?.Referrer),
-                ReferralsSent = user.ReferralsSent.Select(_mapper.Map<UsersReferredDto>).ToList()
+                ReferralsSent = user.ReferralsSent.Select(_mapper.Map<UsersReferredDto>).ToList(),
+                ReferralRewards = user.Wallet.WalletIncomes
+                .Where(income => income.IsPaid && income.IsReferralReward)
+                .Select(_mapper.Map<ReferralRewardDto>).OrderByDescending(reward => reward.IncomeDate).ToList()
             };
 
             return referralInfo;

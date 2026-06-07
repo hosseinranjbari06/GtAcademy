@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GtAcademy.Infrastructure.Migrations
 {
     [DbContext(typeof(GtAcademyDbContext))]
-    [Migration("20260223090711_up_Referral")]
-    partial class up_Referral
+    [Migration("20260607121222_up_WalletIncomes")]
+    partial class up_WalletIncomes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.2")
+                .HasAnnotation("ProductVersion", "10.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -128,8 +128,8 @@ namespace GtAcademy.Infrastructure.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
@@ -143,8 +143,6 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.HasKey("CommentId");
 
                     b.HasIndex("CourseId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("CourseComments");
                 });
@@ -180,7 +178,7 @@ namespace GtAcademy.Infrastructure.Migrations
 
                     b.HasIndex("TopicId");
 
-                    b.ToTable("Episode");
+                    b.ToTable("Episodes");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Courses.Topic", b =>
@@ -203,7 +201,7 @@ namespace GtAcademy.Infrastructure.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Topic");
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Orders.Order", b =>
@@ -414,6 +412,41 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.ToTable("Wallets");
                 });
 
+            modelBuilder.Entity("GtAcademy.Domain.Wallets.WalletIncome", b =>
+                {
+                    b.Property<Guid>("WalletIncomeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("IncomeDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReferralReward")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ReferredId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("WalletId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("WalletIncomeId");
+
+                    b.HasIndex("WalletId");
+
+                    b.ToTable("WalletIncomes");
+                });
+
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.Property<int>("RolesRoleId")
@@ -467,15 +500,7 @@ namespace GtAcademy.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GtAcademy.Domain.Users.User", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Course");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("GtAcademy.Domain.Courses.Episode", b =>
@@ -541,6 +566,17 @@ namespace GtAcademy.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("GtAcademy.Domain.Wallets.WalletIncome", b =>
+                {
+                    b.HasOne("GtAcademy.Domain.Wallets.Wallet", "Wallet")
+                        .WithMany("WalletIncomes")
+                        .HasForeignKey("WalletId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Wallet");
+                });
+
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.HasOne("GtAcademy.Domain.Roles.Role", null)
@@ -570,8 +606,6 @@ namespace GtAcademy.Infrastructure.Migrations
 
             modelBuilder.Entity("GtAcademy.Domain.Users.User", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Orders");
 
                     b.Navigation("ReferralReceived");
@@ -580,6 +614,11 @@ namespace GtAcademy.Infrastructure.Migrations
 
                     b.Navigation("Wallet")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("GtAcademy.Domain.Wallets.Wallet", b =>
+                {
+                    b.Navigation("WalletIncomes");
                 });
 #pragma warning restore 612, 618
         }

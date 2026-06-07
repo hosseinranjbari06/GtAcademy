@@ -20,8 +20,6 @@ namespace GtAcademy.Domain.Courses
 
         public Guid CourseId { get; set; }
 
-        public User User { get; set; } = new User();
-
         public Course Course { get; set; } = new Course();
     }
 }

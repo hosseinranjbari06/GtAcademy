@@ -23,6 +23,41 @@ namespace GtAcademy.Infrastructure.Common.Persistence
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
+            #region Seed data
+
+            var role1 = new Role() { RoleId = 1, Title = "ادمین", Description = "دسترسی کامل" };
+            var role2 = new Role() { RoleId = 2, Title = "مدرس", Description = "دسترسی به بخش دوره ها" };
+            var role3 = new Role() { RoleId = 3, Title = "مدیر محصول", Description = "دسترسی به بخش محصولات" };
+            var role4 = new Role() { RoleId = 4, Title = "مدیر کاربران", Description = "دسترسی به بخش کاربران" };
+
+            modelBuilder.Entity<Role>().HasData(role1, role2, role3, role4);
+
+            //var user = new User()
+            //{
+            //    UserId = Guid.NewGuid(),
+            //    UserName = "admin",
+            //    PhoneNumber = "00000000000",
+            //    AvatarName = "default.jpg",
+            //    IsActive = false,
+            //    ReferralCode = "ADMINREF",
+            //    RegisterDate = DateTime.Now,
+            //    VerifyToken = "1111",
+            //    Roles = [role1]
+            //};
+
+            //modelBuilder.Entity<User>().HasData(user);
+
+            //var wallet = new Wallet()
+            //{
+            //    WalletId = Guid.NewGuid(),
+            //    UserId = user.UserId,
+            //    WalletBalance = 0
+            //};
+
+            //modelBuilder.Entity<Wallet>().HasData(wallet);
+
+            #endregion
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -37,11 +72,13 @@ namespace GtAcademy.Infrastructure.Common.Persistence
 
         public DbSet<Wallet> Wallets { get; set; }
 
+        public DbSet<WalletIncome> WalletIncomes { get; set; }
+
         public DbSet<Course> Courses { get; set; }
 
         public DbSet<Topic> Topics { get; set; }
 
-        public DbSet<Episode> Episodes  { get; set; }
+        public DbSet<Episode> Episodes { get; set; }
 
         public DbSet<Role> Roles { get; set; }
 

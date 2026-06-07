@@ -5,25 +5,26 @@
 namespace GtAcademy.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class up_Referral : Migration
+    public partial class up_WalletIncomes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsVerified",
-                table: "Referrals",
-                type: "bit",
+            migrationBuilder.AddColumn<string>(
+                name: "Description",
+                table: "WalletIncomes",
+                type: "nvarchar(300)",
+                maxLength: 300,
                 nullable: false,
-                defaultValue: false);
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsVerified",
-                table: "Referrals");
+                name: "Description",
+                table: "WalletIncomes");
         }
     }
 }

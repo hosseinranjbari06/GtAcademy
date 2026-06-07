@@ -12,12 +12,15 @@ namespace GtAcademy.Application.Admin.CourseComments.Queries.GetCourseCommentDet
     {
         private readonly ICourseCommentService _courseCommentService;
 
+        private readonly IUserService _userService;
+
         private readonly IMapper _mapper;
 
-        public GetCourseCommentDetailsForAdminQueryHandler(ICourseCommentService courseCommentService, IMapper mapper)
+        public GetCourseCommentDetailsForAdminQueryHandler(ICourseCommentService courseCommentService, IMapper mapper, IUserService userService)
         {
             _courseCommentService = courseCommentService;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<ErrorOr<CourseCommentDetailsDto>> Handle(GetCourseCommentDetailsForAdminQuery request, CancellationToken cancellationToken)
@@ -28,6 +31,12 @@ namespace GtAcademy.Application.Admin.CourseComments.Queries.GetCourseCommentDet
 
             var commentDto = _mapper.Map<CourseCommentDetailsDto>(comment);
             commentDto.CourseTitle = comment.Course.Title;
+
+            var userSummary = await _userService.GetUserSummary(comment.UserId);
+
+            if (userSummary == null) return Error.NotFound();
+
+            commentDto.User = userSummary;
 
             return commentDto;
         }

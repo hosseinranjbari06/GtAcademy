@@ -8,6 +8,7 @@ using GtAcademy.Infrastructure.Referrals.Persistence;
 using GtAcademy.Infrastructure.Roles.Persistence;
 using GtAcademy.Infrastructure.Tools.Persistence;
 using GtAcademy.Infrastructure.Users.Persistence;
+using GtAcademy.Infrastructure.Wallets.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,7 @@ namespace GtAcademy.Infrastructure
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IReferralService, ReferralService>();
             services.AddScoped<IPermissionService, PermissionService>();

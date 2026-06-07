@@ -75,7 +75,7 @@ else
                                         </td>
                                         <td class="product-thumbnail">
                                             <a href="/coursedetails/@course.CourseId">
-                                                <img alt="img" src="assets/img/images/@course.BannerName">
+                                                <img alt="img" src="/assets/img/courses/@course.BannerName">
                                             </a>
                                             <div class="product-thumbnail">
                                                 <a href="/coursedetails/@course.CourseId">
@@ -112,7 +112,7 @@ else
                         </div>
                         <div class="checkout-total checkout-item">
                             <h4 class="title">تاریخ ایجاد</h4>
-                            <span>@Model.CreateDate.ToShamsi()</span>
+                            <span>@Model.CreateDate.ToShamsi().FixShamsiDate()</span>
                         </div>
                         <div class="checkout-total checkout-item">
                             <h4 class="title">مجموع</h4>

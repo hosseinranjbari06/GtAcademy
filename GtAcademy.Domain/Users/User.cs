@@ -42,14 +42,12 @@ namespace GtAcademy.Domain.Users
 
         public Referral.Referral? ReferralReceived { get; set; }
 
-        public List<Referral.Referral> ReferralsSent { get; set; } = [];
+        public List<Referral.Referral> ReferralsSent { get; set; }
 
-        public Wallet Wallet { get; set; } = new Wallet();
+        public Wallet Wallet { get; set; }
 
         public List<Order>? Orders { get; set; }
 
-        public List<Role> Roles { get; set; } = new List<Role>();
-
-        public List<CourseComment> Comments { get; set; } = [];
+        public List<Role> Roles { get; set; }
     }
 }

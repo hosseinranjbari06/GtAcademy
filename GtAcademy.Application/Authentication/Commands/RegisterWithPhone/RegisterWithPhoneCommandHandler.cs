@@ -76,7 +76,8 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
             {
                 WalletId = Guid.NewGuid(),
                 WalletBalance = 0,
-                UserId = user.UserId
+                UserId = user.UserId,
+                User = user
             };
 
             await _userGenericService.AddAsync(user);

@@ -16,6 +16,8 @@ namespace GtAcademy.Domain.Wallets
 
         public DateTime? LastChargeDate { get; set; }
 
-        public User User { get; set; }
+        public User User { get; set; } = new User();
+
+        public List<WalletIncome> WalletIncomes { get; set; } = [];
     }
 }

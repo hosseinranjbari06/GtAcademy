@@ -17,7 +17,7 @@ namespace GtAcademy.Application.Courses.Commands.CreateComment
 
         private readonly IGenericService<Course> _genericCourseService;
 
-        private readonly IGenericService<User> _genericUserService;
+        private readonly IUserService _userService;
 
         private readonly ICourseService _courseService;
 
@@ -25,14 +25,14 @@ namespace GtAcademy.Application.Courses.Commands.CreateComment
 
         private readonly IValidator<CreateCourseCommentDto> _validator;
 
-        public CreateCourseCommentCommandHandler(IGenericService<CourseComment> genericCommentService, ICourseService courseService, IUnitOfWork unitOfWork, IValidator<CreateCourseCommentDto> validator, IGenericService<Course> genericCourseService, IGenericService<User> genericUserService)
+        public CreateCourseCommentCommandHandler(IGenericService<CourseComment> genericCommentService, ICourseService courseService, IUnitOfWork unitOfWork, IValidator<CreateCourseCommentDto> validator, IGenericService<Course> genericCourseService, IUserService userService)
         {
             _genericCommentService = genericCommentService;
             _courseService = courseService;
             _unitOfWork = unitOfWork;
             _validator = validator;
             _genericCourseService = genericCourseService;
-            _genericUserService = genericUserService;
+            _userService = userService;
         }
 
         public async Task<ErrorOr<Guid>> Handle(CreateCourseCommentCommand request, CancellationToken cancellationToken)
@@ -49,8 +49,7 @@ namespace GtAcademy.Application.Courses.Commands.CreateComment
             var course = await _genericCourseService.GetByIdAsync(request.CommentDto.CourseId);
             if (course == null) return Error.NotFound();
 
-            var user = await _genericUserService.GetByIdAsync(request.CommentDto.UserId);
-            if (user == null) return Error.NotFound();
+            if (!await _userService.ExistById(request.CommentDto.UserId)) return Error.NotFound();
 
             var comment = new CourseComment()
             {
@@ -60,7 +59,6 @@ namespace GtAcademy.Application.Courses.Commands.CreateComment
                 UserId = request.CommentDto.UserId,
                 CreateDate = DateTime.Now,
                 AdminSubmited = false,
-                User = user,
                 Course = course
             };
 

@@ -40,7 +40,7 @@
 
             </div>
             <div class="col-lg-8 col-md-12">
-                <div class="event-details-content">
+                <div class="event-details-content" style="margin-bottom:30px">
                     <div class="checkout-left">
                         <h3 class="form-header">بازاریابی</h3>
 
@@ -59,12 +59,13 @@
                             </div>
                         </div>
 
-                        @if (Model.ReferralsSent.Any())
-                        {
-                            <br />
-                            <hr />
-                            <br />
-                            <div class="form-item"><h5 class="form-title">کاربران دعوت شده توسط شما</h5></div>
+                    </div>
+                </div>
+                @if (Model.ReferralsSent.Any())
+                {
+                    <div class="event-details-content" style="margin-bottom:30px">
+                        <div class="checkout-left">
+                            <h3 class="form-header">کاربران دعوت شده توسط شما</h3>
 
                             <div class="row gy-4 justify-content-center">
                                 @foreach (var refer in Model.ReferralsSent)
@@ -88,10 +89,41 @@
                                     </div>
                                 }
                             </div>
-                        }
 
+                        </div>
                     </div>
-                </div>
+                }
+
+                @if (Model.ReferralRewards.Any())
+                {
+                    <div class="event-details-content" style="margin-bottom:30px">
+                        <div class="checkout-left">
+                            <h3 class="form-header">پاداش های دریافت شده</h3>
+
+                            <table class="table cart-table">
+                                <thead>
+                                    <tr>
+                                        <td>مبلغ</td>
+                                        <td>توضیح</td>
+                                        <td>تاریخ</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var reward in Model.ReferralRewards)
+                                    {
+                                        <tr>
+                                            <td>@reward.Amount</td>
+                                            <td class="text-success">@reward.Description</td>
+                                            <td>@reward.IncomeDate.ToShamsi().FixShamsiDate()</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                }
+
             </div>
         </div>
     </div>

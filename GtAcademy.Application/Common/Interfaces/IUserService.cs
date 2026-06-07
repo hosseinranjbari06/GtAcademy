@@ -11,6 +11,8 @@ namespace GtAcademy.Application.Common.Interfaces
     {
         Task<bool> ExistByUserName(string userName);
 
+        Task<bool> ExistById(Guid userId);
+
         Task<User?> GetUserById(Guid userId);
 
         Task<bool> ExistByPhoneNumber(string phoneNumber);

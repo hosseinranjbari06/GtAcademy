@@ -13,5 +13,7 @@ namespace GtAcademy.Application.Referrals.Queries.GetUserReferralInfo
         public UserSummaryDto? ReferralReceivedUser { get; set; }
 
         public List<UsersReferredDto> ReferralsSent { get; set; } = [];
+
+        public List<ReferralRewardDto> ReferralRewards { get; set; } = [];
     }
 }

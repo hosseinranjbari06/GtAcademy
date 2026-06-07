@@ -1,0 +1,125 @@
+﻿@using GtAcademy.Application.Wallets.Queries.GetUsersWalletWithDetails
+@using GtAcademy.Application.Tools.PersianDateConverter;
+@model WalletDto
+
+@{
+    ViewData["Title"] = "کیف پول";
+}
+
+<section class="page-header">
+    <div class="bg-item">
+        <div class="bg-img" data-background="assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">کیف پول</h1>
+            <h4 class="sub-title">
+                <a class="home" href="/">خانه</a><span class="icon">/</span><a class="inner-page" href="#">کیف پول</a>
+            </h4>
+        </div>
+    </div>
+</section>
+
+<section class="event-details pt-120 pb-120">
+    <div class="container">
+        <div class="row gy-xl-0 gy-5">
+            <div class="col-lg-4 col-md-12">
+
+                <partial name="_ProfileSideBar" />
+
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="event-details-content" style="margin-bottom:30px">
+                    <div class="checkout-left">
+                        <h3 class="form-header">مشخصات</h3>
+
+                        <div class="checkout-form-wrap">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <div class="form-item">
+                                        <h4 class="form-title">موجودی</h4>
+
+                                        <div class="row">
+                                            <div class="col-md-12 col-sm-12"><input disabled class="form-control" id="balance" name="balance" type="number" value="@Model.WalletBalance"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-item">
+                                        <h4 class="form-title">تاریخ اخرین شارژ</h4>
+
+                                        <div class="row">
+                                            <div class="col-md-9 col-sm-12"><input disabled class="form-control" id="date" name="date" type="text" value="@((Model.LastChargeDate != null) ? Model.LastChargeDate?.ToShamsi().FixShamsiDate() : "-")"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-details-content" style="margin-bottom:30px">
+                    <div class="checkout-left">
+                        <h3 class="form-header">شارژ کیف پول</h3>
+
+                        <div class="checkout-form-wrap">
+                            <div class="form-group row">
+                                <div class="col-md-8">
+                                    <div class="form-item">
+                                        <h4 class="form-title">مبلغ</h4>
+
+                                        <div class="row">
+                                            <div class="col-md-9 col-sm-12"><input class="form-control" id="amount" name="amount" type="number" min="50000"></div>
+                                            <div class="col-md-3 col-sm-4"><button class="ed-primary-btn" ">شارژ</button></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.WalletIncomes.Any())
+                {
+                    <div class="event-details-content">
+                        <div class="checkout-left">
+
+                            <h3 class="form-header">تاریخچه</h3>
+
+                            <table class="table cart-table">
+                                <thead>
+                                    <tr>
+                                        <td>مبلغ</td>
+                                        <td>توضیح</td>
+                                        <td>تاریخ</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var income in Model.WalletIncomes)
+                                    {
+                                        <tr>
+                                            <td>@income.Amount</td>
+                                            <td class="text-success">@income.Description</td>
+                                            <td>@income.IncomeDate.ToShamsi().FixShamsiDate()</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+            
+            </div>
+        </div>
+    </div>
+</section>

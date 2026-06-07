@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GtAcademy.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class init_GtAcademyDb : Migration
+    public partial class inti_GtAcademy_Db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -97,6 +97,28 @@ namespace GtAcademy.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CourseComments",
+                columns: table => new
+                {
+                    CommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AdminSubmited = table.Column<bool>(type: "bit", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseComments", x => x.CommentId);
+                    table.ForeignKey(
+                        name: "FK_CourseComments_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "CourseId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CourseCourseCategory",
                 columns: table => new
                 {
@@ -121,7 +143,7 @@ namespace GtAcademy.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Topic",
+                name: "Topics",
                 columns: table => new
                 {
                     TopicId = table.Column<int>(type: "int", nullable: false)
@@ -131,40 +153,12 @@ namespace GtAcademy.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Topic", x => x.TopicId);
+                    table.PrimaryKey("PK_Topics", x => x.TopicId);
                     table.ForeignKey(
-                        name: "FK_Topic_Courses_CourseId",
+                        name: "FK_Topics_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CourseComments",
-                columns: table => new
-                {
-                    CommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AdminSubmited = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseComments", x => x.CommentId);
-                    table.ForeignKey(
-                        name: "FK_CourseComments_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CourseComments_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -198,7 +192,8 @@ namespace GtAcademy.Infrastructure.Migrations
                     ReferralId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ReferrerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ReferredId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsVerified = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,7 +257,7 @@ namespace GtAcademy.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Episode",
+                name: "Episodes",
                 columns: table => new
                 {
                     EpisodeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -275,11 +270,11 @@ namespace GtAcademy.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Episode", x => x.EpisodeId);
+                    table.PrimaryKey("PK_Episodes", x => x.EpisodeId);
                     table.ForeignKey(
-                        name: "FK_Episode_Topic_TopicId",
+                        name: "FK_Episodes_Topics_TopicId",
                         column: x => x.TopicId,
-                        principalTable: "Topic",
+                        principalTable: "Topics",
                         principalColumn: "TopicId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -308,6 +303,29 @@ namespace GtAcademy.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "WalletIncomes",
+                columns: table => new
+                {
+                    WalletIncomeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    IncomeDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WalletId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    IsReferralReward = table.Column<bool>(type: "bit", nullable: false),
+                    ReferredId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WalletIncomes", x => x.WalletIncomeId);
+                    table.ForeignKey(
+                        name: "FK_WalletIncomes_Wallets_WalletId",
+                        column: x => x.WalletId,
+                        principalTable: "Wallets",
+                        principalColumn: "WalletId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "ReferralOptions",
                 columns: new[] { "ReferralOptionsId", "RewardPercent" },
@@ -330,11 +348,6 @@ namespace GtAcademy.Infrastructure.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseComments_UserId",
-                table: "CourseComments",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CourseCourseCategory_CoursesCourseId",
                 table: "CourseCourseCategory",
                 column: "CoursesCourseId");
@@ -345,8 +358,8 @@ namespace GtAcademy.Infrastructure.Migrations
                 column: "OrdersOrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Episode_TopicId",
-                table: "Episode",
+                name: "IX_Episodes_TopicId",
+                table: "Episodes",
                 column: "TopicId");
 
             migrationBuilder.CreateIndex(
@@ -371,9 +384,14 @@ namespace GtAcademy.Infrastructure.Migrations
                 column: "UsersUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Topic_CourseId",
-                table: "Topic",
+                name: "IX_Topics_CourseId",
+                table: "Topics",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WalletIncomes_WalletId",
+                table: "WalletIncomes",
+                column: "WalletId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Wallets_UserId",
@@ -395,7 +413,7 @@ namespace GtAcademy.Infrastructure.Migrations
                 name: "CourseOrder");
 
             migrationBuilder.DropTable(
-                name: "Episode");
+                name: "Episodes");
 
             migrationBuilder.DropTable(
                 name: "ReferralOptions");
@@ -407,7 +425,7 @@ namespace GtAcademy.Infrastructure.Migrations
                 name: "RoleUser");
 
             migrationBuilder.DropTable(
-                name: "Wallets");
+                name: "WalletIncomes");
 
             migrationBuilder.DropTable(
                 name: "CourseCategories");
@@ -416,16 +434,19 @@ namespace GtAcademy.Infrastructure.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Topic");
+                name: "Topics");
 
             migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Wallets");
 
             migrationBuilder.DropTable(
                 name: "Courses");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

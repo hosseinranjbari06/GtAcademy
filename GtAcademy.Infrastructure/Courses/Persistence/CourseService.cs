@@ -100,7 +100,6 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 .Where(course => course.CourseId == courseId)
                 .Include(course => course.CourseCategories)
                 .Include(course => course.CourseComments)
-                .ThenInclude(comment => comment.User)
                 //.Include(course => course.Topics)
                 //.ThenInclude(topic => topic.Episodes)
                 .FirstOrDefaultAsync();

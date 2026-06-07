@@ -51,7 +51,6 @@ namespace GtAcademy.Infrastructure.Users.Persistence
                 .Include(u => u.Orders)
                 .Include(u => u.Wallet)
                 .Include(u => u.Roles)
-                .Include(u => u.Comments)
                 .FirstOrDefaultAsync();
         }
 
@@ -75,10 +74,10 @@ namespace GtAcademy.Infrastructure.Users.Persistence
         {
             return await _context.Users
                 .Where(user => user.UserId == userId)
-                .Include(user => user.ReferralReceived)
-                .ThenInclude(referral => referral.Referrer)
                 .Include(user => user.ReferralsSent)
                 .ThenInclude(referral => referral.Referred)
+                .Include(user => user.Wallet)
+                .ThenInclude(wallet => wallet.WalletIncomes)
                 .FirstOrDefaultAsync();
         }
 
@@ -142,6 +141,11 @@ namespace GtAcademy.Infrastructure.Users.Persistence
             return await _context.Users
                 .Include(user => user.Roles)
                 .FirstOrDefaultAsync(user => user.UserId == userId);
+        }
+
+        public async Task<bool> ExistById(Guid userId)
+        {
+            return await _context.Users.AnyAsync(user => user.UserId == userId);
         }
 
         #endregion

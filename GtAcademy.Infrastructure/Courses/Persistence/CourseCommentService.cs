@@ -32,7 +32,6 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
         public async Task<CourseComment?> GetCourseCommentById(Guid commentId)
         {
             return await _context.CourseComments
-                .Include(comment => comment.User)
                 .Include(comment => comment.Course)
                 .FirstOrDefaultAsync(comment => comment.CommentId == commentId);
         }
@@ -48,7 +47,7 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
             comments = comments.Skip((searchDto.PageId - 1) * searchDto.Take).Take(searchDto.Take);
             comments = comments
                 .OrderByDescending(comment => comment.CreateDate)
-                .Include(comment => comment.User).Include(comment => comment.Course);
+                .Include(comment => comment.Course);
 
             var commentDtos = comments.Select(comment => new CourseCommentListItemDto()
             {
@@ -58,7 +57,7 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 AdminSubmited = comment.AdminSubmited,
                 CourseId = comment.CourseId,
                 CourseTitle = comment.Course.Title,
-                User = _mapper.Map<UserSummaryDto>(comment.User)
+                User = _mapper.Map<UserSummaryDto>(_context.Users.Find(comment.UserId))
             });
 
             searchDto.Comments = await commentDtos.ToListAsync();

@@ -1,6 +1,10 @@
 using GtAcademy.Application;
 using GtAcademy.Infrastructure;
+using GtAcademy.Infrastructure.Common.Persistence;
+using GtAcademy.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +18,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromDays(30);
         options.AccessDeniedPath = "/AccessDenied";
     });
-
 
 builder.Services.AddInfrastructre(builder.Configuration);
 builder.Services.AddApplication();
