@@ -129,10 +129,11 @@
                                                                         <i class="fa-regular fa-video"></i>
                                                                         @episode.Title
                                                                     </span>
-                                                                    <span>@episode.Time<i class="fa-regular @((episode.IsFree) ? "fa-unlock" : "fa-lock")"></i>@if(episode.IsFree){
-                                                                    <a href="/DownloadEpisodeFile/@episode.EpisodeId"><i class="fa-regular fa-download"></i></a>
-                                                                }
-    </span>
+                                                                    <span>
+                                                                        @episode.Time<i class="fa-regular @((episode.IsFree) ? "fa-unlock" : "fa-lock")"></i>@if(episode.IsFree){
+                                                                        <a href="/DownloadEpisodeFile/@episode.EpisodeId"><i class="fa-regular fa-download"></i></a>
+                                                                    }
+                                                                </span>
 
                                                             </li>
                                                         }
@@ -144,140 +145,148 @@
                                         {
                                             i += 1;
                                         }
-                                                                                }
+                                    }
 
-                                    </div>
                                 </div>
                             </div>
-                            <div aria-labelledby="contact-tab" class="tab-pane fade" id="contact" role="tabpanel">
-                                <div class="row team-wrap-2 gy-lg-0 gy-4 justify-content-center">
-                                    <div class="col-lg-4 col-md-6">
-                                        <div class="team-item-3 team-item-5">
-                                            <div class="team-thumb">
-                                                <div class="shape">
-                                                    <img alt="team" src="/assets/img/users/@Model.TeacherSummary.AvatarName">
-                                                </div>
-                                                @* <div class="team-men">
+                        </div>
+                        <div aria-labelledby="contact-tab" class="tab-pane fade" id="contact" role="tabpanel">
+                            <div class="row team-wrap-2 gy-lg-0 gy-4 justify-content-center">
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="team-item-3 team-item-5">
+                                        <div class="team-thumb">
+                                            <div class="shape">
+                                                <img alt="team" src="/assets/img/users/@Model.TeacherSummary.AvatarName">
+                                            </div>
+                                            @* <div class="team-men">
 													<img alt="team" src="/assets/img/users/@Model.TeacherSummary.AvatarName">
 												</div> *@
-                                            </div>
-                                            <div class="team-content">
-                                                <h3 class="title">
-                                                    <a href="team-details.html">@Model.TeacherSummary.UserName</a>
-                                                </h3>
-                                                <span>@Model.TeacherSummary.Biography</span>
-                                                <ul class="social-list">
-                                                    <li>
-                                                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fab fa-instagram"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fab fa-behance"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                        </div>
+                                        <div class="team-content">
+                                            <h3 class="title">
+                                                <a href="team-details.html">@Model.TeacherSummary.UserName</a>
+                                            </h3>
+                                            <span>@Model.TeacherSummary.Biography</span>
+                                            <ul class="social-list">
+                                                <li>
+                                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="fab fa-behance"></i></a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div aria-labelledby="contact-tab-2" class="tab-pane fade" id="contact-2" role="tabpanel">
-                                <div class="reviewr-wrap">
-                                    @if (User.Identity?.IsAuthenticated == true)
-                                    {
-                                        <div class="blog-contact-form">
-                                            <h2 class="title">نظر خود را وارد کنید</h2>
-                                            <div class="request-form">
-                                                <form asp-action="AddComment" asp-controller="Course" class="form-horizontal" method="post">
-                                                    <input type="hidden" name="courseId" value="@Model.CourseId" />
-                                                    <div class="form-group row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-item message-item">
-                                                                <textarea class="form-control address" cols="30" id="content" name="content" placeholder="متن" rows="5"></textarea>
-                                                                <div class="icon">
-                                                                    <i class="fa-light fa-comment"></i>
-                                                                </div>
-                                                                @if (!string.IsNullOrEmpty(ViewBag.CommentValidation))
-                                                                {
-                                                                    <span class="text-danger">@ViewBag.CommentValidation</span>
-                                                                }
+                        </div>
+                        <div aria-labelledby="contact-tab-2" class="tab-pane fade" id="contact-2" role="tabpanel">
+                            <div class="reviewr-wrap">
+                                @if (User.Identity?.IsAuthenticated == true)
+                                {
+                                    <div class="blog-contact-form">
+                                        <h2 class="title">نظر خود را وارد کنید</h2>
+                                        <div class="request-form">
+                                            <form asp-action="AddComment" asp-controller="Course" class="form-horizontal" method="post">
+                                                <input type="hidden" name="courseId" value="@Model.CourseId" />
+                                                <div class="form-group row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-item message-item">
+                                                            <textarea class="form-control address" cols="30" id="content" name="content" placeholder="متن" rows="5"></textarea>
+                                                            <div class="icon">
+                                                                <i class="fa-light fa-comment"></i>
                                                             </div>
+                                                            @if (!string.IsNullOrEmpty(ViewBag.CommentValidation))
+                                                            {
+                                                                <span class="text-danger">@ViewBag.CommentValidation</span>
+                                                            }
                                                         </div>
                                                     </div>
+                                                </div>
 
-                                                    <div class="submit-btn">
-                                                        <button class="ed-primary-btn" id="submit" type="submit">
-                                                            ثبت نظر<i class="fa-sharp fa-regular fa-arrow-left"></i>
-                                                        </button>
-                                                    </div>
-                                                </form>
+                                                <div class="submit-btn">
+                                                    <button class="ed-primary-btn" id="submit" type="submit">
+                                                        ثبت نظر<i class="fa-sharp fa-regular fa-arrow-left"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <br />
+                                    <h4>برای ثبت نظر خود ابتدا <a href="/Login">وارد سایت شوید</a></h4>
+                                    <br />
+                                }
+                                <br />
+                                <div class="review-list">
+
+                                    @foreach (var comment in Model.CourseComments)
+                                    {
+                                        <div class="review-item">
+                                            <div class="review-thumb">
+                                                <img alt="img" src="/assets/img/users/@comment.User.AvatarName">
+                                            </div>
+                                            <div class="content">
+                                                <div class="content-top">
+                                                    <h4 class="name">
+                                                        @comment.User.UserName<span>@comment.CreateDate.FixDate()</span>
+                                                    </h4>
+                                                </div>
+                                                <p>
+                                                    @comment.Content
+                                                </p>
                                             </div>
                                         </div>
                                     }
-                                    else
-                                    {
-                                        <br />
-                                        <h4>برای ثبت نظر خود ابتدا <a href="/Login">وارد سایت شوید</a></h4>
-                                        <br />
-                                    }
-                                    <br />
-                                    <div class="review-list">
 
-                                        @foreach (var comment in Model.CourseComments)
-                                        {
-                                            <div class="review-item">
-                                                <div class="review-thumb">
-                                                    <img alt="img" src="/assets/img/users/@comment.User.AvatarName">
-                                                </div>
-                                                <div class="content">
-                                                    <div class="content-top">
-                                                        <h4 class="name">
-                                                            @comment.User.UserName<span>@comment.CreateDate.FixDate()</span>
-                                                        </h4>
-                                                    </div>
-                                                    <p>
-                                                        @comment.Content
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        }
-
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-12">
-                <div class="course-sidebar price-box">
-                    <h4 class="price">@Model.Price تومان<span>0 ٪ تخفیف</span></h4>
+        </div>
+        <div class="col-xl-3 col-lg-12">
+            <div class="course-sidebar price-box">
+                <h4 class="price">@Model.Price تومان<span>0 ٪ تخفیف</span></h4>
+                    @if (ViewBag.HasUserBoughtTheCourse == true)
+                    {
+                        <span class="text-success">این دوره قبلا خریداری شده است</span>
+                    }
+                    else
+                    {
                     <a class="ed-primary-btn" asp-action="AddCourseToOrder" asp-controller="Order" asp-route-courseId="@Model.CourseId">به سبد خرید اضافه کنید</a>
-                </div>
-                <div class="course-sidebar sticky-widget">
-                    <h4 class="sidebar-title">اطلاعات دوره</h4>
-                    <ul class="course-sidebar-list">
-                        <li>
-                            <i class="fa-regular fa-house-chimney"></i>مربی:<span>@Model.TeacherSummary.UserName</span>
-                        </li>
-                        <li><i class="fa-regular fa-book"></i>تعداد ویدیو ها :<span>@Model.EpisodeCount</span></li>
-                        <li>
-                            <i class="fa-regular fa-clock"></i>مدت زمان:<span>@Model.TotalTime</span>
-                        </li>
+                    }
+                    
+            </div>
+            <div class="course-sidebar sticky-widget">
+                <h4 class="sidebar-title">اطلاعات دوره</h4>
+                <ul class="course-sidebar-list">
+                    <li>
+                        <i class="fa-regular fa-house-chimney"></i>مربی:<span>@Model.TeacherSummary.UserName</span>
+                    </li>
+                    <li><i class="fa-regular fa-book"></i>تعداد ویدیو ها :<span>@Model.EpisodeCount</span></li>
+                    <li>
+                        <i class="fa-regular fa-clock"></i>مدت زمان:<span>@Model.TotalTime</span>
+                    </li>
 
-                    </ul>
-                    <div class="share-btn">
-                        <button class="ed-primary-btn">
-                            <i class="fa-regular fa-share-nodes"></i>این دوره را به اشتراک
-                            بگذارید
-                        </button>
-                    </div>
+                </ul>
+                <div class="share-btn">
+                    <button class="ed-primary-btn">
+                        <i class="fa-regular fa-share-nodes"></i>این دوره را به اشتراک
+                        بگذارید
+                    </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </section>

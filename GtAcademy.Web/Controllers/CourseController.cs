@@ -4,6 +4,7 @@ using GtAcademy.Application.Courses.Commands.CreateCourseComment;
 using GtAcademy.Application.Courses.Common;
 using GtAcademy.Application.Courses.Queries.GetCourseDetails;
 using GtAcademy.Application.Courses.Queries.GetCoursesList;
+using GtAcademy.Application.Courses.Queries.HasUserBoughtTheCourse;
 using GtAcademy.Application.Courses.Queries.HasUserPermissionToEpisode;
 using GtAcademy.Application.Orders.Commands.AddCourseToOrder;
 using GtAcademy.Application.Orders.Commands.DeleteCourseFromOrder;
@@ -44,6 +45,8 @@ namespace GtAcademy.Web.Controllers
             if (result.IsError)
                 return NotFound();
 
+            var hasUserBoughtTheCourse = await _mediator.Send(new HasUserBoughtTheCourseQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!), courseId));
+            ViewBag.HasUserBoughtTheCourse = hasUserBoughtTheCourse.Value;
             return View(result.Value);
         }
 
