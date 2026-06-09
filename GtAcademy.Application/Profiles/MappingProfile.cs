@@ -9,6 +9,7 @@ using GtAcademy.Application.Admin.Users.Queries.GetUserDetailsForAdmin;
 using GtAcademy.Application.Admin.Users.Queries.GetUsersListForAdmin;
 using GtAcademy.Application.Courses.Common;
 using GtAcademy.Application.Orders.Common;
+using GtAcademy.Application.Orders.Queries.GetUsersPaidOrdersList;
 using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo;
 using GtAcademy.Application.Users.Common;
 using GtAcademy.Application.Users.Queries.GetUserProfile;
@@ -74,6 +75,7 @@ namespace GtAcademy.Application.Profiles
             #region Order
 
             CreateMap<Order, OrderDetailsDto>();
+            CreateMap<Order, OrderListItemDto>();
 
             #endregion
 

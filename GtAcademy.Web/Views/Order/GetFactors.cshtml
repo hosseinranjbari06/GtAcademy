@@ -1,0 +1,91 @@
+﻿@using GtAcademy.Application.Orders.Queries.GetUsersPaidOrdersList;
+@using GtAcademy.Application.Tools.PersianDateConverter;
+@model List<OrderListItemDto>
+
+@{
+    ViewData["Title"] = "فاکتور ها";
+}
+
+<section class="page-header">
+    <div class="bg-item">
+        <div class="bg-img" data-background="assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">فاکتور ها</h1>
+            <h4 class="sub-title">
+                <a class="home" href="/">خانه</a><span class="icon">/</span><a class="inner-page" href="#">فاکتور ها</a>
+            </h4>
+        </div>
+    </div>
+</section>
+
+<section class="event-details pt-120 pb-120">
+    <div class="container">
+        <div class="row gy-xl-0 gy-5">
+            <div class="col-lg-4 col-md-12">
+
+                <partial name="_ProfileSideBar" />
+
+            </div>
+            <div class="col-lg-8 col-md-12">
+
+                @if (Model.Any())
+                {
+                    <div class="event-details-content">
+                        <div class="checkout-left">
+
+                            <h3 class="form-header">لیست فاکتور ها</h3>
+
+                            <table class="table cart-table">
+                                <thead>
+                                    <tr>
+                                        <td>مبلغ کل</td>
+                                        <td>تعداد محصول</td>
+                                        <td>تاریخ پرداخت</td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var factor in Model)
+                                    {
+                                        <tr>
+                                            <td>@factor.TotalAmount</td>
+                                            <td>@factor.ItemsCount</td>
+                                            <td>@factor.PaymentDate?.ToShamsi().FixShamsiDate()</td>
+                                            <td><a href="/Factors/@factor.OrderId">جزئیات</a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+
+                else
+                {
+                    <div class="event-details-content">
+                        <div class="checkout-left">
+
+                            <h5 class="form-header">فاکتوری وجود ندارد</h5>
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

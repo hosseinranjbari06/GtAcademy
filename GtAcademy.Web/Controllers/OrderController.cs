@@ -2,7 +2,9 @@
 using GtAcademy.Application.Orders.Commands.AddCourseToOrder;
 using GtAcademy.Application.Orders.Commands.DeleteCourseFromOrder;
 using GtAcademy.Application.Orders.Commands.OrderPayment;
+using GtAcademy.Application.Orders.Queries.GetOrder;
 using GtAcademy.Application.Orders.Queries.GetUserCurrentOrder;
+using GtAcademy.Application.Orders.Queries.GetUsersPaidOrdersList;
 using GtAcademy.Application.Wallets.Queries.GetUsersWalletBalance;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -76,6 +78,26 @@ namespace GtAcademy.Web.Controllers
             if (result.IsError) return NotFound();
 
             return RedirectToAction(nameof(GetCurrentOrder));
+        }
+
+        [Authorize]
+        [Route("/Factors")]
+        public async Task<IActionResult> GetFactors()
+        {
+            var factors = await _mediator.Send(new GetUsersPaidOrdersListQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
+
+            return View(factors.Value);
+        }
+
+        [Authorize]
+        [Route("/Factors/{id}")]
+        public async Task<IActionResult> GetFactorDetails(Guid id)
+        {
+            var factor = await _mediator.Send(new GetUsersPaidOrderQuery(id));
+
+            if (factor.IsError) return NotFound();
+
+            return View(factor.Value);
         }
     }
 }

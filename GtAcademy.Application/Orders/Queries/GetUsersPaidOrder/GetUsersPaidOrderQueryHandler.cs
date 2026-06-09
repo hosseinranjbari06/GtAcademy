@@ -11,23 +11,23 @@ using System.Text;
 
 namespace GtAcademy.Application.Orders.Queries.GetOrder
 {
-    public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, ErrorOr<OrderDetailsDto>>
+    public class GetUsersPaidOrderQueryHandler : IRequestHandler<GetUsersPaidOrderQuery, ErrorOr<OrderDetailsDto>>
     {
         private readonly IOrderService _orderService;
 
         private readonly IMapper _mapper;
 
-        public GetOrderQueryHandler(IOrderService orderService, IMapper mapper)
+        public GetUsersPaidOrderQueryHandler(IOrderService orderService, IMapper mapper)
         {
             _orderService = orderService;
             _mapper = mapper;
         }
 
-        public async Task<ErrorOr<OrderDetailsDto>> Handle(GetOrderQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<OrderDetailsDto>> Handle(GetUsersPaidOrderQuery request, CancellationToken cancellationToken)
         {
             var order = await _orderService.GetOrderByIdIncludeItems(request.OrderId);
 
-            if (order == null)
+            if (order == null || !order.IsPaid)
                 return Error.NotFound();
 
             var orderDto = _mapper.Map<OrderDetailsDto>(order);

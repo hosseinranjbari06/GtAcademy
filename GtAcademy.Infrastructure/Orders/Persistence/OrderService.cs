@@ -33,6 +33,12 @@ namespace GtAcademy.Infrastructure.Orders.Persistence
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<List<Order>?> GetUsersPaidOrdersList(Guid userId)
+        {
+            var user = await _context.Users.Include(user => user.Orders).FirstAsync(user => user.UserId == userId);
+            return user.Orders?.Where(order => order.IsPaid).ToList();
+        }
+
         public async Task<bool> HasUserBoughtCourse(Guid userId, Guid courseId)
         {
             return await _context.Orders
