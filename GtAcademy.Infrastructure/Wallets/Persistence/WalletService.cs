@@ -23,5 +23,19 @@ namespace GtAcademy.Infrastructure.Wallets.Persistence
                 .Include(wallet => wallet.WalletIncomes)
                 .FirstOrDefaultAsync(wallet => wallet.UserId == userId);
         }
+
+        public async Task<int> GetWalletBalance(Guid walletId)
+        {
+            var wallet = await _context.Wallets.FindAsync(walletId);
+            return wallet!.WalletBalance;
+        }
+
+        public async Task<Guid?> GetWalletIdByUserId(Guid userId)
+        {
+            var user = await _context.Users.Include(user => user.Wallet).FirstOrDefaultAsync(user => user.UserId == userId);
+            if (user == null) return null;
+
+            return user.Wallet.WalletId;
+        }
     }
 }

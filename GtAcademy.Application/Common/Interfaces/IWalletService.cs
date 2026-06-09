@@ -8,5 +8,9 @@ namespace GtAcademy.Application.Common.Interfaces
     public interface IWalletService
     {
         Task<Wallet?> GetUsersWalletWithDetails(Guid userId);
+
+        Task<Guid?> GetWalletIdByUserId(Guid userId);
+
+        Task<int> GetWalletBalance(Guid walletId);
     }
 }

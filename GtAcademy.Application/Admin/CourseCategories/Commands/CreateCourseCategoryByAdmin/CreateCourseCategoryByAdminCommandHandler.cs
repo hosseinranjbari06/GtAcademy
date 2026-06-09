@@ -50,6 +50,7 @@ namespace GtAcademy.Application.Admin.CourseCategories.Commands.CreateCourseCate
                 return ErrorOr.Error.Validation(code: "Title", description: "عنوان وارد شده تکراری میباشد");
             }
 
+            request.CategoryDto.CategoryId = Guid.NewGuid();
             CourseCategory category = _mapper.Map<CourseCategory>(request.CategoryDto);
 
             await _genericCategoryService.AddAsync(category);

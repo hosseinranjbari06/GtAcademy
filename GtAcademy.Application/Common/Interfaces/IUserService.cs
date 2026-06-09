@@ -29,6 +29,8 @@ namespace GtAcademy.Application.Common.Interfaces
 
         Task<UserSummaryDto?> GetUserSummary(Guid userId);
 
+        Task<string> GetUserNameById(Guid userName);
+
         #region Admin
 
         Task<List<UserListItemDto>> GetUsersListForAdmin(SearchUsersListDto searchDto);

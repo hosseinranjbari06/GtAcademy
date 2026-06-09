@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using GtAcademy.Application.Orders.Commands.AddCourseToOrder;
 using GtAcademy.Application.Orders.Commands.DeleteCourseFromOrder;
+using GtAcademy.Application.Orders.Commands.OrderPayment;
 using GtAcademy.Application.Orders.Queries.GetUserCurrentOrder;
+using GtAcademy.Application.Wallets.Queries.GetUsersWalletBalance;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,11 +29,16 @@ namespace GtAcademy.Web.Controllers
             var result = await _mediator
                 .Send(new GetUserCurrentOrderQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
 
+            var walletBalance = await _mediator.Send(new GetUsersWalletBalanceQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
+
             if (result.IsError)
             {
                 ViewBag.IsEmpty = true;
                 return View();
             }
+
+            ViewBag.WalletBalance = walletBalance.Value;
+            ViewBag.IsPaymentAllowed = walletBalance.Value >= result.Value.TotalAmount;
 
             return View(result.Value);
         }
@@ -58,6 +65,17 @@ namespace GtAcademy.Web.Controllers
                 return NotFound();
 
             return RedirectToAction("GetCurrentOrder");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> OrderPayment()
+        {
+            var result = await _mediator.Send(new OrderPaymentCommand(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
+
+            if (result.IsError) return NotFound();
+
+            return RedirectToAction(nameof(GetCurrentOrder));
         }
     }
 }

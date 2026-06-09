@@ -148,6 +148,12 @@ namespace GtAcademy.Infrastructure.Users.Persistence
             return await _context.Users.AnyAsync(user => user.UserId == userId);
         }
 
+        public async Task<string> GetUserNameById(Guid userName)
+        {
+            var user = await _context.Users.FindAsync(userName);
+            return user!.UserName;
+        }
+
         #endregion
     }
 }

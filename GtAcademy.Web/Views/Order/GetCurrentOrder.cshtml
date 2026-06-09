@@ -126,10 +126,27 @@ else
                             <h4 class="title">قابل پرداخت</h4>
                             <span>@Model.TotalAmount تومان</span>
                         </div>
+                        <div class="checkout-total checkout-item">
+                            <h4 class="title">موجودی کیف پول</h4>
+                            <span>@ViewBag.WalletBalance تومان</span>
+                        </div>
                     </div>
-                    <div class="checkout-proceed">
-                        <a class="ed-primary-btn checkout-btn" href="checkout.html">ادامه و پرداخت</a>
-                    </div>
+
+                    @if (ViewBag.IsPaymentAllowed == true)
+                    {
+                        <div class="checkout-proceed">
+                            <form method="post" asp-action="OrderPayment">
+                                <button type="submit" class="ed-primary-btn checkout-btn">ادامه و پرداخت</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="text-danger">موجودی کیف پول شما کافی نمیباشد</span>
+                        <div class="checkout-proceed">
+                            <a class="ed-primary-btn checkout-btn" href="/Wallet">شارژ کیف پول</a>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

@@ -8,5 +8,9 @@ namespace GtAcademy.Application.Common.Interfaces
     public interface IReferralService
     {
         Task<Referral?> GetReferralByReferredId(Guid referredId);
+
+        Task<Guid?> GetUsersReferrerId(Guid userId);
+
+        Task<float> GetRewardPercent();
     }
 }
