@@ -7,6 +7,7 @@ using GtAcademy.Infrastructure.Permissions.Persistence;
 using GtAcademy.Infrastructure.Referrals.Persistence;
 using GtAcademy.Infrastructure.Roles.Persistence;
 using GtAcademy.Infrastructure.Tools.Persistence;
+using GtAcademy.Infrastructure.Topics.Persistence;
 using GtAcademy.Infrastructure.Users.Persistence;
 using GtAcademy.Infrastructure.Wallets.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,7 @@ namespace GtAcademy.Infrastructure
             services.AddScoped<IPermissionService, PermissionService>();
             services.AddScoped<ICourseCommentService, CourseCommentService>();
             services.AddScoped<ICourseCategoryService, CourseCategoryService>();
+            services.AddScoped<ITopicService, TopicService>();
 
             return services;
         }

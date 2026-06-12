@@ -108,6 +108,7 @@
                                     </td>
                                     <td>
                                         <a asp-action="Details" asp-route-id="@course.CourseId" class="bg-main-50 text-main-600 py-2 px-14 rounded-pill hover-bg-main-600 hover-text-white">جزئیات</a>
+                                        <a asp-action="Index" asp-controller="Topics" asp-route-id="@course.CourseId" class="bg-info-50 text-info-600 py-2 px-14 rounded-pill hover-bg-warning-600 hover-text-white">سرفصل ها</a>
                                         <a asp-action="Edit" asp-route-id="@course.CourseId" class="bg-warning-50 text-warning-600 py-2 px-14 rounded-pill hover-bg-warning-600 hover-text-white">ویرایش</a>
                                         <a asp-action="Delete" asp-route-id="@course.CourseId" class="bg-danger-50 text-danger-600 py-2 px-14 rounded-pill hover-bg-danger-600 hover-text-white">حذف</a>
                                     </td>

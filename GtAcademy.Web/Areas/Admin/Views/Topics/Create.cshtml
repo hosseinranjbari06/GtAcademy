@@ -1,0 +1,40 @@
+﻿@using GtAcademy.Application.Admin.Topics.Commands.CreateTopic
+@model CreateTopicDto
+@{
+    ViewData["Title"] = "افزودن سرفصل جدید";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h1>افزودن سرفصل جدید</h1>
+
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form action="/Admin/Topics/Create" method="post">
+                    <input asp-for="@Model.CourseId" type="hidden" value="@ViewBag.CourseId" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">عنوان</label>
+                        <input asp-for="@Model.Title" class="form-control" />
+                        <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="ایجاد" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a href="/Admin/Topics/@ViewBag.CourseId">بازگشت به لیست سرفصل ها</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

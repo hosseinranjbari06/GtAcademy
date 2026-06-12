@@ -1,14 +1,17 @@
-﻿using System;
+﻿using GtAcademy.Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GtAcademy.Domain.Courses
 {
-    public class Topic
+    public class Topic : BaseDomain
     {
         public int TopicId { get; set; }
 
         public string Title { get; set; } = string.Empty;
+
+        public DateTime CreateDate { get; set; }
 
         public Guid CourseId { get; set; }
 

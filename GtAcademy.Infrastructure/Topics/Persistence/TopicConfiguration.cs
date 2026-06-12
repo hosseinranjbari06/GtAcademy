@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace GtAcademy.Infrastructure.Courses.Persistence
+namespace GtAcademy.Infrastructure.Topics.Persistence
 {
     public class TopicConfiguration : IEntityTypeConfiguration<Topic>
     {
@@ -18,6 +18,9 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 .IsRequired();
 
             builder.Property(t => t.CourseId)
+                .IsRequired();
+
+            builder.Property(t => t.CreateDate)
                 .IsRequired();
         }
     }

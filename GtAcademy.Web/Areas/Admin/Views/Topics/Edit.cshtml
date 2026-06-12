@@ -1,0 +1,41 @@
+﻿@using GtAcademy.Application.Admin.Topics.Commands.EditTopic
+@model EditTopicDto
+@{
+    ViewData["Title"] = "ویرایش سرفصل";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h1>ویرایش سرفصل</h1>
+
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form action="/Admin/Topics/Edit" method="post">
+                    <input asp-for="@Model.TopicId" type="hidden" value="@Model.TopicId" />
+                    <input asp-for="@Model.CourseId" type="hidden" value="@Model.CourseId" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">عنوان</label>
+                        <input asp-for="@Model.Title" class="form-control" value="@Model.Title" />
+                        <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="ویرایش" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a href="/Admin/Topics/@ViewBag.CourseId">بازگشت به لیست سرفصل ها</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
