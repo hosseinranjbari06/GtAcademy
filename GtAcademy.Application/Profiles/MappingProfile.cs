@@ -3,6 +3,7 @@ using GtAcademy.Application.Admin.CourseComments.Queries.GetCourseCommentDetails
 using GtAcademy.Application.Admin.Courses.Commands.CreateCourseByAdmin;
 using GtAcademy.Application.Admin.Courses.Commands.EditCourseByAdmin;
 using GtAcademy.Application.Admin.Courses.Queries.GetCoursesListForAdmin;
+using GtAcademy.Application.Admin.Episodes.Commands.EditEpisode;
 using GtAcademy.Application.Admin.Users.Commands.CreateUserByAdmin;
 using GtAcademy.Application.Admin.Users.Commands.EditUserByAdmin;
 using GtAcademy.Application.Admin.Users.Queries.GetUserDetailsForAdmin;
@@ -63,6 +64,8 @@ namespace GtAcademy.Application.Profiles
             CreateMap<Topic, TopicDto>();
 
             CreateMap<Episode, EpisodeDto>();
+
+            CreateMap<Episode, EditEpisodeDto>();
 
             CreateMap<CourseComment, CourseCommentDto>();
 

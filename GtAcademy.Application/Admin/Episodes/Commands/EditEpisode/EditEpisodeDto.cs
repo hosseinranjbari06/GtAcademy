@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GtAcademy.Application.Courses.Common
+namespace GtAcademy.Application.Admin.Episodes.Commands.EditEpisode
 {
-    public class EpisodeDto
+    public class EditEpisodeDto
     {
         public Guid EpisodeId { get; set; }
 
@@ -12,8 +12,10 @@ namespace GtAcademy.Application.Courses.Common
 
         public TimeSpan Time { get; set; }
 
+        public string FileName { get; set; } = string.Empty;
+
         public bool IsFree { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public int TopicId { get; set; }
     }
 }

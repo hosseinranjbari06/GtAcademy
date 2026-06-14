@@ -98,7 +98,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index), new { id = topicDto.CourseId });
         }
 
-        [HttpPost("Admin/Topics/Edit/{id}")]
+        [HttpPost("Admin/Topics/Delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _mediator.Send(new DeleteTopicCommand(id));

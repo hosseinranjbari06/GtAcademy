@@ -2,6 +2,7 @@
 using GtAcademy.Application.Tools.RandomCodeGenerator;
 using GtAcademy.Infrastructure.Common.Persistence;
 using GtAcademy.Infrastructure.Courses.Persistence;
+using GtAcademy.Infrastructure.Episodes.Persistence;
 using GtAcademy.Infrastructure.Orders.Persistence;
 using GtAcademy.Infrastructure.Permissions.Persistence;
 using GtAcademy.Infrastructure.Referrals.Persistence;
@@ -41,6 +42,7 @@ namespace GtAcademy.Infrastructure
             services.AddScoped<ICourseCommentService, CourseCommentService>();
             services.AddScoped<ICourseCategoryService, CourseCategoryService>();
             services.AddScoped<ITopicService, TopicService>();
+            services.AddScoped<IEpisodeService, EpisodeService>();
 
             return services;
         }

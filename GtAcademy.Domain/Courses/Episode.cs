@@ -16,6 +16,8 @@ namespace GtAcademy.Domain.Courses
 
         public bool IsFree { get; set; }
 
+        public DateTime CreateDate { get; set; }
+
         public int TopicId { get; set; }
 
         public Topic Topic { get; set; } = new Topic();

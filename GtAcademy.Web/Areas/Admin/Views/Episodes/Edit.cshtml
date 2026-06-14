@@ -1,0 +1,59 @@
+﻿@using GtAcademy.Application.Admin.Episodes.Commands.EditEpisode
+@model EditEpisodeDto
+@{
+    ViewData["Title"] = "ویرایش اپیزود";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h1>ویرایش اپیزود</h1>
+
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form action="/Admin/Episodes/Edit" method="post" enctype="multipart/form-data">
+                    <input asp-for="@Model.TopicId" type="hidden" />
+                    <input asp-for="@Model.EpisodeId" type="hidden" />
+                    <input asp-for="@Model.FileName" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label class="control-label">عنوان</label>
+                        <input asp-for="@Model.Title" class="form-control" />
+                        <span asp-validation-for="@Model.Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">مدت زمان</label>
+                        <input type="text" placeholder="00:00:00" asp-for="@Model.Time" class="form-control" />
+                        <span asp-validation-for="@Model.Time" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">فایل</label>
+                        <input accept=".rar, .zip" type="file" name="file" class="form-control" />
+                        <span asp-validation-for="FileName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"> رایگان بودن</label>
+                        <input type="checkbox" asp-for="@Model.IsFree" />
+                        <span asp-validation-for="@Model.IsFree" class="text-danger"></span>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <input type="submit" value="ویرایش" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a href="/Admin/Episodes/@ViewBag.TopicId">بازگشت به لیست اپیزود ها</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

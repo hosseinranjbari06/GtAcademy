@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GtAcademy.Application.Courses.Common
+namespace GtAcademy.Application.Admin.Episodes.Commands.CreateEpisode
 {
-    public class EpisodeDto
+    public class CreateEpisodeDto
     {
-        public Guid EpisodeId { get; set; }
-
         public string Title { get; set; } = string.Empty;
 
         public TimeSpan Time { get; set; }
 
+        public string FileName { get; set; } = string.Empty;
+
         public bool IsFree { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public int TopicId { get; set; }
     }
 }

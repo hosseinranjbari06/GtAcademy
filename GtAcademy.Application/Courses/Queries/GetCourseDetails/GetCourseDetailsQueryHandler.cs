@@ -43,8 +43,6 @@ namespace GtAcademy.Application.Courses.Queries.GetCourseDetails
 
             courseDto.CourseComments.ForEach(async comment => comment.User = await _userService.GetUserSummary(comment.UserId));
 
-            courseDto.Topics.ForEach(topic => { courseDto.EpisodeCount += topic.Episodes.Count; });
-
             return courseDto;
         }
     }

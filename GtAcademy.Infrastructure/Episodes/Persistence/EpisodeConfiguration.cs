@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace GtAcademy.Infrastructure.Courses.Persistence
+namespace GtAcademy.Infrastructure.Episodes.Persistence
 {
     public class EpisodeConfiguration : IEntityTypeConfiguration<Episode>
     {
