@@ -22,7 +22,7 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
               .IsRequired();
 
             builder.Property(c => c.Description)
-              .HasMaxLength(5000)
+              .HasMaxLength(15000)
               .IsRequired();
 
             builder.Property(c => c.Tags)

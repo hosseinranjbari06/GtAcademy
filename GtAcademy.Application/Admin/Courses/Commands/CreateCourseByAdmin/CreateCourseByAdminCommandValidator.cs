@@ -21,7 +21,7 @@ namespace GtAcademy.Application.Admin.Courses.Commands.CreateCourseByAdmin
             RuleFor(c => c.Description)
                 .NotEmpty()
                 .MinimumLength(20)
-                .MaximumLength(5000);
+                .MaximumLength(15000);
 
             RuleFor(c => c.Tags)
                 .NotEmpty()

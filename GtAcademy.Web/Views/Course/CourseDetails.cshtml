@@ -101,7 +101,7 @@
                         <div class="tab-content" id="myTabContent">
                             <div aria-labelledby="home-tab" class="tab-pane fade show active" id="home" role="tabpanel">
                                 <div class="tab-overview">
-                                    @Model.Description
+                                    @Html.Raw(Model.Description)
                                 </div>
                             </div>
                             <div aria-labelledby="profile-tab" class="tab-pane fade" id="profile" role="tabpanel">
