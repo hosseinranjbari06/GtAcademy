@@ -9,6 +9,6 @@ namespace GtAcademy.Application.Common.Interfaces
     {
         Task<List<Topic>?> GetCoursesTopics(Guid courseId);
 
-        Task<Topic?> GetTopicForEdit(int topicId);
+        Task<Topic?> GetTopicWithRelations(int topicId);
     }
 }

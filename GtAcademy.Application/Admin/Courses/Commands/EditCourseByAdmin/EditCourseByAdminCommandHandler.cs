@@ -42,7 +42,7 @@ namespace GtAcademy.Application.Admin.Courses.Commands.EditCourseByAdmin
                     .ToList();
             }
 
-            var course = await _courseService.GetCourseForEditById(request.CourseDto.CourseId);
+            var course = await _courseService.GetCourseWithRelations(request.CourseDto.CourseId);
 
             if (course == null) return Error.NotFound();
 

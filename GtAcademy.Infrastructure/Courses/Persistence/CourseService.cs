@@ -167,12 +167,13 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
             return await courses.Select(course => _mapper.Map<CourseListItemDto>(course)).ToListAsync();
         }
 
-        public async Task<Course?> GetCourseForEditById(Guid courseId)
+        public async Task<Course?> GetCourseWithRelations(Guid courseId)
         {
             return await _context.Courses
                 .Include(course => course.CourseCategories)
                 .Include(course => course.CourseComments)
-                //.Include(course => course.Topics)
+                .Include(course => course.Topics)
+                .ThenInclude(topic => topic.Episodes)
                 .Include(course => course.Orders)
                 .FirstOrDefaultAsync(course => course.CourseId == courseId);
         }

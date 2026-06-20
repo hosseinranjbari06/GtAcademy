@@ -128,11 +128,15 @@ namespace GtAcademy.Infrastructure.Users.Persistence
             return await users.Select(user => _mapper.Map<UserListItemDto>(user)).ToListAsync();
         }
 
-        public async Task<User?> GetUserForEditByAdmin(Guid userId)
+        public async Task<User?> GetUserWithRelations(Guid userId)
         {
             return await _context.Users
                 .Where(user => user.UserId == userId)
                 .Include(user => user.Roles)
+                .Include(user => user.Wallet)
+                .Include(user => user.Orders)
+                .Include(user => user.ReferralReceived)
+                .Include(user => user.ReferralsSent)
                 .FirstOrDefaultAsync();
         }
 

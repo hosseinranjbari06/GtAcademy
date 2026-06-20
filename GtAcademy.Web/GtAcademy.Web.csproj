@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CourseFiles\49adaad0-e38f-4891-b679-1ffbe19d78ca\**" />
+    <Content Remove="CourseFiles\49adaad0-e38f-4891-b679-1ffbe19d78ca\**" />
+    <EmbeddedResource Remove="CourseFiles\49adaad0-e38f-4891-b679-1ffbe19d78ca\**" />
+    <None Remove="CourseFiles\49adaad0-e38f-4891-b679-1ffbe19d78ca\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
       <PrivateAssets>all</PrivateAssets>

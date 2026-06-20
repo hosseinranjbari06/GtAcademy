@@ -38,7 +38,7 @@ namespace GtAcademy.Application.Admin.Topics.Commands.EditTopic
                     .ToList();
             }
 
-            var topic = await _topicService.GetTopicForEdit(request.TopicDto.TopicId);
+            var topic = await _topicService.GetTopicWithRelations(request.TopicDto.TopicId);
 
             if (topic == null) return Error.NotFound();
 

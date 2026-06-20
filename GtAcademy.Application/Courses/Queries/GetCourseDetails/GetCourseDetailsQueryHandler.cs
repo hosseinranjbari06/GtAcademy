@@ -8,6 +8,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 
 namespace GtAcademy.Application.Courses.Queries.GetCourseDetails
 {
@@ -41,7 +42,10 @@ namespace GtAcademy.Application.Courses.Queries.GetCourseDetails
 
             courseDto.TeacherSummary = userSummary;
 
-            courseDto.CourseComments.ForEach(async comment => comment.User = await _userService.GetUserSummary(comment.UserId));
+            foreach (var comment in courseDto.CourseComments)
+            {
+                comment.User = await _userService.GetUserSummary(comment.UserId);
+            }
 
             return courseDto;
         }

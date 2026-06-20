@@ -1,0 +1,41 @@
+﻿@model float
+
+@{
+    ViewData["Title"] = "تنظیمات بازاریابی";
+}
+
+<div class="breadcrumb-with-buttons mb-24 flex-between flex-wrap gap-8">
+    <!-- Breadcrumb Start -->
+    <div class="breadcrumb mb-24">
+        <ul class="flex-align gap-4">
+            <li><a href="/Admin" class="text-gray-200 fw-normal text-15 hover-text-main-600">خانه</a></li>
+            <li> <span class="text-gray-500 fw-normal d-flex"><i class="ph ph-caret-left"></i></span> </li>
+            <li><span class="text-main-600 fw-normal text-15">تنظیمات بازاریابی</span></li>
+        </ul>
+    </div>
+    <!-- Breadcrumb End -->
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <h1>تنظیمات بازاریابی</h1>
+
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <form action="/Admin/Referrals/EditOptions" method="post">
+                    <div class="form-group">
+                        <label class="control-label">درصد پاداش بازاریاب</label>
+                        <input name="rewardPercent" value="@Model" type="number" step="0.01" min="0" max="100" class="form-control" />
+                        <span  class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="ثبت" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

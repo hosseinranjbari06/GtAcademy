@@ -35,7 +35,7 @@ namespace GtAcademy.Application.Common.Interfaces
 
         Task<List<UserListItemDto>> GetUsersListForAdmin(SearchUsersListDto searchDto);
 
-        Task<User?> GetUserForEditByAdmin(Guid userId);
+        Task<User?> GetUserWithRelations(Guid userId);
 
         Task<User?> GetUserByIdForAdmin(Guid userId);
 

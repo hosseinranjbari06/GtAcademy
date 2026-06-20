@@ -87,7 +87,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/coursefiles/{result.Value}/{episodeDto.TopicId}");
+            string path = Path.Combine(Directory.GetCurrentDirectory(), $"CourseFiles/{result.Value}/{episodeDto.TopicId}");
             await FileManager.SaveFile(file, path, episodeDto.FileName);
 
             return RedirectToAction(nameof(Index), new { id = episodeDto.TopicId });
@@ -142,7 +142,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
             if (file != null)
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/coursefiles/{result.Value}/{episodeDto.TopicId}");
+                string path = Path.Combine(Directory.GetCurrentDirectory(), $"CourseFiles/{result.Value}/{episodeDto.TopicId}");
 
                 await FileManager.DeleteFile(path, oldFileName);
                 await FileManager.SaveFile(file, path, episodeDto.FileName);
@@ -158,7 +158,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
             if (result.IsError) return NotFound();
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot/coursefiles/{result.Value.Item2}/{result.Value.Item1}");
+            string path = Path.Combine(Directory.GetCurrentDirectory(), $"CourseFiles/{result.Value.Item2}/{result.Value.Item1}");
             await FileManager.DeleteFile(path, result.Value.Item3);
 
             return RedirectToAction(nameof(Index), new { id = result.Value.Item1 });

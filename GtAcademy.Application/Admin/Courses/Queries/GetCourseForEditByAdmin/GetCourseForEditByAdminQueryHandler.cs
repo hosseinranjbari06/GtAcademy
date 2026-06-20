@@ -23,7 +23,7 @@ namespace GtAcademy.Application.Admin.Courses.Queries.GetCourseForEditByAdmin
 
         public async Task<ErrorOr<EditCourseDto>> Handle(GetCourseForEditByAdminQuery request, CancellationToken cancellationToken)
         {
-            var course = await _courseService.GetCourseForEditById(request.CourseId);
+            var course = await _courseService.GetCourseWithRelations(request.CourseId);
 
             if (course == null) return Error.NotFound();
 

@@ -8,30 +8,31 @@ using System.Text;
 
 namespace GtAcademy.Application.Courses.Queries.HasUserPermissionToEpisode
 {
-    public class HasUserPermissionToEpisodeQueryHandler : IRequestHandler<HasUserPermissionToEpisodeQuery, ErrorOr<string>>
+    public class HasUserPermissionToEpisodeQueryHandler : IRequestHandler<HasUserPermissionToEpisodeQuery, ErrorOr<(Guid, int, string)>>
     {
-        private readonly IGenericService<Episode> _genericEpisodeService;
+        private readonly IEpisodeService _episodeService;
+
         private readonly IOrderService _orderService;
 
-        public HasUserPermissionToEpisodeQueryHandler(IGenericService<Episode> genericEpisodeService, IOrderService orderService)
+        public HasUserPermissionToEpisodeQueryHandler(IOrderService orderService, IEpisodeService episodeService)
         {
-            _genericEpisodeService = genericEpisodeService;
             _orderService = orderService;
+            _episodeService = episodeService;
         }
 
-        public async Task<ErrorOr<string>> Handle(HasUserPermissionToEpisodeQuery request, CancellationToken cancellationToken)
+        public async Task<ErrorOr<(Guid, int, string)>> Handle(HasUserPermissionToEpisodeQuery request, CancellationToken cancellationToken)
         {
-            var episode = await _genericEpisodeService.GetByIdAsync(request.EpisodeId);
+            var episode = await _episodeService.GetEpisodeWithRelations(request.EpisodeId);
 
             if (episode == null) return Error.NotFound();
 
-            if (episode.IsFree) return episode.FileName;
+            if (episode.IsFree) return (episode.Topic.CourseId, episode.TopicId, episode.FileName);
 
             var result = await _orderService.HasUserBoughtCourse(request.UserId, episode.CourseId);
 
             if (result == false) return Error.Unauthorized(description:"کاربر به فایل مورد نظر دسترسی ندارد");
 
-            return episode.FileName;
+            return (episode.Topic.CourseId, episode.TopicId, episode.FileName);
         }
     }
 }

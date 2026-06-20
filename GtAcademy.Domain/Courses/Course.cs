@@ -27,6 +27,8 @@ namespace GtAcademy.Domain.Courses
 
         public DateTime LastUpdateDate { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public List<Order> Orders { get; set; } = [];
 
         public List<Topic> Topics { get; set; } = [];

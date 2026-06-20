@@ -1,9 +1,11 @@
 ﻿using GtAcademy.Application.Admin.CourseCategories.Queries.GetCourseCategoriesListForAdmin;
 using GtAcademy.Application.Admin.Courses.Commands.CreateCourseByAdmin;
+using GtAcademy.Application.Admin.Courses.Commands.DeleteCourseByAdmin;
 using GtAcademy.Application.Admin.Courses.Commands.EditCourseByAdmin;
 using GtAcademy.Application.Admin.Courses.Queries.GetCourseForEditByAdmin;
 using GtAcademy.Application.Admin.Courses.Queries.GetCoursesListForAdmin;
 using GtAcademy.Application.Admin.Users.Queries.GetTeachersListForAdmin;
+using GtAcademy.Application.Courses.Common;
 using GtAcademy.Application.Courses.Queries.GetCoursesCount;
 using GtAcademy.Domain.Courses;
 using GtAcademy.Infrastructure.Common.Persistence;
@@ -205,13 +207,17 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var course = await _context.Courses.FindAsync(id);
-            if (course != null)
+            var result = await _mediator.Send(new DeleteCourseByAdminCommand(id));
+
+            if (result.IsError) return NotFound();
+
+            string path = Path.Combine(Directory.GetCurrentDirectory(), $"CourseFiles/{id}");
+
+            if (Directory.Exists(path))
             {
-                _context.Courses.Remove(course);
+                Directory.Delete(path, true);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

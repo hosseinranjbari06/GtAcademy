@@ -34,6 +34,8 @@ namespace GtAcademy.Infrastructure.Users.Persistence
 
             builder.Property(u => u.Job)
                 .HasMaxLength(50);
+
+            builder.HasQueryFilter("SoftDelete", u => !u.IsDeleted);
         }
     }
 }

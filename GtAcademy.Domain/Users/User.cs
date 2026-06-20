@@ -36,6 +36,8 @@ namespace GtAcademy.Domain.Users
 
         public DateTime RegisterDate { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public string ReferralCode { get; set; } = string.Empty;
 
         public Guid? ReferralId { get; set; }

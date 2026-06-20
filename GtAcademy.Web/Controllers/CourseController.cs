@@ -58,9 +58,9 @@ namespace GtAcademy.Web.Controllers
 
             if (result.IsError) return NotFound();
 
-            string filepath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/coursefiles", result.Value);
+            string filepath = Path.Combine(Directory.GetCurrentDirectory(), $"CourseFiles/{result.Value.Item1}/{result.Value.Item2}/{result.Value.Item3}");
             byte[] file = System.IO.File.ReadAllBytes(filepath);
-            return File(file, "application/force-download", result.Value);
+            return File(file, "application/force-download", result.Value.Item3);
         }
 
         [Authorize]

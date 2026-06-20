@@ -20,6 +20,7 @@ namespace GtAcademy.Infrastructure.Orders.Persistence
         public async Task<Order?> GetOrderByIdIncludeItems(Guid orderId)
         {
             return await _context.Orders
+                .IgnoreQueryFilters(["SoftDelete"])
                 .Where(order => order.OrderId == orderId)
                 .Include(order => order.Courses)
                 .FirstAsync();
@@ -28,6 +29,7 @@ namespace GtAcademy.Infrastructure.Orders.Persistence
         public async Task<Order?> GetUserCurrentOrderIncludeItems(Guid userId)
         {
             return await _context.Orders
+                .IgnoreQueryFilters(["SoftDelete"])
                 .Where(order => order.UserId == userId && !order.IsPaid)
                 .Include(order => order.Courses)
                 .FirstOrDefaultAsync();

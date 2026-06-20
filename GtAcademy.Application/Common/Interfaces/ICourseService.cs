@@ -29,7 +29,7 @@ namespace GtAcademy.Application.Common.Interfaces
 
         Task<List<CourseListItemDto>> GetCoursesListForAdmin(SearchCourseListDto searchDto);
 
-        Task<Course?> GetCourseForEditById(Guid courseId);
+        Task<Course?> GetCourseWithRelations(Guid courseId);
 
         #endregion
     }

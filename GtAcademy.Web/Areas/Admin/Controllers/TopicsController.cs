@@ -98,12 +98,27 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index), new { id = topicDto.CourseId });
         }
 
-        [HttpPost("Admin/Topics/Delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPost("Admin/Topics/Delete")]
+        public async Task<IActionResult> Delete(int topicId, Guid courseId)
         {
-            var result = await _mediator.Send(new DeleteTopicCommand(id));
+            var result = await _mediator.Send(new DeleteTopicCommand(topicId));
 
-            if (result.IsError) return NotFound();
+            if (result.IsError)
+            {
+                if (result.FirstError.Type == ErrorOr.ErrorType.Validation)
+                {
+                    var indexResult = await _mediator.Send(new GetCoursesTopicsQuery(courseId));
+
+                    if (indexResult.IsError) return NotFound();
+
+                    ViewBag.CourseId = courseId;
+                    ViewBag.ValidationError = result.FirstError.Description;
+
+                    return View("Index", indexResult.Value);
+                }
+
+                return NotFound();
+            }
 
             return RedirectToAction(nameof(Index), new { id = result.Value });
         }

@@ -31,6 +31,8 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
 
             builder.Property(c => c.TeacherId)
               .IsRequired();
+
+            builder.HasQueryFilter("SoftDelete", c => !c.IsDeleted);
         }
     }
 }

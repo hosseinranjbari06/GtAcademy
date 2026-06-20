@@ -60,7 +60,7 @@ namespace GtAcademy.Application.Admin.Episodes.Commands.EditEpisode
 
             if (episode.Time != request.EpisodeDto.Time)
             {
-                var course = await _courseService.GetCourseForEditById(episode.Topic.CourseId);
+                var course = await _courseService.GetCourseWithRelations(episode.Topic.CourseId);
 
                 if (course == null) return Error.NotFound();
 

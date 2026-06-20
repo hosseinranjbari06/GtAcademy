@@ -66,7 +66,7 @@ namespace GtAcademy.Application.Admin.Episodes.Commands.CreateEpisode
                 Topic = topic
             };
 
-            var course = await _courseService.GetCourseForEditById(topic.CourseId);
+            var course = await _courseService.GetCourseWithRelations(topic.CourseId);
 
             if (course == null) return Error.NotFound();
 

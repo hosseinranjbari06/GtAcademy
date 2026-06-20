@@ -23,7 +23,7 @@ namespace GtAcademy.Infrastructure.Topics.Persistence
             return course?.Topics;
         }
 
-        public async Task<Topic?> GetTopicForEdit(int topicId)
+        public async Task<Topic?> GetTopicWithRelations(int topicId)
         {
             return await _context.Topics
             .Include(topic => topic.Course)

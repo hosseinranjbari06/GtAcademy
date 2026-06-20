@@ -6,5 +6,5 @@ using System.Text;
 
 namespace GtAcademy.Application.Courses.Queries.HasUserPermissionToEpisode
 {
-    public record HasUserPermissionToEpisodeQuery(Guid UserId, Guid EpisodeId) : IRequest<ErrorOr<string>>;
+    public record HasUserPermissionToEpisodeQuery(Guid UserId, Guid EpisodeId) : IRequest<ErrorOr<(Guid, int, string)>>;
 }

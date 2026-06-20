@@ -35,7 +35,7 @@ namespace GtAcademy.Application.Admin.Episodes.Commands.DeleteEpisode
 
             if (episode == null) return Error.NotFound();
 
-            var course = await _courseService.GetCourseForEditById(episode.Topic.CourseId);
+            var course = await _courseService.GetCourseWithRelations(episode.Topic.CourseId);
 
             if (course == null) return Error.NotFound();
 

@@ -49,7 +49,7 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 .OrderByDescending(comment => comment.CreateDate)
                 .Include(comment => comment.Course);
 
-            var commentDtos = comments.Select(comment => new CourseCommentListItemDto()
+            var commentDtos = await comments.Select(comment => new CourseCommentListItemDto()
             {
                 CommentId = comment.CommentId,
                 Content = (comment.Content.Length > 20) ? comment.Content.Substring(0, 20) + " ..." : comment.Content,
@@ -57,10 +57,10 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 AdminSubmited = comment.AdminSubmited,
                 CourseId = comment.CourseId,
                 CourseTitle = comment.Course.Title,
-                User = _mapper.Map<UserSummaryDto>(_context.Users.Find(comment.UserId))
-            });
+                User = _mapper.Map<UserSummaryDto>(_context.Users.First(c => c.UserId == comment.UserId))
+            }).ToListAsync();
 
-            searchDto.Comments = await commentDtos.ToListAsync();
+            searchDto.Comments = commentDtos;
 
             return searchDto;
         }

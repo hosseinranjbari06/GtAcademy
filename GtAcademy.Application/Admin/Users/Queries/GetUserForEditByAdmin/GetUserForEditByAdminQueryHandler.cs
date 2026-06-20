@@ -24,7 +24,7 @@ namespace GtAcademy.Application.Admin.Users.Queries.GetUserForEditByAdmin
 
         public async Task<ErrorOr<EditUserDto>> Handle(GetUserForEditByAdminQuery request, CancellationToken cancellationToken)
         {
-            var user = await _userService.GetUserForEditByAdmin(request.UserId);
+            var user = await _userService.GetUserWithRelations(request.UserId);
 
             if (user == null) return Error.NotFound();
 
