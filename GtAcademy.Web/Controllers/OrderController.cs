@@ -93,7 +93,7 @@ namespace GtAcademy.Web.Controllers
         [Route("/Factors/{id}")]
         public async Task<IActionResult> GetFactorDetails(Guid id)
         {
-            var factor = await _mediator.Send(new GetUsersPaidOrderQuery(id));
+            var factor = await _mediator.Send(new GetUsersPaidOrderQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!), id));
 
             if (factor.IsError) return NotFound();
 

@@ -7,5 +7,5 @@ using System.Text;
 
 namespace GtAcademy.Application.Orders.Queries.GetOrder
 {
-    public record GetUsersPaidOrderQuery(Guid OrderId) : IRequest<ErrorOr<OrderDetailsDto>>;
+    public record GetUsersPaidOrderQuery(Guid UserId, Guid OrderId) : IRequest<ErrorOr<OrderDetailsDto>>;
 }

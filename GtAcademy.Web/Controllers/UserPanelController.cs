@@ -46,6 +46,7 @@ namespace GtAcademy.Web.Controllers
         public async Task<IActionResult> EditProfile(EditUserProfileDto profileDto, IFormFile? avatarFile)
         {
             string oldAvatarName = "";
+            profileDto.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
             if (avatarFile != null)
             {

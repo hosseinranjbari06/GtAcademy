@@ -27,7 +27,7 @@ namespace GtAcademy.Application.Orders.Queries.GetOrder
         {
             var order = await _orderService.GetOrderByIdIncludeItems(request.OrderId);
 
-            if (order == null || !order.IsPaid)
+            if (order == null || !order.IsPaid || order.UserId != request.UserId)
                 return Error.NotFound();
 
             var orderDto = _mapper.Map<OrderDetailsDto>(order);
