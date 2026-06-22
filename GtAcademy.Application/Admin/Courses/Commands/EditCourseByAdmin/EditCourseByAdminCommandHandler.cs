@@ -3,6 +3,7 @@ using ErrorOr;
 using FluentValidation;
 using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Domain.Courses;
+using GtAcademy.Domain.Orders;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -16,19 +17,22 @@ namespace GtAcademy.Application.Admin.Courses.Commands.EditCourseByAdmin
 
         private readonly IGenericService<CourseCategory> _genericCategoryService;
 
+        private readonly IGenericService<Order> _genericOrderService;
+
         private readonly ICourseService _courseService;
 
         private readonly IUnitOfWork _unitOfWork;
 
         private readonly IValidator<EditCourseDto> _validator;
 
-        public EditCourseByAdminCommandHandler(IGenericService<Course> genericCourseService, ICourseService courseService, IUnitOfWork unitOfWork, IValidator<EditCourseDto> validator, IGenericService<CourseCategory> genericCategoryService)
+        public EditCourseByAdminCommandHandler(IGenericService<Course> genericCourseService, ICourseService courseService, IUnitOfWork unitOfWork, IValidator<EditCourseDto> validator, IGenericService<CourseCategory> genericCategoryService, IGenericService<Order> genericOrderService)
         {
             _genericCourseService = genericCourseService;
             _courseService = courseService;
             _unitOfWork = unitOfWork;
             _validator = validator;
             _genericCategoryService = genericCategoryService;
+            _genericOrderService = genericOrderService;
         }
 
         public async Task<ErrorOr<Guid>> Handle(EditCourseByAdminCommand request, CancellationToken cancellationToken)
@@ -60,9 +64,24 @@ namespace GtAcademy.Application.Admin.Courses.Commands.EditCourseByAdmin
             course.BannerName = request.CourseDto.BannerName;
             course.Description = request.CourseDto.Description;
             course.Tags = request.CourseDto.Tags;
-            course.Price = request.CourseDto.Price;
             course.TeacherId = request.CourseDto.TeacherId;
             course.LastUpdateDate = DateTime.Now;
+
+            if (course.Price != request.CourseDto.Price)
+            {
+                var iterateOrders = new Order[course.Orders.Count];
+                course.Orders.Where(order => !order.IsPaid).ToList().CopyTo(iterateOrders);
+
+                foreach (var order in iterateOrders.Where(o => o != null))
+                {
+                    order.TotalAmount -= course.Price;
+                    order.TotalAmount += request.CourseDto.Price;
+
+                    _genericOrderService.Update(order);
+                }
+
+                course.Price = request.CourseDto.Price;
+            }
 
             _genericCourseService.Update(course);
             await _unitOfWork.CommitAsync();
