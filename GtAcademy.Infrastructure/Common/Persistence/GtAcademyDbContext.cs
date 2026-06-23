@@ -1,5 +1,6 @@
 ﻿using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Domain.Courses;
+using GtAcademy.Domain.Forum;
 using GtAcademy.Domain.Orders;
 using GtAcademy.Domain.Referral;
 using GtAcademy.Domain.Roles;
@@ -89,5 +90,9 @@ namespace GtAcademy.Infrastructure.Common.Persistence
         public DbSet<CourseComment> CourseComments { get; set; }
 
         public DbSet<CourseCategory> CourseCategories { get; set; }
+
+        public DbSet<ForumQuestion> ForumQuestions { get; set; }
+
+        public DbSet<ForumAnswer> ForumAnswers { get; set; }
     }
 }

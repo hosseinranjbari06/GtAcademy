@@ -1,4 +1,5 @@
 ﻿using GtAcademy.Domain.Common;
+using GtAcademy.Domain.Forum;
 using GtAcademy.Domain.Orders;
 
 namespace GtAcademy.Domain.Courses
@@ -36,5 +37,7 @@ namespace GtAcademy.Domain.Courses
         public List<CourseComment> CourseComments { get; set; } = [];
 
         public List<CourseCategory> CourseCategories { get; set; } = [];
+
+        public List<ForumQuestion> ForumQuestions { get; set; } = [];
     }
 }

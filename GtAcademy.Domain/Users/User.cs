@@ -1,5 +1,6 @@
 ﻿using GtAcademy.Domain.Common;
 using GtAcademy.Domain.Courses;
+using GtAcademy.Domain.Forum;
 using GtAcademy.Domain.Orders;
 using GtAcademy.Domain.Referral;
 using GtAcademy.Domain.Roles;
@@ -51,5 +52,9 @@ namespace GtAcademy.Domain.Users
         public List<Order>? Orders { get; set; }
 
         public List<Role> Roles { get; set; }
+
+        public List<ForumQuestion> ForumQuestions { get; set; }
+
+        public List<ForumAnswer> ForumAnswers { get; set; }
     }
 }
