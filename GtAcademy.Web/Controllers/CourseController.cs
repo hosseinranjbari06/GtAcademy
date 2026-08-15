@@ -45,8 +45,16 @@ namespace GtAcademy.Web.Controllers
             if (result.IsError)
                 return NotFound();
 
-            var hasUserBoughtTheCourse = await _mediator.Send(new HasUserBoughtTheCourseQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!), courseId));
-            ViewBag.HasUserBoughtTheCourse = hasUserBoughtTheCourse.Value;
+            if (User.Identity.IsAuthenticated == true)
+            {
+                var hasUserBoughtTheCourse = await _mediator.Send(new HasUserBoughtTheCourseQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!), courseId));
+                ViewBag.HasUserBoughtTheCourse = hasUserBoughtTheCourse.Value;
+            }
+            else
+            {
+                ViewBag.HasUserBoughtTheCourse = false;
+            }
+
             return View(result.Value);
         }
 
@@ -76,9 +84,9 @@ namespace GtAcademy.Web.Controllers
 
             var result = await _mediator.Send(new CreateCourseCommentCommand(comment));
 
-            if (result.IsError) 
-            { 
-                if(result.FirstError.Type == ErrorType.Validation)
+            if (result.IsError)
+            {
+                if (result.FirstError.Type == ErrorType.Validation)
                 {
                     ViewBag.CommentValidation = result.FirstError.Description;
 
@@ -91,7 +99,7 @@ namespace GtAcademy.Web.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(CourseDetails), new{ courseId });
+            return RedirectToAction(nameof(CourseDetails), new { courseId });
         }
     }
 }

@@ -1,0 +1,29 @@
+﻿@using GtAcademy.Application.Forum.Queries.GetRecentForumQuestions
+@using GtAcademy.Application.Tools.PersianDateConverter
+@using MediatR
+@inject IMediator mediator
+
+@{
+    var questions = await mediator.Send(new GetRecentForumQuestionsQuery());
+}
+
+<div class="sidebar-widget">
+    <h3 class="widget-title">سوالات اخیر</h3>
+    @foreach(var question in questions)
+    {
+        <div class="sidebar-post">
+            <img alt="post" src="/assets/img/users/@question.UserAvatarName">
+            <div class="post-content">
+                <h3 class="title">
+                    <a href="/Forum/ShowQuestion/@question.QuestionId">@question.Title</a>
+                </h3>
+                <ul class="post-meta">
+                    <li><i class="fa-light fa-note"></i><a href="/coursedetails/@question.CourseId">@question.CourseTitle</a></li>
+                    <li>
+                        <i class="fa-sharp fa-regular fa-calendar"></i>@question.CreateDate.ToShamsi().FixShamsiDate()
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>

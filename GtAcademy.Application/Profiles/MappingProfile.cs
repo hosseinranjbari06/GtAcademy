@@ -9,6 +9,7 @@ using GtAcademy.Application.Admin.Users.Commands.EditUserByAdmin;
 using GtAcademy.Application.Admin.Users.Queries.GetUserDetailsForAdmin;
 using GtAcademy.Application.Admin.Users.Queries.GetUsersListForAdmin;
 using GtAcademy.Application.Courses.Common;
+using GtAcademy.Application.Forum.Queries.GetForumQuestionDetails;
 using GtAcademy.Application.Orders.Common;
 using GtAcademy.Application.Orders.Queries.GetUsersPaidOrdersList;
 using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo;
@@ -16,6 +17,7 @@ using GtAcademy.Application.Users.Common;
 using GtAcademy.Application.Users.Queries.GetUserProfile;
 using GtAcademy.Application.Wallets.Queries.GetUsersWalletWithDetails;
 using GtAcademy.Domain.Courses;
+using GtAcademy.Domain.Forum;
 using GtAcademy.Domain.Orders;
 using GtAcademy.Domain.Referral;
 using GtAcademy.Domain.Users;
@@ -82,10 +84,16 @@ namespace GtAcademy.Application.Profiles
 
             #endregion
 
-            #region
+            #region Wallet
 
             CreateMap<Wallet, WalletDto>();
             CreateMap<WalletIncome, WalletIncomeDto>();
+
+            #endregion
+
+            #region Forum
+
+            CreateMap<ForumQuestion, QuestionDetailsDto>();
 
             #endregion
         }

@@ -1,0 +1,158 @@
+﻿@using GtAcademy.Application.Forum.Queries.GetForumQuestionDetails
+@using GtAcademy.Application.Tools.PersianDateConverter
+@model QuestionDetailsDto
+@{
+    ViewData["Title"] = "نمایش تیکت";
+}
+
+<section class="page-header">
+    <div class="bg-item">
+        <div class="bg-img" data-background="/assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;/assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">نمایش تیکت</h1>
+            <h4 class="sub-title">
+                <a class="home" href="/">خانه</a><span class="icon">/</span><a class="home" href="/Forum">پرسش و پاسخ</a><span class="icon">/</span><a class="home" href="/Forum/@Model.CourseId">@Model.CourseTitle</a><span class="icon">/</span><a class="inner-page" href="#">نمایش تیکت</a>
+            </h4>
+        </div>
+    </div>
+</section>
+
+<section class="blog-details pt-120 pb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="sidebar-widget">
+                    <div class="testi-item">
+                        <h3>@Model.Title</h3>
+                        @Html.Raw(Model.Content)
+                        <div class="testi-author" style="margin-top: 25px;">
+                            <div class="testi-author-img">
+                                <img alt="testi" src="/assets/img/users/@Model.UserAvatarName">
+                            </div>
+                            <h4 class="name">@Model.UserName</h4>
+                        </div>
+                    </div>
+
+                    @if (ViewBag.CanUserChangeQuestionStatus == true)
+                    {
+                        <form id="delForm" asp-action="DeleteTicket">
+                            <input type="hidden" name="ticketId" value="@Model.QuestionId" />
+                        </form>
+                        <form id="closeForm" asp-action="CloseTicket">
+                            <input type="hidden" name="ticketId" value="@Model.QuestionId" />
+                        </form>
+                        <br />
+                        <div class="right-content">
+                            <ul class="tags">
+                                @if(Model.IsClosed == false)
+                                {
+                                <li>
+                                    <a onclick="CloseQuestion()" href="#" style="
+                                    --ed-color-theme-primary: orange;
+                                        ">بستن تیکت</a>
+                                </li>
+                                }
+                                <li>
+                                    <a onclick="DeleteQuestion()" href="#" style="
+                                    --ed-color-theme-primary: red;
+                                    ">حذف</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+
+                </div>
+                @if (Model.ForumAnswerDtos.Any())
+                {
+                    <div class="sidebar-widget">
+                        <h3>پاسخ ها</h3>
+                        @foreach (var answer in Model.ForumAnswerDtos)
+                        {
+                            <br />
+                            <div class="testi-item">
+                                @Html.Raw(answer.Content)
+                                <div class="row" style="margin-top: 25px;">
+                                    <div class="col-11">
+                                        <div class="testi-author">
+                                            <div class="testi-author-img">
+                                                <img alt="testi" src="/assets/img/users/@answer.UserAvatarName">
+                                            </div>
+                                            <h4 class="name">@answer.UserName</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-1">
+                                        <span>@answer.CreateDate.ToShamsi().FixShamsiDate()</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+                @if (Model.IsClosed == false)
+                {
+                    <div class="blog-contact-form" style="margin-top: 0;">
+                        <h2 class="title">افزودن پاسخ جدید</h2>
+                        <br />
+                        <div class="request-form">
+                            <form asp-action="AnswerTicket" class="form-horizontal" id="ajax_contact" method="post">
+                                <input type="hidden" name="QuestionId" value="@Model.QuestionId">
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <div class="form-item message-item">
+                                            <textarea name="Content" class="form-control address" cols="30" placeholder="پاسخ خود را بنویسید" rows="5">@ViewBag.ContentValue</textarea>
+                                            <div class="icon">
+                                                <i class="fa-light "></i>
+                                            </div>
+                                            <span class="text-danger">@ViewBag.ValidationError</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="submit-btn">
+                                    <button class="ed-primary-btn" id="submit" type="submit">
+                                        ثبت
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <br />
+                    <h4>این تیکت بسته شده است</h4>
+                    <br />
+                }
+
+            </div>
+            <div class="col-lg-4">
+                <partial name="_RecentQuestionsSidebar" />
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+        function DeleteQuestion() {
+            $("#delForm").submit();
+        }
+        function CloseQuestion() {
+            $("#closeForm").submit();
+        }
+    </script>
+}

@@ -178,6 +178,11 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
                 .FirstOrDefaultAsync(course => course.CourseId == courseId);
         }
 
+        public async Task<bool> ExistByCourseId(Guid courseId)
+        {
+            return await _context.Courses.AnyAsync(course => course.CourseId == courseId);
+        }
+
         #endregion
     }
 }

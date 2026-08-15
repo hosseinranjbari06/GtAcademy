@@ -1,0 +1,81 @@
+﻿@using GtAcademy.Application.Forum.Queries.GetForumQuestionsList
+@using GtAcademy.Application.Tools.PersianDateConverter
+@model List<ForumQuestionsListItemDto>
+@{
+    ViewData["Title"] = "سوالات من";
+}
+
+<section class="page-header">
+    <div class="bg-item">
+        <div class="bg-img" data-background="assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">سوالات من</h1>
+            <h4 class="sub-title">
+                <a class="home" href="/">خانه</a><span class="icon">/</span><a class="home" href="/UserPanel">پنل کاربری</a><span class="icon">/</span><a class="inner-page" href="#">سوالات من</a>
+            </h4>
+        </div>
+    </div>
+</section>
+
+<section class="event-details pt-120 pb-120">
+    <div class="container">
+        <div class="row gy-xl-0 gy-5">
+            <div class="col-lg-4 col-md-12">
+                <partial name="_ProfileSideBar" />
+            </div>
+            <div class="col-lg-8 col-md-12">
+                @if (Model.Any())
+                {
+                    <div class=" blog-details-top-wrap">
+                        <div class="reviewr-wrap">
+                            <h3 class="form-header">
+                                سوالات من
+                            </h3>
+                            <div class="review-list">
+                                @foreach (var question in Model)
+                                {
+                                    <div class="review-item">
+                                        <div class="review-thumb">
+                                            <img alt="img" src="/assets/img/users/@question.UserAvatarName">
+                                        </div>
+                                        <div class="content">
+                                            <div class="content-top">
+                                                <h4 class="name">
+                                                    <a href="/Forum/ShowQuestion/@question.QuestionId">@question.Title</a><span>@question.CreateDate.ToShamsi().FixShamsiDate()</span>
+                                                </h4>
+                                                <ul class="review">
+                                                    <li>
+                                                        <i class="fa-sharp fa-solid fa-comments"></i><span>  @question.AnswersCount  </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <p>
+                                                <a href="/coursedetails/@question.CourseId">@question.CourseTitle</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,141 @@
+﻿@using GtAcademy.Application.Forum.Queries.GetForumQuestionsList
+@using GtAcademy.Application.Tools.PersianDateConverter
+@model List<ForumQuestionsListItemDto>;
+@{
+    ViewData["Title"] = "پرسش و پاسخ";
+}
+
+<section class="page-header">
+    <div class="bg-item">
+        <div class="bg-img" data-background="/assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;/assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">پرسش و پاسخ</h1>
+            <h4 class="sub-title">
+                @if (ViewBag.Search.CourseId != null && Model.Any())
+                {
+                    <a class="home" href="/">خانه</a><span class="icon">/</span><a class="home" href="/Forum">پرسش و پاسخ</a><span class="icon">/</span><a class="inner-page">@Model.First().CourseTitle</a>
+                }
+                else
+                {
+                    <a class="home" href="/">خانه</a><span class="icon">/</span><a class="inner-page" href="/Forum">پرسش و پاسخ</a>
+                }
+            </h4>
+        </div>
+    </div>
+</section>
+
+<section class="blog-details pt-120 pb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="sidebar-widget">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="search-box">
+                                <form name="pageForm" id="pageForm" action="#" class="search-form">
+                                    <input name="TitleSearch" class="form-control" placeholder="جستجو" value="@ViewBag.Search.TitleSearch" type="text">
+                                    <input name="CourseId" value="@ViewBag.Search.CourseId" type="hidden">
+                                    <input name="PageId" id="PageId" value="@ViewBag.Search.PageId" type="hidden">
+                                    <button class="search-btn" type="submit">
+                                        <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        @if (ViewBag.Search.CourseId != null)
+                        {
+                            <div class="col-4">
+                                <div class="product-info">
+                                    <div class="product-btn" style="margin:0">
+                                        <div class="cart-btn-wrap-2">
+                                            <a class="ed-primary-btn cart-btn" href="/Forum/CreateQuestion/@ViewBag.Search.CourseId">پرسش سوال جدید</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                @if (Model.Any())
+                {
+                    <div class=" blog-details-top-wrap">
+                        <div class="reviewr-wrap">
+                            <h3 class="widget-title">سوالات</h3>
+                            <div class="review-list">
+                                @foreach (var question in Model)
+                                {
+                                    <div class="review-item">
+                                        <div class="review-thumb">
+                                            <img alt="img" src="/assets/img/users/@question.UserAvatarName">
+                                        </div>
+                                        <div class="content">
+                                            <div class="content-top">
+                                                <h4 class="name">
+                                                    <a href="/Forum/ShowQuestion/@question.QuestionId">@question.Title</a><span>@question.CreateDate.ToShamsi().FixShamsiDate()</span>
+                                                </h4>
+                                                <ul class="review">
+                                                    <li>
+                                                        <i class="fa-sharp fa-solid fa-comments"></i><span>  @question.AnswersCount  </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <p>
+                                                <a href="/coursedetails/@question.CourseId">@question.CourseTitle</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+
+                                <ul class="pagination-wrap text-center">
+                                    @if (ViewBag.Search.PageId > 1)
+                                    {
+                                        <li>
+                                            <a onclick="ChangePage(@(ViewBag.Search.PageId - 1))" href="#"><i class="fa-regular fa-arrow-right"></i></a>
+                                        </li>
+                                    }
+                                    @for (int i = 1; i < ViewBag.PagesCount + 1; i++)
+                                    {
+                                        <li><a onclick="ChangePage(@i)" href="#" class=" @(ViewBag.Search.PageId == i ? "active" : "") ">@i</a></li>
+                                    }
+                                    @if (ViewBag.Search.PageId < ViewBag.PagesCount)
+                                    {
+                                        <li>
+                                            <a onclick="ChangePage(@(ViewBag.Search.PageId + 1))" href="#"><i class="fa-regular fa-arrow-left"></i></a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-4">
+                <partial name="_RecentQuestionsSidebar" />
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script type="text/javascript">
+        function ChangePage(pageid) {
+            $("#PageId").val(pageid);
+            $("#pageForm").submit();
+        }
+    </script>
+}

@@ -25,6 +25,8 @@ namespace GtAcademy.Application.Common.Interfaces
 
         Task<List<CourseCategoryDto>> GetCourseCategories();
 
+        Task<bool> ExistByCourseId(Guid courseId);
+
         #region Admin
 
         Task<List<CourseListItemDto>> GetCoursesListForAdmin(SearchCourseListDto searchDto);

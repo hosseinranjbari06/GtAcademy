@@ -1,0 +1,91 @@
+﻿@using GtAcademy.Application.Forum.Commands.CreateQuestion
+@model CreateQuestionDto
+@{
+    ViewData["Title"] = "ایجاد سوال جدید";
+}
+
+<section class="page-header">
+    <div class="bg-item">
+        <div class="bg-img" data-background="/assets/img/bg-img/page-header-bg.png" style="background-image: url(&quot;/assets/img/bg-img/page-header-bg.png&quot;);"></div>
+        <div class="overlay"></div>
+        <div class="shapes">
+            <div class="shape shape-1">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-1.png">
+            </div>
+            <div class="shape shape-2">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-2.png">
+            </div>
+            <div class="shape shape-3">
+                <img alt="shape" src="/assets/img/shapes/page-header-shape-3.png">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="page-header-content">
+            <h1 class="title">ایجاد سوال جدید</h1>
+            <h4 class="sub-title">
+                <a class="home" href="/">خانه</a><span class="icon">/</span><a class="home" href="/Forum">پرسش و پاسخ</a><span class="icon">/</span><a class="inner-page" href="#">ایجاد سوال جدید</a>
+            </h4>
+        </div>
+    </div>
+</section>
+
+<section class="blog-details pt-120 pb-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+
+                <div class="blog-contact-form" style="margin-top: 0;">
+                    <h2 class="title">ایجاد سوال</h2>
+                    <p>
+                        در صورت عدم رعایت موارد زیر سوال شما حذف خواهد شد، لطفا به این موارد دقت نمایید:
+                        <br/>
+                        عنوان نامناسب سوال، سوالات نامربوط به دوره، سوالات بدون محتوا، سوالات تکراری
+                    </p>
+                    <div class="request-form">
+                        <form asp-action="CreateQuestion" class="form-horizontal" id="ajax_contact" method="post">
+                            <input type="hidden" asp-for="CourseId" value="@ViewBag.CourseId">
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <div class="form-item">
+                                        <input class="form-control" asp-for="Title" placeholder="عنوان" type="text">
+                                        <div class="icon">
+                                            <i class="fa-light fa-message-question"></i>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Title"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <div class="form-item message-item">
+                                        <textarea class="form-control address" cols="30" asp-for="Content" placeholder="متن سوال" rows="5"></textarea>
+                                        <div class="icon">
+                                            <i class="fa-light faq-content-10"></i>
+                                        </div>
+                                        <span class="text-danger" asp-validation-for="Content"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ed-contact-input-remeber">
+                                <input asp-for="IsTicket" type="checkbox">
+                                <label for="remeber">
+                                    تیکت به پشتیبانی
+                                </label>
+                            </div>
+                            <div class="submit-btn">
+                                <button class="ed-primary-btn" id="submit" type="submit">
+                                    ثبت
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4">
+                <partial name="_RecentQuestionsSidebar" />
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,4 +1,6 @@
-﻿using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo;
+﻿using GtAcademy.Application.Forum.Queries.GetUsersQuestionsList;
+using GtAcademy.Application.Referrals.Queries.GetUserReferralInfo;
+using GtAcademy.Application.Tickets.Queries.GetUsersTickets;
 using GtAcademy.Application.Users.Commands.EditUserProfile;
 using GtAcademy.Application.Users.Common;
 using GtAcademy.Application.Users.Queries.GetUserAvatarNameById;
@@ -99,6 +101,20 @@ namespace GtAcademy.Web.Controllers
 
             ViewBag.ReferrerLink = Url.Action("Register", "Authentication", new { referrerCode = result.Value.ReferralCode }, "https", HttpContext.Request.Host.Value);
 
+            return View(result.Value);
+        }
+
+        [Route("MyQuestions")]
+        public async Task<IActionResult> MyQuestions()
+        {
+            var result = await _mediator.Send(new GetUsersQuestionsListQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
+            return View(result.Value);
+        }
+
+        [Route("MyTickets")]
+        public async Task<IActionResult> MyTickets()
+        {
+            var result = await _mediator.Send(new GetUsersTicketsQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
             return View(result.Value);
         }
     }

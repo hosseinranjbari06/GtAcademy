@@ -269,7 +269,7 @@
                     }
 
                 </div>
-                <div class="course-sidebar sticky-widget">
+                <div class="course-sidebar price-box sticky-widget">
                     <h4 class="sidebar-title">اطلاعات دوره</h4>
                     <ul class="course-sidebar-list">
                         <li>
@@ -282,12 +282,17 @@
                         </li>
 
                     </ul>
-                    <div class="share-btn">
+                    @*                     <div class="share-btn">
                         <button class="ed-primary-btn">
                             <i class="fa-regular fa-share-nodes"></i>این دوره را به اشتراک
                             بگذارید
                         </button>
-                    </div>
+                    </div> *@
+                    <br />
+                    <form asp-action="Index" asp-controller="Forum">
+                        <input asp-for="CourseId" type="hidden" value="@Model.CourseId" />
+                        <button type="submit" href="/Forum/@Model.CourseId" class="ed-primary-btn buy-btn">پرسش و پاسخ دوره</button>
+                    </form>
                 </div>
             </div>
         </div>
