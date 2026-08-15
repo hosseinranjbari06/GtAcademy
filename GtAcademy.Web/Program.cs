@@ -24,6 +24,8 @@ builder.Services.AddApplication();
 
 var app = builder.Build();
 
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
 app.UseHttpsRedirection();
 app.UseRouting();
 
