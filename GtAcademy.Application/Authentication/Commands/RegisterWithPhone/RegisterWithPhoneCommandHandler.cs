@@ -55,7 +55,7 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
                 return Error.Validation(code: "UserName", description: "نام کاربری وارد شده قبلا استفاده شده است");
             }
 
-            if (await _userService.ExistByPhoneNumber(request.RegisterDto.PhoneNumber))
+            if (await _userService.ExistByPhoneNumberIncludeDeletedUsers(request.RegisterDto.PhoneNumber))
             {
                 return Error.Validation(code: "PhoneNumber", description: "با شماره موبایل وارد شده قبلا در سایت ثبت شده است");
             }

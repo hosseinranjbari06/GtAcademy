@@ -64,7 +64,7 @@ namespace GtAcademy.Application.Admin.Users.Commands.CreateUserByAdmin
                 return Error.Validation(code: "EmailAddress", description: "ایمیل وارد شده قبلا استفاده شده است");
             }
 
-            if (!string.IsNullOrEmpty(request.UserDto.PhoneNumber) && await _userService.ExistByPhoneNumber(request.UserDto.PhoneNumber))
+            if (!string.IsNullOrEmpty(request.UserDto.PhoneNumber) && await _userService.ExistByPhoneNumberIncludeDeletedUsers(request.UserDto.PhoneNumber))
             {
                 return Error.Validation(code: "PhoneNumber", description: "شماره موبایل وارد شده قبلا استفاده شده است");
             }

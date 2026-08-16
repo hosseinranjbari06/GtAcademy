@@ -17,6 +17,8 @@ namespace GtAcademy.Application.Common.Interfaces
 
         Task<bool> ExistByPhoneNumber(string phoneNumber);
 
+        Task<bool> ExistByPhoneNumberIncludeDeletedUsers(string phoneNumber);
+
         Task<bool> ExistByEmail(string emailAddess); 
 
         Task<bool> ExistByReferralCode(string referralCode);

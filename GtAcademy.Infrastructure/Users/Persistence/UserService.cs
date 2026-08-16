@@ -158,6 +158,11 @@ namespace GtAcademy.Infrastructure.Users.Persistence
             return user!.UserName;
         }
 
+        public async Task<bool> ExistByPhoneNumberIncludeDeletedUsers(string phoneNumber)
+        {
+            return await _context.Users.IgnoreQueryFilters(["SoftDelete"]).AnyAsync(user => user.PhoneNumber == phoneNumber);
+        }
+
         #endregion
     }
 }
