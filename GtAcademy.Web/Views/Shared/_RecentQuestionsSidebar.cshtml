@@ -11,8 +11,9 @@
     <h3 class="widget-title">سوالات اخیر</h3>
     @foreach(var question in questions)
     {
-        <div class="sidebar-post">
-            <img alt="post" src="/assets/img/users/@question.UserAvatarName">
+        <div class="sidebar-post" style="
+            grid-template-columns: unset;
+            ">
             <div class="post-content">
                 <h3 class="title">
                     <a href="/Forum/ShowQuestion/@question.QuestionId">@question.Title</a>
