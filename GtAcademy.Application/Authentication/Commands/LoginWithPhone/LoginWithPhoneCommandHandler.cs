@@ -3,6 +3,7 @@ using FluentValidation;
 using GtAcademy.Application.Authentication.Common;
 using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Application.Tools.RandomCodeGenerator;
+using GtAcademy.Application.Tools.SmsSender;
 using GtAcademy.Domain.Users;
 using MediatR;
 using System;
@@ -23,13 +24,16 @@ namespace GtAcademy.Application.Authentication.Commands.LoginWithPhone
 
         private readonly IUnitOfWork _unitOfWork;
 
-        public LoginWithPhoneCommandHandler(IValidator<LoginWithPhoneDto> validator, IUserService userService, ICodeGenerator codeGenerator, IGenericService<User> genericUserService, IUnitOfWork unitOfWork)
+        private readonly ISmsSender _smsSender;
+
+        public LoginWithPhoneCommandHandler(IValidator<LoginWithPhoneDto> validator, IUserService userService, ICodeGenerator codeGenerator, IGenericService<User> genericUserService, IUnitOfWork unitOfWork, ISmsSender smsSender)
         {
             _validator = validator;
             _userService = userService;
             _codeGenerator = codeGenerator;
             _genericUserService = genericUserService;
             _unitOfWork = unitOfWork;
+            _smsSender = smsSender;
         }
 
         public async Task<ErrorOr<string>> Handle(LoginWithPhoneCommand request, CancellationToken cancellationToken)
@@ -50,6 +54,12 @@ namespace GtAcademy.Application.Authentication.Commands.LoginWithPhone
             user!.VerifyToken = _codeGenerator.GenerateFiveDigitCode();
 
             _genericUserService.Update(user);
+
+            //Send SMS
+            var result = await _smsSender.SendVerificationCode(user.PhoneNumber!, user.VerifyToken);
+
+            if (result.IsError || !result.Value) return Error.Failure("PhoneNumber", "سرویس ارسال پیامک با مشکل مواجه شد. لطفا مجددا تلاش کنید.");
+
             await _unitOfWork.CommitAsync();
 
             return user.UserName;

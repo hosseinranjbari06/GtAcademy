@@ -1,5 +1,6 @@
 ﻿using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Application.Tools.RandomCodeGenerator;
+using GtAcademy.Application.Tools.SmsSender;
 using GtAcademy.Infrastructure.Common.Persistence;
 using GtAcademy.Infrastructure.Courses.Persistence;
 using GtAcademy.Infrastructure.Episodes.Persistence;
@@ -8,7 +9,8 @@ using GtAcademy.Infrastructure.Orders.Persistence;
 using GtAcademy.Infrastructure.Permissions.Persistence;
 using GtAcademy.Infrastructure.Referrals.Persistence;
 using GtAcademy.Infrastructure.Roles.Persistence;
-using GtAcademy.Infrastructure.Tools.Persistence;
+using GtAcademy.Infrastructure.Tools.Persistence.RandomCodeGenerator;
+using GtAcademy.Infrastructure.Tools.Persistence.SmsSender;
 using GtAcademy.Infrastructure.Topics.Persistence;
 using GtAcademy.Infrastructure.Users.Persistence;
 using GtAcademy.Infrastructure.Wallets.Persistence;
@@ -33,6 +35,7 @@ namespace GtAcademy.Infrastructure
             services.AddScoped<IUnitOfWork>(serviceProvider => serviceProvider.GetRequiredService<GtAcademyDbContext>());
             services.AddScoped(typeof(IGenericService<>), typeof(GenericService<>));
             services.AddScoped<ICodeGenerator, CodeGenerator>();
+            services.AddScoped<ISmsSender, SmsSender>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IOrderService, OrderService>();

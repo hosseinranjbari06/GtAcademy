@@ -1,6 +1,7 @@
 using GtAcademy.Application;
 using GtAcademy.Infrastructure;
 using GtAcademy.Infrastructure.Common.Persistence;
+using GtAcademy.Infrastructure.Tools.Persistence.SmsSender;
 using GtAcademy.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromDays(30);
         options.AccessDeniedPath = "/AccessDenied";
     });
+
+builder.Services.Configure<SmsSenderSettings>(
+    builder.Configuration.GetSection("SmsSenderSettings"));
 
 builder.Services.AddInfrastructre(builder.Configuration);
 builder.Services.AddApplication();

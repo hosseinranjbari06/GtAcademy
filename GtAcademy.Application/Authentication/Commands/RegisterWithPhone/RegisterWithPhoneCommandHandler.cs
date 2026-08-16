@@ -2,6 +2,7 @@
 using FluentValidation;
 using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Application.Tools.RandomCodeGenerator;
+using GtAcademy.Application.Tools.SmsSender;
 using GtAcademy.Domain.Referral;
 using GtAcademy.Domain.Users;
 using GtAcademy.Domain.Wallets;
@@ -28,7 +29,9 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
 
         private readonly ICodeGenerator _codeGenerator;
 
-        public RegisterWithPhoneCommandHandler(IValidator<RegisterWithPhoneDto> validator, IUnitOfWork unitOfWork, IGenericService<User> userGenericService, ICodeGenerator codeGenerator, IUserService userService, IGenericService<Wallet> walletGenericService, IGenericService<Referral> referralGenericService)
+        private readonly ISmsSender _smsSender;
+
+        public RegisterWithPhoneCommandHandler(IValidator<RegisterWithPhoneDto> validator, IUnitOfWork unitOfWork, IGenericService<User> userGenericService, ICodeGenerator codeGenerator, IUserService userService, IGenericService<Wallet> walletGenericService, IGenericService<Referral> referralGenericService, ISmsSender smsSender)
         {
             _validator = validator;
             _unitOfWork = unitOfWork;
@@ -37,6 +40,7 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
             _userService = userService;
             _walletGenericService = walletGenericService;
             _referralGenericService = referralGenericService;
+            _smsSender = smsSender;
         }
 
         public async Task<ErrorOr<string>> Handle(RegisterWithPhoneCommand request, CancellationToken cancellationToken)
@@ -110,6 +114,9 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
             }
 
             //Send SMS
+            var result = await _smsSender.SendVerificationCode(user.PhoneNumber, user.VerifyToken);
+
+            if (result.IsError || !result.Value) return Error.Failure("PhoneNumber", "سرویس ارسال پیامک با مشکل مواجه شد. لطفا مجددا تلاش کنید.");
 
             await _unitOfWork.CommitAsync();
 
