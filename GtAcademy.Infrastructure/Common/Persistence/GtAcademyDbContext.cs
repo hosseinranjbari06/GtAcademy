@@ -33,29 +33,37 @@ namespace GtAcademy.Infrastructure.Common.Persistence
 
             modelBuilder.Entity<Role>().HasData(role1, role2, role3, role4);
 
-            //var user = new User()
-            //{
-            //    UserId = Guid.NewGuid(),
-            //    UserName = "admin",
-            //    PhoneNumber = "00000000000",
-            //    AvatarName = "default.jpg",
-            //    IsActive = false,
-            //    ReferralCode = "ADMINREF",
-            //    RegisterDate = DateTime.Now,
-            //    VerifyToken = "1111",
-            //    Roles = [role1]
-            //};
+            var userId = Guid.NewGuid();
+            var user = new User()
+            {
+                UserId = userId,
+                UserName = "admin",
+                PhoneNumber = "00000000000",
+                AvatarName = "default.jpg",
+                IsActive = false,
+                ReferralCode = "ADMINREF",
+                RegisterDate = DateTime.Now,
+                VerifyToken = "1111",
+                IsDeleted = false
+            };
 
-            //modelBuilder.Entity<User>().HasData(user);
+            modelBuilder.Entity<User>().HasData(user);
 
-            //var wallet = new Wallet()
-            //{
-            //    WalletId = Guid.NewGuid(),
-            //    UserId = user.UserId,
-            //    WalletBalance = 0
-            //};
+            modelBuilder.Entity<Role>()
+                .HasMany(r => r.Users)
+                .WithMany(u => u.Roles)
+                .UsingEntity(j => j.HasData(
+                    new { RolesRoleId = role1.RoleId, UsersUserId = user.UserId }
+                ));
 
-            //modelBuilder.Entity<Wallet>().HasData(wallet);
+            var wallet = new Wallet()
+            {
+                WalletId = Guid.NewGuid(),
+                UserId = userId,
+                WalletBalance = 0
+            };
+
+            modelBuilder.Entity<Wallet>().HasData(wallet);
 
             #endregion
 
