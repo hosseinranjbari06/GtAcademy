@@ -11,13 +11,21 @@ namespace GtAcademy.Application.Forum.Commands.CreateQuestion
         {
             RuleFor(q => q.Title)
                 .NotEmpty()
+                .WithName("عنوان")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
                 .MaximumLength(100)
-                .MinimumLength(5);
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد")
+                .MinimumLength(5)
+                .WithMessage("{PropertyName} نمی تواند کمتر از {MinLength} کاراکتر باشد"); ;
 
             RuleFor(q => q.Content)
                 .NotEmpty()
+                .WithName("متن سوال")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
                 .MaximumLength(10000)
-                .MinimumLength(10);
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد")
+                .MinimumLength(10)
+                .WithMessage("{PropertyName} نمی تواند کمتر از {MinLength} کاراکتر باشد"); ;
 
             RuleFor(q => q.UserId)
                 .NotEmpty();

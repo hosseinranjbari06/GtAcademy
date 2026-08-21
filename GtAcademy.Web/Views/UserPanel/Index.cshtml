@@ -60,7 +60,7 @@
                                 <div class="col-md-6">
                                     <div class="form-item">
                                         <h4 class="form-title">تاریخ تولد</h4>
-                                        <input disabled class="form-control" id="email" name="email" value="@(Model.BirthDate?.ToShamsi())">
+                                        <input disabled class="form-control" id="email" name="email" value="@(Model.BirthDate?.ToShamsi().FixShamsiDate())">
                                     </div>
                                 </div>
                                 <div class="col-md-6">

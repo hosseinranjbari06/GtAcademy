@@ -11,8 +11,12 @@ namespace GtAcademy.Application.Forum.Commands.AnswerQuestion
         {
             RuleFor(a => a.Content)
                 .NotEmpty()
+                .WithName("متن پاسخ")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
                 .MaximumLength(10000)
-                .MinimumLength(10);
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد")
+                .MinimumLength(10)
+                .WithMessage("{PropertyName} نمی تواند کمتر از {MinLength} کاراکتر باشد"); ;
 
             RuleFor(q => q.UserId)
                 .NotEmpty();

@@ -53,6 +53,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
         {
             if (file == null)
             {
+                ModelState.Clear();
                 ModelState.AddModelError("FileName", "لطفا فایل اپیزود را انتخاب کنید");
                 ViewBag.TopicId = episodeDto.TopicId;
                 return View(episodeDto);
@@ -62,7 +63,8 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
             if (fileValidation.IsError)
             {
-                ModelState.AddModelError(fileValidation.FirstError.Code, fileValidation.FirstError.Description);
+                ModelState.Clear();
+                ModelState.AddModelError("FileName", fileValidation.FirstError.Description);
                 ViewBag.TopicId = episodeDto.TopicId;
                 return View(episodeDto);
             }
@@ -75,6 +77,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
             {
                 if (result.FirstError.Type == ErrorOr.ErrorType.Validation)
                 {
+                    ModelState.Clear();
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(error.Code, error.Description);
@@ -114,7 +117,8 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
                 if (fileValidation.IsError)
                 {
-                    ModelState.AddModelError(fileValidation.FirstError.Code, fileValidation.FirstError.Description);
+                    ModelState.Clear();
+                    ModelState.AddModelError("FileName", fileValidation.FirstError.Description);
                     ViewBag.TopicId = episodeDto.TopicId;
                     return View(episodeDto);
                 }
@@ -129,6 +133,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
             {
                 if (result.FirstError.Type == ErrorOr.ErrorType.Validation)
                 {
+                    ModelState.Clear();
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(error.Code, error.Description);

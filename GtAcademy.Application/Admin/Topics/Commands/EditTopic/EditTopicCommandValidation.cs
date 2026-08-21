@@ -9,7 +9,12 @@ namespace GtAcademy.Application.Admin.Topics.Commands.EditTopic
     {
         public EditTopicCommandValidation()
         {
-            RuleFor(t => t.Title).NotEmpty().MaximumLength(40);
+            RuleFor(t => t.Title)
+            .NotEmpty()
+            .WithName("عنوان")
+            .WithMessage("لطفا {PropertyName} را وارد کنید")
+            .MaximumLength(40)
+            .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد");
 
             RuleFor(t => t.TopicId).NotEmpty();
         }

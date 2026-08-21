@@ -11,13 +11,21 @@ namespace GtAcademy.Application.Authentication.Commands.RegisterWithPhone
         {
             RuleFor(c => c.UserName)
                 .NotEmpty()
+                .WithName("نام کاربری")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
                 .MinimumLength(5)
-                .MaximumLength(250);
+                .WithMessage("{PropertyName} نمی تواند کمتر از {MinLength} کاراکتر باشد")
+                .MaximumLength(250)
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد");
 
             RuleFor(c => c.PhoneNumber)
                 .NotEmpty()
+                .WithName("شماره موبایل")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
                 .MinimumLength(11)
-                .MaximumLength(15);
+                .WithMessage("{PropertyName} نمی تواند کمتر از {MinLength} کاراکتر باشد")
+                .MaximumLength(15)
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد");
         }
     }
 }

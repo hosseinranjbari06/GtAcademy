@@ -56,6 +56,7 @@ namespace GtAcademy.Web.Controllers
 
                 if (fileValidation.IsError)
                 {
+                    ModelState.Clear();
                     ModelState.AddModelError("AvatarName", fileValidation.FirstError.Description);
                     return View(profileDto);
                 }
@@ -70,7 +71,11 @@ namespace GtAcademy.Web.Controllers
 
             if (result.IsError)
             {
-                ModelState.AddModelError(result.FirstError.Code, result.FirstError.Description);
+                ModelState.Clear();
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(error.Code, error.Description);
+                }
             }
             else
             {

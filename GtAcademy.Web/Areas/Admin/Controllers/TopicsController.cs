@@ -50,6 +50,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
             {
                 if (result.FirstError.Type == ErrorOr.ErrorType.Validation)
                 {
+                    ModelState.Clear();
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(error.Code, error.Description);
@@ -84,6 +85,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
             {
                 if (result.FirstError.Type == ErrorOr.ErrorType.Validation)
                 {
+                    ModelState.Clear();
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(error.Code, error.Description);

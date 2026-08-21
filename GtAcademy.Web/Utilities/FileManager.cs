@@ -34,7 +34,7 @@ namespace GtAcademy.Web.Utilities
 
         public static ErrorOr<bool> IsFileValid(IFormFile file)
         {
-            if (file.Length > 0)
+            if (file != null && file.Length > 0)
                 return true;
 
             return Error.Validation(code: "File", description: "فایل اپلود شده نامعتبر است");

@@ -59,14 +59,14 @@
                                         <div class="form-item">
                                             <h4 class="form-title">نام کاربری</h4>
                                             <input asp-for="@Model.UserName" class="form-control" value="@Model.UserName">
-                                            <span class="text-danger" asp-validation-for="@Model.UserName"></span>
+                                            <span class="text-danger" asp-validation-for="UserName"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-item name">
                                             <h4 class="form-title">آواتار</h4>
                                             <input name="avatarFile" class="form-control" type="file">
-                                            <span class="text-danger" asp-validation-for="@Model.AvatarName"></span>
+                                            <span class="text-danger" asp-validation-for="AvatarName"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -75,14 +75,14 @@
                                         <div class="form-item">
                                             <h4 class="form-title">تاریخ تولد</h4>
                                             <input asp-for="@Model.BirthDate" class="form-control" value="@(Model.BirthDate?.ToShamsi())">
-                                            <span class="text-danger" asp-validation-for="@Model.BirthDate"></span>
+                                            <span class="text-danger" asp-validation-for="BirthDate"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-item name">
                                             <h4 class="form-title">شغل</h4>
                                             <input asp-for="@Model.Job" class="form-control" value="@Model.Job" type="text">
-                                            <span class="text-danger" asp-validation-for="@Model.Job"></span>
+                                            <span class="text-danger" asp-validation-for="Job"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
                                         <div class="form-item">
                                             <h4 class="form-title">آدرس</h4>
                                             <input asp-for="@Model.HomeAddress" class="form-control" value="@Model.HomeAddress">
-                                            <span class="text-danger" asp-validation-for="@Model.HomeAddress"></span>
+                                            <span class="text-danger" asp-validation-for="HomeAddress"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
                                         <div class="form-item">
                                             <h4 class="form-title">بیوگرافی</h4>
                                             <textarea asp-for="@Model.Biography" class="form-control address" cols="30" rows="4">@Model.Biography</textarea>
-                                            <span class="text-danger" asp-validation-for="@Model.Biography"></span>
+                                            <span class="text-danger" asp-validation-for="Biography"></span>
                                         </div>
                                     </div>
                                 </div>

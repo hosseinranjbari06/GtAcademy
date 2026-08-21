@@ -19,9 +19,10 @@ namespace GtAcademy.Application.Courses.Commands.CreateCourseComment
 
             RuleFor(cc => cc.Content)
                 .NotEmpty()
-                .WithMessage("لطفا متن نظر خود را وارد کنید")
+                .WithName("متن نظر")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
                 .MaximumLength(500)
-                .WithMessage("متن نظر نمیتواند بیشتر از 500 کاراکتر داشته باشد");
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد");
         }
     }
 }

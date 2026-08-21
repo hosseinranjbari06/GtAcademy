@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using FluentValidation;
 using GtAcademy.Application.Authentication.Common;
 using GtAcademy.Application.Common.Interfaces;
 using GtAcademy.Domain.Referral;
@@ -20,19 +21,31 @@ namespace GtAcademy.Application.Authentication.Commands.VerifyPhoneNumber
 
         private readonly IGenericService<Referral> _referralGenericService;
 
+        private readonly IValidator<VerifyPhoneNumberDto> _validator;
+
         private readonly IUnitOfWork _unitOfWork;
 
-        public VerifyPhoneNumberCommandHandler(IUserService userService, IGenericService<User> userGenericService, IUnitOfWork unitOfWork, IReferralService referralService, IGenericService<Referral> referralGenericService)
+        public VerifyPhoneNumberCommandHandler(IUserService userService, IGenericService<User> userGenericService, IUnitOfWork unitOfWork, IReferralService referralService, IGenericService<Referral> referralGenericService, IValidator<VerifyPhoneNumberDto> validator)
         {
             _userService = userService;
             _userGenericService = userGenericService;
             _unitOfWork = unitOfWork;
             _referralService = referralService;
             _referralGenericService = referralGenericService;
+            _validator = validator;
         }
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(VerifyPhoneNumberCommand request, CancellationToken cancellationToken)
         {
+            var validationResult = await _validator.ValidateAsync(request.VerifyDto);
+
+            if (!validationResult.IsValid)
+            {
+                return validationResult.Errors
+                    .Select(error => Error.Validation(code: error.PropertyName, description: error.ErrorMessage))
+                    .ToList();
+            }
+
             var user = await _userService.GetUserByPhoneNumber(request.VerifyDto.PhoneNumber);
 
             if (user == null)

@@ -12,31 +12,52 @@ namespace GtAcademy.Application.Admin.Courses.Commands.CreateCourseByAdmin
         {
             RuleFor(c => c.Title)
                 .NotEmpty()
+                .WithName("عنوان")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
                 .MinimumLength(5)
-                .MaximumLength(100);
+                .WithMessage("{PropertyName} نمی تواند کمتر از {MinLength} کاراکتر باشد")
+                .MaximumLength(100)
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد");
 
             RuleFor(c => c.BannerName)
-                .NotEmpty();
+                .NotEmpty()
+                .WithName("فایل بنر")
+                .WithMessage("لطفا {PropertyName} را وارد کنید");
 
             RuleFor(c => c.Description)
                 .NotEmpty()
+                .WithName("توضیحات")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
                 .MinimumLength(20)
-                .MaximumLength(15000);
+                .WithMessage("{PropertyName} نمی تواند کمتر از {MinLength} کاراکتر باشد")
+                .MaximumLength(15000)
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد");
 
             RuleFor(c => c.Tags)
                 .NotEmpty()
+                .WithName("تگ ها")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
                 .MinimumLength(5)
-                .MaximumLength(100);
+                .WithMessage("{PropertyName} نمی تواند کمتر از {MinLength} کاراکتر باشد")
+                .MaximumLength(100)
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد");
 
             RuleFor(c => c.Price)
                 .NotEmpty()
-                .LessThan(999999999);
+                .WithName("قیمت")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
+                .LessThan(999999999)
+                .WithMessage("قیمت نمی تواند بیشتر از 999999999 تومان باشد");
 
             RuleFor(c => c.TeacherId)
-                .NotEmpty();
+                .NotEmpty()
+                .WithName("مدرس")
+                .WithMessage("لطفا {PropertyName} را انتخاب کنید");
 
             RuleFor(c => c.CategoryId)
-                .NotEmpty();
+                .NotEmpty()
+                .WithName("دسته بندی")
+                .WithMessage("لطفا {PropertyName} را انتخاب کنید");
         }
     }
 }

@@ -14,7 +14,10 @@ namespace GtAcademy.Application.Admin.CourseCategories.Commands.EditCourseCatego
 
             RuleFor(c => c.CategoryDto.Title)
                 .NotEmpty()
-                .MaximumLength(50);
+                .WithName("عنوان")
+                .WithMessage("لطفا {PropertyName} را وارد کنید")
+                .MaximumLength(50)
+                .WithMessage("{PropertyName} نمی تواند بیشتر از {MaxLength} کاراکتر باشد");
         }
     }
 }

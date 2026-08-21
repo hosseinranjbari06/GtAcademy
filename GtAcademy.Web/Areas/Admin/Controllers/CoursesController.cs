@@ -85,7 +85,8 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
             if (fileValidation.IsError)
             {
-                ModelState.AddModelError(fileValidation.FirstError.Code, fileValidation.FirstError.Description);
+                ModelState.Clear();
+                ModelState.AddModelError("BannerName", fileValidation.FirstError.Description);
                 ViewBag.Teachers = await _mediator.Send(new GetTeachersListForAdminQuery());
                 ViewBag.Categories = await _mediator.Send(new GetCourseCategoriesListForAdminQuery());
 
@@ -98,6 +99,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
             if (result.IsError)
             {
+                ModelState.Clear();
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(error.Code, error.Description);
@@ -148,7 +150,8 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
                 if (fileValidation.IsError)
                 {
-                    ModelState.AddModelError(fileValidation.FirstError.Code, fileValidation.FirstError.Description);
+                    ModelState.Clear();
+                    ModelState.AddModelError("BannerName", fileValidation.FirstError.Description);
                     ViewBag.Teachers = await _mediator.Send(new GetTeachersListForAdminQuery());
                     ViewBag.Categories = await _mediator.Send(new GetCourseCategoriesListForAdminQuery());
 
@@ -162,6 +165,7 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
             if (result.IsError)
             {
+                ModelState.Clear();
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(error.Code, error.Description);
