@@ -1,0 +1,28 @@
+# Ignore build outputs and user files
+bin
+obj
+.vs
+*.user
+*.suo
+*.userprefs
+
+# Node/npm
+node_modules/
+
+# Logs, local DB files, secrets
+*.log
+*.mdf
+*.ldf
+*.db
+.env
+secrets/
+
+# Docker
+Dockerfile
+docker-compose*.yml
+
+# Rider/IDE
+.idea/
+
+# Publish output
+publish/

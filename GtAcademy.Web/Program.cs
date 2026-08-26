@@ -28,6 +28,25 @@ builder.Services.AddApplication();
 
 var app = builder.Build();
 
+// Apply pending EF Core migrations at startup (safe for single-instance deployments).
+// In more controlled environments you may prefer running migrations separately.
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var db = services.GetRequiredService<GtAcademyDbContext>();
+        db.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetService<ILogger<Program>>();
+        logger?.LogError(ex, "An error occurred while migrating or initializing the database.");
+        // Re-throw to prevent the app from starting in a bad state.
+        throw;
+    }
+}
+
 app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
 app.UseHttpsRedirection();

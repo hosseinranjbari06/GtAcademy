@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SA_PASSWORD}
+    volumes:
+      - db_data:/var/opt/mssql
+    networks:
+      - gt_net
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Q", "SELECT 1"]
+      interval: 10s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__GtAcademyConnectionString=${ConnectionStrings__GtAcademyConnectionString}
+      - SmsSenderSettings__ApiKey=${SmsSenderSettings__ApiKey}
+      - SmsSenderSettings__TemplateId=${SmsSenderSettings__TemplateId}
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    networks:
+      - gt_net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
+      interval: 30s
+      retries: 5
+
+volumes:
+  db_data:
+
+networks:
+  gt_net:
+    driver: bridge
