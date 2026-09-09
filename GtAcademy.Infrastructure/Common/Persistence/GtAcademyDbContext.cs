@@ -33,7 +33,7 @@ namespace GtAcademy.Infrastructure.Common.Persistence
 
             modelBuilder.Entity<Role>().HasData(role1, role2, role3, role4);
 
-            var userId = Guid.NewGuid();
+            var userId = Guid.Parse("6F9619FF-8B86-D011-B42D-00C04FC964FF");
             var user = new User()
             {
                 UserId = userId,
@@ -42,7 +42,7 @@ namespace GtAcademy.Infrastructure.Common.Persistence
                 AvatarName = "default.jpg",
                 IsActive = false,
                 ReferralCode = "ADMINREF",
-                RegisterDate = DateTime.Now,
+                RegisterDate = new DateTime(2026, 6, 9),
                 VerifyToken = "1111",
                 IsDeleted = false
             };
@@ -58,7 +58,7 @@ namespace GtAcademy.Infrastructure.Common.Persistence
 
             var wallet = new Wallet()
             {
-                WalletId = Guid.NewGuid(),
+                WalletId = Guid.Parse("6F9619FF-8B86-D011-B42D-00C04FC964FF"),
                 UserId = userId,
                 WalletBalance = 0
             };
