@@ -163,6 +163,12 @@ namespace GtAcademy.Infrastructure.Users.Persistence
             return await _context.Users.IgnoreQueryFilters(["SoftDelete"]).AnyAsync(user => user.PhoneNumber == phoneNumber);
         }
 
+        public async Task<bool> IsUserAdmin(Guid userId)
+        {
+            var user = await _context.Users.Include(user => user.Roles).FirstAsync(user => user.UserId == userId);
+            return user.Roles.Any();
+        }
+
         #endregion
     }
 }

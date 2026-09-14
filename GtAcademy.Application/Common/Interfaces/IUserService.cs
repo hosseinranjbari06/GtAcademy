@@ -33,6 +33,8 @@ namespace GtAcademy.Application.Common.Interfaces
 
         Task<string> GetUserNameById(Guid userName);
 
+        Task<bool> IsUserAdmin(Guid userId);
+
         #region Admin
 
         Task<List<UserListItemDto>> GetUsersListForAdmin(SearchUsersListDto searchDto);
