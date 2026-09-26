@@ -1,4 +1,6 @@
-﻿using GtAcademy.Application.Admin.CourseCategories.Queries.GetCourseCategoriesListForAdmin;
+using GtAcademy.Web.Utilities;
+using Microsoft.AspNetCore.Authorization;
+using GtAcademy.Application.Admin.CourseCategories.Queries.GetCourseCategoriesListForAdmin;
 using GtAcademy.Application.Admin.Courses.Commands.CreateCourseByAdmin;
 using GtAcademy.Application.Admin.Courses.Commands.DeleteCourseByAdmin;
 using GtAcademy.Application.Admin.Courses.Commands.EditCourseByAdmin;
@@ -30,10 +32,13 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
         private readonly IMediator _mediator;
 
-        public CoursesController(GtAcademyDbContext context, IMediator mediator)
+        private readonly ISecureFileStorageService _secureFileStorageService;
+
+        public CoursesController(GtAcademyDbContext context, IMediator mediator, ISecureFileStorageService secureFileStorageService)
         {
             _context = context;
             _mediator = mediator;
+            _secureFileStorageService = secureFileStorageService;
         }
 
         // GET: Admin/Courses
@@ -79,8 +84,17 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
         // POST: Admin/Courses/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateCourseDto courseDto, IFormFile bannerFile)
+        public async Task<IActionResult> Create(CreateCourseDto courseDto, IFormFile? bannerFile, List<IFormFile>? courseFiles)
         {
+            if (bannerFile == null || bannerFile.Length == 0)
+            {
+                ModelState.Clear();
+                ModelState.AddModelError("BannerName", "لطفا تصویر بنر دوره را انتخاب کنید");
+                ViewBag.Teachers = await _mediator.Send(new GetTeachersListForAdminQuery());
+                ViewBag.Categories = await _mediator.Send(new GetCourseCategoriesListForAdminQuery());
+                return View(courseDto);
+            }
+
             var fileValidation = FileManager.IsFileValid(bannerFile);
 
             if (fileValidation.IsError)
@@ -113,6 +127,33 @@ namespace GtAcademy.Web.Areas.Admin.Controllers
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/assets/img/courses");
             await FileManager.SaveFile(bannerFile, path, courseDto.BannerName);
+
+            var secureSavedFiles = new List<string>();
+            if (courseFiles != null && courseFiles.Count > 0)
+            {
+                var courseFileFolder = $"Courses/{result.Value}";
+
+                foreach (var file in courseFiles.Where(file => file != null && file.Length > 0))
+                {
+                    var saveResult = await _secureFileStorageService.SaveAsync(file, courseFileFolder);
+
+                    if (!saveResult.IsSuccess)
+                    {
+                        foreach (var savedFile in secureSavedFiles)
+                        {
+                            await _secureFileStorageService.DeleteAsync(savedFile);
+                        }
+
+                        ModelState.Clear();
+                        ModelState.AddModelError("CourseFiles", saveResult.ErrorMessage ?? "خطا در ذخیره فایل های دوره");
+                        ViewBag.Teachers = await _mediator.Send(new GetTeachersListForAdminQuery());
+                        ViewBag.Categories = await _mediator.Send(new GetCourseCategoriesListForAdminQuery());
+                        return View(courseDto);
+                    }
+
+                    secureSavedFiles.Add(saveResult.StoredRelativePath!);
+                }
+            }
 
             return RedirectToAction(nameof(Index));
         }

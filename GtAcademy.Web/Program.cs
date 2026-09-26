@@ -1,11 +1,12 @@
-using GtAcademy.Application;
-using GtAcademy.Infrastructure;
+using GtAcademy.Web.Utilities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using GtAcademy.Infrastructure.Common.Persistence;
 using GtAcademy.Infrastructure.Tools.Persistence.SmsSender;
 using GtAcademy.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using GtAcademy.Web.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.Configure<SmsSenderSettings>(
     builder.Configuration.GetSection("SmsSenderSettings"));
 
+builder.Services.Configure<FileStorageOptions>(
+    builder.Configuration.GetSection("FileStorage"));
+
+builder.Services.AddSingleton<ISecureFileStorageService, SecureFileStorageService>();
+
 builder.Services.AddInfrastructre(builder.Configuration);
 builder.Services.AddApplication();
 
@@ -38,15 +44,14 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-
 app.MapControllerRoute(
   name: "admin",
   pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+  name: "default",
+  pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 app.Run();
