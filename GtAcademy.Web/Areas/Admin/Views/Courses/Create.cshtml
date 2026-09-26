@@ -44,12 +44,12 @@
                         {
                             <li>
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-1">
                                         <div class="form-check">
                                             <input name="TeacherId" value="@teacher.UserId" class="form-radio border-gray-200 rounded-4" type="radio">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-6">
                                         <div class="flex-align gap-8">
                                             <img src="/assets/img/users/@teacher.AvatarName" alt="" class="w-40 h-40 rounded-circle">
                                             <span class="h6 mb-0 fw-medium text-gray-300">@teacher.UserName</span>
@@ -66,12 +66,12 @@
                         {
                             <li>
                                 <div class="row">
-                                    <div class="col-md-2">
+                                    <div class="col-md-2 col-sm-1">
                                         <div class="form-check">
                                             <input name="CategoryId" value="@category.CategoryId" class="form-radio border-gray-200 rounded-4" type="radio">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-4 col-sm-6">
                                         <div class="flex-align gap-8">
                                             <span class="h6 mb-0 fw-medium text-gray-300">@category.Title</span>
                                         </div>
@@ -81,9 +81,7 @@
                         }
                         <span asp-validation-for="CategoryId" class="text-danger"></span>
                     </ul>
-                    <div class="form-group">
-                        <input type="submit" value="ایجاد" class="btn btn-primary" />
-                    </div>
+
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
@@ -91,7 +89,9 @@
                         <textarea id="classic" asp-for="Description"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
-
+                    <div class="form-group">
+                        <input type="submit" value="ایجاد" class="btn btn-primary" />
+                    </div>
                 </div>
 
             </div>
@@ -104,28 +104,24 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdn.tiny.cloud/1/5vve5og4xwplevo4rcsxa2ave1fe14lje1d34j9c0jwubhb9/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
     <script>
         tinymce.init({
-        selector: 'textarea',
-        plugins: [
-        // Core editing features
-        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-        // Premium features
-        
-        ],
-        toolbar: 'undo redo | tinymceai-chat tinymceai-quickactions tinymceai-review | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Author name',
-        mergetags_list: [
-        { value: 'First.Name', title: 'First Name' },
-        { value: 'Email', title: 'Email' },
-        ],
-        tinymceai_token_provider: async () => {
-        await fetch(`https://demo.api.tiny.cloud/1/5vve5og4xwplevo4rcsxa2ave1fe14lje1d34j9c0jwubhb9/auth/random`, { method: "POST", credentials: "include" });
-        return { token: await fetch(`https://demo.api.tiny.cloud/1/5vve5og4xwplevo4rcsxa2ave1fe14lje1d34j9c0jwubhb9/jwt/tinymceai`, { credentials: "include" }).then(r => r.text()) };
-        },
-        uploadcare_public_key: 'd3391439e2eada8add0b',
+            selector: 'textarea',
+            plugins: [
+                // Core editing features
+                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'],
+            toolbar: 'undo redo | tinymceai-chat tinymceai-quickactions tinymceai-review | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            tinymceai_token_provider: async () => {
+                await fetch(`https://demo.api.tiny.cloud/1/voxf6w5slmhn9uxjk9oqqiomnxw1krqzzwfcrs1p7sn2r3gu/auth/random`, { method: "POST", credentials: "include" });
+                return { token: await fetch(`https://demo.api.tiny.cloud/1/voxf6w5slmhn9uxjk9oqqiomnxw1krqzzwfcrs1p7sn2r3gu/jwt/tinymceai`, { credentials: "include" }).then(r => r.text()) };
+            },
+            uploadcare_public_key: 'fe56e558091bbe241451',
         });
     </script>
     @{

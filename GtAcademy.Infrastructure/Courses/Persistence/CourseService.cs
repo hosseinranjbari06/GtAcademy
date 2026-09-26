@@ -99,7 +99,7 @@ namespace GtAcademy.Infrastructure.Courses.Persistence
             return await _context.Courses
                 .Where(course => course.CourseId == courseId)
                 .Include(course => course.CourseCategories)
-                .Include(course => course.CourseComments)
+                .Include(course => course.CourseComments.Where(cc => cc.AdminSubmited))
                 .Include(course => course.Topics)
                 .ThenInclude(topic => topic.Episodes)
                 .FirstOrDefaultAsync();

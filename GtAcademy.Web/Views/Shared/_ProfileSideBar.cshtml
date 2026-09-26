@@ -1,18 +1,20 @@
-﻿@using GtAcademy.Application.Users.Queries.GetUserProfileSummary
+﻿@using System.Security.Claims
+@using GtAcademy.Application.Users.Queries.GetUserProfileSummary
+@using GtAcademy.Application.Users.Queries.IsUserAdmin
 @using MediatR
-@using System.Security.Claims
 @inject IMediator mediator
 
 @{
     Layout = null;
     var userDto = await mediator.Send(new GetUserProfileSummaryQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
+    var isUserAdmin = await mediator.Send(new IsUserAdminQuery(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!)));
 }
 
 <div class="course-sidebar price-box event-sidebar">
     <div class="team-item-3 bg-white wow fade-in-bottom" data-wow-delay="200ms" style="visibility: visible; animation-delay: 200ms; animation-name: fade-in-bottom;">
         <div class="team-thumb-wrap">
             <div class="team-thumb">
-                <img alt="team" src="assets/img/users/@userDto.Value.AvatarName">
+                <img alt="team" src="/assets/img/users/@userDto.Value.AvatarName">
             </div>
         </div>
         <div class="team-content">
@@ -51,6 +53,12 @@
         <li>
             <a href="/Factors"><i class="fa-sharp fa-solid fa-list"></i>فاکتور ها</a>
         </li>
+        @if (isUserAdmin.Value == true)
+        {
+            <li>
+                <a href="/Admin"><i class="fa-sharp fa-solid fa-desktop-alt"></i>پنل ادمین</a>
+            </li>
+        }
         <li>
             <form asp-action="SignOutUser" asp-controller="Authentication" method="post">
                 <button type="submit">

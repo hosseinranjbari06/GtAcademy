@@ -56,9 +56,9 @@ namespace GtAcademy.Application.Authentication.Commands.LoginWithPhone
             _genericUserService.Update(user);
 
             //Send SMS
-            var result = await _smsSender.SendVerificationCode(user.PhoneNumber!, user.VerifyToken);
+            //var result = await _smsSender.SendVerificationCode(user.PhoneNumber!, user.VerifyToken);
 
-            if (result.IsError || !result.Value) return Error.Failure("PhoneNumber", "سرویس ارسال پیامک با مشکل مواجه شد. لطفا مجددا تلاش کنید.");
+            //if (result.IsError || !result.Value) return Error.Failure("PhoneNumber", "سرویس ارسال پیامک با مشکل مواجه شد. لطفا مجددا تلاش کنید.");
 
             await _unitOfWork.CommitAsync();
 
